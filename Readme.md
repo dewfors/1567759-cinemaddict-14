@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Заур Малахов](https://up.htmlacademy.ru/ecmascript/14/user/1567759).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Михеев](https://htmlacademy.ru/profile/id454457).
 
 ---
 
