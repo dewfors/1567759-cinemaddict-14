@@ -5,10 +5,8 @@ import {createFilmsTemplate} from './view/films.js';
 import {createFilmTemplate} from './view/film-card.js';
 import {createButtonMoreTemplate} from './view/more-button.js';
 import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
+import {generateFilm} from './mock/film.js';
 // import {createFilmPopupTemplate} from './view/film-popup.js';
-
-// import {generateFilm} from './mock/film.js';
-// console.log(generateFilm());
 
 const FILM_COUNT_ALL_MOVIES = 5;
 const FILM_COUNT_TOP_RATED = 2;
@@ -20,6 +18,10 @@ const positionsToInsertElement = {
   BEFOREEND: 'beforeend',
   AFTEREND: 'afterend',
 };
+
+const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
+
+console.log(films);
 
 const render = (container, template, place = positionsToInsertElement.BEFOREEND) => {
   container.insertAdjacentHTML(place, template);
