@@ -25,6 +25,9 @@ const render = (container, template, place = positionsToInsertElement.BEFOREEND)
   container.insertAdjacentHTML(place, template);
 };
 
+// const siteBodyElement = document.querySelector('body');
+// render(siteBodyElement, createFilmPopupTemplate(films[0]));
+
 const siteHeaderElement = document.querySelector('.header');
 render(siteHeaderElement, createProfileTemplate());
 
