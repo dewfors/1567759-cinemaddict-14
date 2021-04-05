@@ -6,11 +6,13 @@ import {createFilmTemplate} from './view/film-card.js';
 import {createButtonMoreTemplate} from './view/more-button.js';
 import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
+import {
+  FILM_COUNT_ALL_MOVIES,
+  FILM_COUNT_PER_STEP,
+  FILM_COUNT_TOP_RATED,
+  FILM_COUNT_MOST_COMMENTED
+} from './util/const.js'
 // import {createFilmPopupTemplate} from './view/film-popup.js';
-
-const FILM_COUNT_ALL_MOVIES = 5;
-const FILM_COUNT_TOP_RATED = 2;
-const FILM_COUNT_MOST_COMMENTED = 2;
 
 const positionsToInsertElement = {
   BEFOREBEGIN: 'beforebegin',
@@ -44,10 +46,30 @@ const filmListMostCommented = filmsElement.querySelector('.films-list--most-comm
 
 // All movies
 const filmListContainerAllMovies = filmListAllMovies.querySelector('.films-list__container');
-for (let i = 0; i < FILM_COUNT_ALL_MOVIES; i++) {
+for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
   render(filmListContainerAllMovies, createFilmTemplate(films[i]));
 }
-render(filmListAllMovies, createButtonMoreTemplate());
+if (films.length > FILM_COUNT_PER_STEP) {
+  let renderedFilmCount = FILM_COUNT_PER_STEP;
+
+  render(filmListAllMovies, createButtonMoreTemplate());
+
+  const showMoreButton = filmListAllMovies.querySelector('.films-list__show-more');
+
+  showMoreButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    films
+      .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
+      .forEach((film) => render(filmListContainerAllMovies, createFilmTemplate(film)));
+
+    renderedFilmCount += FILM_COUNT_PER_STEP;
+    if (renderedFilmCount >= films.length) {
+      showMoreButton.remove();
+    }
+
+  });
+}
+
 
 // Top rated
 const filmListContainerTopRated = filmListTopRated.querySelector('.films-list__container');
@@ -63,4 +85,4 @@ for (let i = 0; i < FILM_COUNT_MOST_COMMENTED; i++) {
 
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-render(siteFooterStatisticsElement, createFilmsStatisticsTemplate());
+render(siteFooterStatisticsElement, createFilmsStatisticsTemplate(films));
