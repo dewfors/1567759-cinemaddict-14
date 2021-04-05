@@ -21,8 +21,6 @@ const positionsToInsertElement = {
 
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
 
-console.log(films);
-
 const render = (container, template, place = positionsToInsertElement.BEFOREEND) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -44,20 +42,20 @@ const filmListMostCommented = filmsElement.querySelector('.films-list--most-comm
 // All movies
 const filmListContainerAllMovies = filmListAllMovies.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_ALL_MOVIES; i++) {
-  render(filmListContainerAllMovies, createFilmTemplate());
+  render(filmListContainerAllMovies, createFilmTemplate(films[i]));
 }
 render(filmListAllMovies, createButtonMoreTemplate());
 
 // Top rated
 const filmListContainerTopRated = filmListTopRated.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_TOP_RATED; i++) {
-  render(filmListContainerTopRated, createFilmTemplate());
+  render(filmListContainerTopRated, createFilmTemplate(films[i]));
 }
 
 // Most commented
 const filmListContainerMostCommented = filmListMostCommented.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_MOST_COMMENTED; i++) {
-  render(filmListContainerMostCommented, createFilmTemplate());
+  render(filmListContainerMostCommented, createFilmTemplate(films[i]));
 }
 
 const siteFooterElement = document.querySelector('.footer');

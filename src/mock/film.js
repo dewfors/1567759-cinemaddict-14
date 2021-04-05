@@ -1,4 +1,7 @@
 import {getRandomInteger, getRandomiseArray} from '../util/utils.js';
+import {generateComment} from './comment.js';
+import {COMMENT_MIN_COUNT, COMMENT_MAX_COUNT} from '../util/const.js';
+
 import dayjs from 'dayjs';
 
 const generateDate = () => {
@@ -162,15 +165,21 @@ const generateDescription = () => {
 };
 
 
+const generateComments = () => {
+  const randomCountComments = getRandomInteger(COMMENT_MIN_COUNT, COMMENT_MAX_COUNT);
+  return new Array(randomCountComments).fill().map(generateComment);
+};
+
+
 export const generateFilm = () => {
   const genre = generateGenre();
   const isSeveralGenres = genre.length > 1;
 
   return {
-    tilte: generateTitle(),
+    title: generateTitle(),
     alternative_title: generateTitle(true),
-    total_rating: 5.3,
-    poster: `images/posters/${generatePoster()}`,
+    total_rating: getRandomInteger(3, 9),
+    poster: `${generatePoster()}`,
     age_rating: 0,
     director: generateDirector(),
     writers: generateWriters(),
@@ -180,5 +189,6 @@ export const generateFilm = () => {
     genre,
     isSeveralGenres,
     description: generateDescription(),
+    comments: generateComments(),
   };
 };
