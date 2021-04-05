@@ -1,6 +1,11 @@
 import dayjs from 'dayjs';
+import {getComments} from '../mock/comment.js';
 
 export const createFilmPopupTemplate = (film) => {
+
+  const commentsList = getComments();
+
+  // console.log(film.comments.map((id) => commentsList[id]));
 
   const {
     title, alternative_title, total_rating, release, runtime,
@@ -93,8 +98,7 @@ export const createFilmPopupTemplate = (film) => {
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
-
-          ${comments.map(({author, comment, date, emotion}) => `<li class="film-details__comment">
+          ${film.comments.map((id) => commentsList[id]).map(({author, comment, date, emotion}) => `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
             </span>

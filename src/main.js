@@ -6,12 +6,13 @@ import {createFilmTemplate} from './view/film-card.js';
 import {createButtonMoreTemplate} from './view/more-button.js';
 import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
+// import {getComments} from './mock/comment.js';
 import {
   FILM_COUNT_ALL_MOVIES,
   FILM_COUNT_PER_STEP,
   FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED
-} from './util/const.js'
+} from './util/const.js';
 // import {createFilmPopupTemplate} from './view/film-popup.js';
 
 const positionsToInsertElement = {
@@ -22,6 +23,10 @@ const positionsToInsertElement = {
 };
 
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
+
+// const comments = getComments();
+// console.log(films[1].comments.map((id) => comments[id]));
+// console.log(films);
 
 const render = (container, template, place = positionsToInsertElement.BEFOREEND) => {
   container.insertAdjacentHTML(place, template);

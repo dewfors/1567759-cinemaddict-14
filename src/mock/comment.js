@@ -1,6 +1,8 @@
 import {getRandomInteger, generateDate} from '../util/utils.js';
 import {getRandomiseArray} from '../util/utils';
 
+const comments = [];
+
 const generateAuthor = () => {
   const authors = [
     'Amelia Oliver',
@@ -41,10 +43,27 @@ const generateCommentText = () => {
 };
 
 export const generateComment = () => {
-  return {
+
+  const comment = {
+    id: comments.length,
     author: generateAuthor(),
     comment: generateCommentText(true),
     date: generateDate(),
     emotion: generateEmotion(),
   };
+
+  comments.push(comment);
+
+  return comment.id;
+
+  // return {
+  //   author: generateAuthor(),
+  //   comment: generateCommentText(true),
+  //   date: generateDate(),
+  //   emotion: generateEmotion(),
+  // };
+};
+
+export const getComments = () => {
+  return comments;
 };
