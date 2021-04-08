@@ -28,6 +28,25 @@ const getRandomiseArray = (array, countOfElements) => {
   return result.slice(0, countOfElements);
 };
 
+const sortFilmsByRating = (objectA, objectB) => {
+  const rankA = objectA.total_rating;
+  const rankB = objectB.total_rating;
+
+  return rankB - rankA;
+};
+
+const sortFilmsByCommetns = (pictureA, pictureB) => {
+  const rankA = pictureA.comments.length;
+  const rankB = pictureB.comments.length;
+
+  return rankB - rankA;
+};
+
+const getSortFilms = (keyForSort, filmsToSort) => {
+
+  return keyForSort === 'byRating' ? [...filmsToSort].sort(sortFilmsByRating) : [...filmsToSort].sort(sortFilmsByCommetns);
+};
+
 const generateDate = () => {
   const daysGap = getRandomInteger(-DAYS_MIN_GAP, -DAYS_MAX_GAP);
   return dayjs().add(daysGap, 'day').toDate();
@@ -41,4 +60,4 @@ const getTimeDuration = (count, format = 'm') => {
   return dayjs.duration(count, format);
 };
 
-export {getRandomInteger, getRandomiseArray, generateDate,formatDate, getTimeDuration, render};
+export {getRandomInteger, getRandomiseArray, generateDate,formatDate, getTimeDuration, render, getSortFilms};

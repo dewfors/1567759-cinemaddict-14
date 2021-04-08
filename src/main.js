@@ -1,4 +1,4 @@
-import {render} from './util/utils.js';
+import {render, getSortFilms} from './util/utils.js';
 import {createProfileTemplate} from './view/profile.js';
 import {createSiteMenuTemplate} from './view/site-menu.js';
 import {createSortTemplate} from './view/sort.js';
@@ -17,6 +17,9 @@ import {
 // import {createFilmPopupTemplate} from './view/film-popup.js';
 
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
+
+const filmsTopRated = getSortFilms('byRating', films).slice(0, FILM_COUNT_TOP_RATED);
+const filmsMostCommented = getSortFilms('byMostCommented', films).slice(0, FILM_COUNT_MOST_COMMENTED);
 
 // const comments = getComments();
 // console.log(films[1].comments.map((id) => comments[id]));
@@ -69,13 +72,13 @@ if (films.length > FILM_COUNT_PER_STEP) {
 // Top rated
 const filmListContainerTopRated = filmListTopRated.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_TOP_RATED; i++) {
-  render(filmListContainerTopRated, createFilmTemplate(films[i]));
+  render(filmListContainerTopRated, createFilmTemplate(filmsTopRated[i]));
 }
 
 // Most commented
 const filmListContainerMostCommented = filmListMostCommented.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_MOST_COMMENTED; i++) {
-  render(filmListContainerMostCommented, createFilmTemplate(films[i]));
+  render(filmListContainerMostCommented, createFilmTemplate(filmsMostCommented[i]));
 }
 
 const siteFooterElement = document.querySelector('.footer');
