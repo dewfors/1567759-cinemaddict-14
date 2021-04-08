@@ -1,15 +1,17 @@
-import dayjs from 'dayjs';
+import {SHORT_DESCRIPTION_MAX_LENGTH} from '../util/const.js';
+import {formatDate, getTimeDuration} from '../util/utils.js';
 
 export const createFilmTemplate = (film) => {
 
   const {title, total_rating, release, runtime, genre, description, poster} = film;
-  const year = dayjs(release.date).format('YYYY');
-  const hours = Math.trunc(runtime / 60);
-  const minutes = runtime % 60;
+  const year = formatDate(release.date);
+
+  const hours = getTimeDuration(runtime).hours();
+  const minutes = getTimeDuration(runtime).minutes();
+
   const currentGenre = genre[0];
-  const maxLengthShortDescription = 140;
-  const shortDescription = description.length > maxLengthShortDescription
-    ? `${description.slice(0, maxLengthShortDescription)}...`
+  const shortDescription = description.length > SHORT_DESCRIPTION_MAX_LENGTH
+    ? `${description.slice(0, SHORT_DESCRIPTION_MAX_LENGTH)}...`
     : description;
   const commentsCount = film.comments.length;
 

@@ -1,3 +1,4 @@
+import {render} from './util/utils.js';
 import {createProfileTemplate} from './view/profile.js';
 import {createSiteMenuTemplate} from './view/site-menu.js';
 import {createSortTemplate} from './view/sort.js';
@@ -15,22 +16,11 @@ import {
 } from './util/const.js';
 // import {createFilmPopupTemplate} from './view/film-popup.js';
 
-const positionsToInsertElement = {
-  BEFOREBEGIN: 'beforebegin',
-  AFTERBEGIN: 'afterbegin',
-  BEFOREEND: 'beforeend',
-  AFTEREND: 'afterend',
-};
-
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
 
 // const comments = getComments();
 // console.log(films[1].comments.map((id) => comments[id]));
 // console.log(films);
-
-const render = (container, template, place = positionsToInsertElement.BEFOREEND) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 // const siteBodyElement = document.querySelector('body');
 // render(siteBodyElement, createFilmPopupTemplate(films[0]));

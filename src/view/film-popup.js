@@ -1,22 +1,21 @@
-import dayjs from 'dayjs';
 import {getComments} from '../mock/comment.js';
+import {formatDate, getTimeDuration} from '../util/utils.js';
 
 export const createFilmPopupTemplate = (film) => {
 
   const commentsList = getComments();
-
-  // console.log(film.comments.map((id) => commentsList[id]));
 
   const {
     title, alternative_title, total_rating, release, runtime,
     genre, description, poster, age_rating, director, writers,
     actors, comments,
   } = film;
-  const dateRelease = dayjs(release.date).format('D MMMM YYYY');
+
+  const dateRelease = formatDate(release.date, 'D MMMM YYYY');
   const countryRelease = release.release_country;
 
-  const hours = Math.trunc(runtime / 60);
-  const minutes = runtime % 60;
+  const hours = getTimeDuration(runtime).hours();
+  const minutes = getTimeDuration(runtime).minutes();
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -106,7 +105,7 @@ export const createFilmPopupTemplate = (film) => {
               <p class="film-details__comment-text">${comment}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${dayjs(date).format('YYYY/MM/DD hh:mm')}</span>
+                <span class="film-details__comment-day">${formatDate(date, 'D MMMM YYYY')}</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
