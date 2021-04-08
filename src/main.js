@@ -1,3 +1,4 @@
+import {render, getSortFilms} from './util/utils.js';
 import {createProfileTemplate} from './view/profile.js';
 import {createSiteMenuTemplate} from './view/site-menu.js';
 import {createSortTemplate} from './view/sort.js';
@@ -5,24 +6,36 @@ import {createFilmsTemplate} from './view/films.js';
 import {createFilmTemplate} from './view/film-card.js';
 import {createButtonMoreTemplate} from './view/more-button.js';
 import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
+import {generateFilm} from './mock/film.js';
+// import {getComments} from './mock/comment.js';
+import {
+  FILM_COUNT_ALL_MOVIES,
+  FILM_COUNT_PER_STEP,
+  FILM_COUNT_TOP_RATED,
+  FILM_COUNT_MOST_COMMENTED
+} from './util/const.js';
 // import {createFilmPopupTemplate} from './view/film-popup.js';
 
-const FILM_COUNT_ALL_MOVIES = 5;
-const FILM_COUNT_TOP_RATED = 2;
-const FILM_COUNT_MOST_COMMENTED = 2;
+const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
+const filmsTopRated = getSortFilms('byRating', films).slice(0, FILM_COUNT_TOP_RATED);
+const filmsMostCommented = getSortFilms('byMostCommented', films).slice(0, FILM_COUNT_MOST_COMMENTED);
+
+// const comments = getComments();
+// console.log(films[1].comments.map((id) => comments[id]));
+// console.log(films);
+
+// const siteBodyElement = document.querySelector('body');
+// render(siteBodyElement, createFilmPopupTemplate(films[0]));
 
 const siteHeaderElement = document.querySelector('.header');
-render(siteHeaderElement, createProfileTemplate(), 'beforeend');
+render(siteHeaderElement, createProfileTemplate());
 
 const siteMainElement = document.querySelector('.main');
 
-render(siteMainElement, createSortTemplate(), 'beforeend');
-render(siteMainElement, createSiteMenuTemplate(), 'beforeend');
-render(siteMainElement, createFilmsTemplate(), 'beforeend');
+render(siteMainElement, createSortTemplate());
+render(siteMainElement, createSiteMenuTemplate());
+render(siteMainElement, createFilmsTemplate());
 
 const filmsElement = siteMainElement.querySelector('.films');
 const filmListAllMovies = filmsElement.querySelector('.films-list--all-movies');
@@ -31,23 +44,43 @@ const filmListMostCommented = filmsElement.querySelector('.films-list--most-comm
 
 // All movies
 const filmListContainerAllMovies = filmListAllMovies.querySelector('.films-list__container');
-for (let i = 0; i < FILM_COUNT_ALL_MOVIES; i++) {
-  render(filmListContainerAllMovies, createFilmTemplate(), 'beforeend');
+for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
+  render(filmListContainerAllMovies, createFilmTemplate(films[i]));
 }
-render(filmListAllMovies, createButtonMoreTemplate(), 'beforeend');
+if (films.length > FILM_COUNT_PER_STEP) {
+  let renderedFilmCount = FILM_COUNT_PER_STEP;
+
+  render(filmListAllMovies, createButtonMoreTemplate());
+
+  const showMoreButton = filmListAllMovies.querySelector('.films-list__show-more');
+
+  showMoreButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    films
+      .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
+      .forEach((film) => render(filmListContainerAllMovies, createFilmTemplate(film)));
+
+    renderedFilmCount += FILM_COUNT_PER_STEP;
+    if (renderedFilmCount >= films.length) {
+      showMoreButton.remove();
+    }
+
+  });
+}
+
 
 // Top rated
 const filmListContainerTopRated = filmListTopRated.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_TOP_RATED; i++) {
-  render(filmListContainerTopRated, createFilmTemplate(), 'beforeend');
+  render(filmListContainerTopRated, createFilmTemplate(filmsTopRated[i]));
 }
 
 // Most commented
 const filmListContainerMostCommented = filmListMostCommented.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_MOST_COMMENTED; i++) {
-  render(filmListContainerMostCommented, createFilmTemplate(), 'beforeend');
+  render(filmListContainerMostCommented, createFilmTemplate(filmsMostCommented[i]));
 }
 
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-render(siteFooterStatisticsElement, createFilmsStatisticsTemplate(), 'beforeend');
+render(siteFooterStatisticsElement, createFilmsStatisticsTemplate(films));
