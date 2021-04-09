@@ -1,5 +1,6 @@
 import {getComments} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/utils.js';
+import {dataFormat} from '../util/const.js';
 
 export const createFilmPopupTemplate = (film) => {
 
@@ -11,7 +12,7 @@ export const createFilmPopupTemplate = (film) => {
     actors, comments,
   } = film;
 
-  const dateRelease = formatDate(release.date, 'D MMMM YYYY');
+  const dateRelease = formatDate(release.date, dataFormat.FORMAT_DATE_LONG);
   const countryRelease = release.release_country;
 
   const hours = getTimeDuration(runtime).hours();
@@ -105,7 +106,7 @@ export const createFilmPopupTemplate = (film) => {
               <p class="film-details__comment-text">${comment}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${formatDate(date, 'D MMMM YYYY')}</span>
+                <span class="film-details__comment-day">${formatDate(date, dataFormat.FORMAT_DATE_LONG)}</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>

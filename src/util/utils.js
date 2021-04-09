@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
-import {DAYS_MIN_GAP, DAYS_MAX_GAP,positionsToInsertElement} from './const.js';
+import {DAYS_MIN_GAP, DAYS_MAX_GAP, positionsToInsertElement} from './const.js';
 
 dayjs.extend(duration);
 
@@ -20,7 +20,7 @@ const getRandomiseArray = (array, countOfElements) => {
 
   const result = [];
   while (copyArray.length > countOfElements) {
-    const random = getRandomInteger(0, copyArray.length-1);
+    const random = getRandomInteger(0, copyArray.length - 1);
     const elem = copyArray.splice(random, 1)[0];
     result.push(elem);
   }
@@ -42,9 +42,8 @@ const sortFilmsByCommetns = (pictureA, pictureB) => {
   return rankB - rankA;
 };
 
-const getSortFilms = (keyForSort, filmsToSort) => {
-
-  return keyForSort === 'byRating' ? [...filmsToSort].sort(sortFilmsByRating) : [...filmsToSort].sort(sortFilmsByCommetns);
+const getSortFilms = (filmsToSort, sortFunction) => {
+  return filmsToSort.slice().sort(sortFunction);
 };
 
 const generateDate = () => {
@@ -60,4 +59,8 @@ const getTimeDuration = (count, format = 'm') => {
   return dayjs.duration(count, format);
 };
 
-export {getRandomInteger, getRandomiseArray, generateDate,formatDate, getTimeDuration, render, getSortFilms};
+export {
+  getRandomInteger, getRandomiseArray, generateDate,
+  formatDate, getTimeDuration, render, getSortFilms,
+  sortFilmsByRating, sortFilmsByCommetns
+};

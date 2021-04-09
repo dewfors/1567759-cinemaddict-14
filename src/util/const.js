@@ -18,9 +18,14 @@ const positionsToInsertElement = {
   AFTEREND: 'afterend',
 };
 
+const dataFormat = {
+  FORMAT_YEAR_LONG: 'YYYY',
+  FORMAT_DATE_LONG: 'D MMMM YYYY',
+};
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
-  positionsToInsertElement
+  positionsToInsertElement, dataFormat
 };
