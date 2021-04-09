@@ -4,7 +4,10 @@ import {DAYS_MIN_GAP, DAYS_MAX_GAP, positionsToInsertElement} from './const.js';
 
 dayjs.extend(duration);
 
-export const renderElement = (container, element, place) => {
+export const renderElement = (container, element, place = positionsToInsertElement.BEFOREEND) => {
+
+  // console.log(place);
+
   switch (place) {
     case positionsToInsertElement.AFTERBEGIN:
       container.prepend(element);

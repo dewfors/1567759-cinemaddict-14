@@ -1,6 +1,8 @@
-import {renderTemplate, getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/utils.js';
+import {renderTemplate, getSortFilms, sortFilmsByRating, sortFilmsByCommetns, renderElement} from './util/utils.js';
 import {createProfileTemplate} from './view/profile.js';
-import {createSiteMenuTemplate} from './view/site-menu.js';
+// import {createSiteMenuTemplate} from './view/site-menu.js';
+import SiteMenuView from './view/site-menu.js';
+
 import {createSortTemplate} from './view/sort.js';
 import {createFilmsTemplate} from './view/films.js';
 import {createFilmTemplate} from './view/film-card.js';
@@ -33,8 +35,10 @@ renderTemplate(siteHeaderElement, createProfileTemplate());
 
 const siteMainElement = document.querySelector('.main');
 
+
+// renderTemplate(siteMainElement, createSiteMenuTemplate());
+renderElement(siteMainElement, new SiteMenuView().getElement());
 renderTemplate(siteMainElement, createSortTemplate());
-renderTemplate(siteMainElement, createSiteMenuTemplate());
 renderTemplate(siteMainElement, createFilmsTemplate());
 
 const filmsElement = siteMainElement.querySelector('.films');
