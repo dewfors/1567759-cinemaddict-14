@@ -1,5 +1,7 @@
+import {positionsToInsertElement} from './util/const.js';
 import {renderTemplate, getSortFilms, sortFilmsByRating, sortFilmsByCommetns, renderElement} from './util/utils.js';
 import {createProfileTemplate} from './view/profile.js';
+import {generateFilter} from './mock/filter.js';
 // import {createSiteMenuTemplate} from './view/site-menu.js';
 import SiteMenuView from './view/site-menu.js';
 import {createFilterTemplate} from './view/filter.js';
@@ -18,29 +20,35 @@ import {
 } from './util/const.js';
 // import {createFilmPopupTemplate} from './view/film-popup.js';
 
+// films list
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
 console.log(films);
+
+// filters list
+const filters = generateFilter(films);
+console.log(filters);
 
 const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
 
-// const comments = getComments();
-// console.log(films[1].comments.map((id) => comments[id]));
-// console.log(films);
 
 // const siteBodyElement = document.querySelector('body');
 // render(siteBodyElement, createFilmPopupTemplate(films[0]));
 
+// user profile
 const siteHeaderElement = document.querySelector('.header');
 renderTemplate(siteHeaderElement, createProfileTemplate());
 
+
 const siteMainElement = document.querySelector('.main');
 
-
+// main navigation
 // renderTemplate(siteMainElement, createSiteMenuTemplate());
 renderElement(siteMainElement, new SiteMenuView().getElement());
 const mainNavigationElement = document.querySelector('.main-navigation');
-renderTemplate(mainNavigationElement, createFilterTemplate());
+
+// filters in main navigation
+renderTemplate(mainNavigationElement, createFilterTemplate(), positionsToInsertElement.AFTERBEGIN);
 
 renderTemplate(siteMainElement, createSortTemplate());
 renderTemplate(siteMainElement, createFilmsTemplate());
