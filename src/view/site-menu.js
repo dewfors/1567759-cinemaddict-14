@@ -18,9 +18,7 @@ export default class SiteMenu {
 
   getElement() {
     if (!this._element) {
-      // console.log(this.getTemplate());
       this._element = createElement(this.getTemplate());
-      // console.log(this._element);
     }
 
     return this._element;

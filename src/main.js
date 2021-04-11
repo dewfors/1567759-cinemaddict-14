@@ -5,10 +5,13 @@ import {generateFilter} from './mock/filter.js';
 // import {createSiteMenuTemplate} from './view/site-menu.js';
 import SiteMenuView from './view/site-menu.js';
 import {createFilterTemplate} from './view/filter.js';
-import {createSortTemplate} from './view/sort.js';
-import {createFilmsTemplate} from './view/films.js';
+// import {createSortTemplate} from './view/sort.js';
+import SortView from './view/sort.js';
+// import {createFilmsTemplate} from './view/films.js';
+import FilmsView from './view/films.js';
 import {createFilmTemplate} from './view/film-card.js';
-import {createButtonMoreTemplate} from './view/more-button.js';
+// import {createButtonMoreTemplate} from './view/more-button.js';
+import LoadMoreButtonView from './view/more-button.js';
 import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
 // import {getComments} from './mock/comment.js';
@@ -45,13 +48,19 @@ const siteMainElement = document.querySelector('.main');
 // main navigation
 // renderTemplate(siteMainElement, createSiteMenuTemplate());
 renderElement(siteMainElement, new SiteMenuView().getElement());
-const mainNavigationElement = document.querySelector('.main-navigation');
+
 
 // filters in main navigation
+const mainNavigationElement = document.querySelector('.main-navigation');
 renderTemplate(mainNavigationElement, createFilterTemplate(filters), positionsToInsertElement.AFTERBEGIN);
 
-renderTemplate(siteMainElement, createSortTemplate());
-renderTemplate(siteMainElement, createFilmsTemplate());
+// sort
+// renderTemplate(siteMainElement, createSortTemplate());
+renderElement(siteMainElement, new SortView().getElement());
+
+// films
+// renderTemplate(siteMainElement, createFilmsTemplate());
+renderElement(siteMainElement, new FilmsView().getElement());
 
 const filmsElement = siteMainElement.querySelector('.films');
 const filmListAllMovies = filmsElement.querySelector('.films-list--all-movies');
@@ -66,7 +75,8 @@ for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-  renderTemplate(filmListAllMovies, createButtonMoreTemplate());
+  // renderTemplate(filmListAllMovies, createButtonMoreTemplate());
+  renderElement(filmListAllMovies, new LoadMoreButtonView().getElement());
 
   const showMoreButton = filmListAllMovies.querySelector('.films-list__show-more');
 
