@@ -4,7 +4,8 @@ import {createProfileTemplate} from './view/profile.js';
 import {generateFilter} from './mock/filter.js';
 // import {createSiteMenuTemplate} from './view/site-menu.js';
 import SiteMenuView from './view/site-menu.js';
-import {createFilterTemplate} from './view/filter.js';
+// import {createFilterTemplate} from './view/filter.js';
+import FilterView from './view/filter.js';
 // import {createSortTemplate} from './view/sort.js';
 import SortView from './view/sort.js';
 // import {createFilmsTemplate} from './view/films.js';
@@ -52,7 +53,8 @@ renderElement(siteMainElement, new SiteMenuView().getElement());
 
 // filters in main navigation
 const mainNavigationElement = document.querySelector('.main-navigation');
-renderTemplate(mainNavigationElement, createFilterTemplate(filters), positionsToInsertElement.AFTERBEGIN);
+// renderTemplate(mainNavigationElement, createFilterTemplate(filters), positionsToInsertElement.AFTERBEGIN);
+renderElement(mainNavigationElement, new FilterView(filters).getElement(), positionsToInsertElement.AFTERBEGIN);
 
 // sort
 // renderTemplate(siteMainElement, createSortTemplate());

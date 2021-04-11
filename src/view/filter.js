@@ -1,3 +1,5 @@
+import {createElement} from '../util/utils.js';
+
 const createFilterCountTemplate = (count, isActive) => {
   return (
     isActive ? '' : `<span class="main-navigation__item-count">${count}</span>`
@@ -22,7 +24,7 @@ const createFilterItemTemplate = (filter, isActive) => {
   );
 };
 
-export const createFilterTemplate = (filterItems) => {
+const createFilterTemplate = (filterItems) => {
   const filterItemsTemplate = filterItems
     .map((filter, index) => createFilterItemTemplate(filter, index === 0))
     .join('');
@@ -31,3 +33,26 @@ export const createFilterTemplate = (filterItems) => {
     ${filterItemsTemplate}
   </section>`;
 };
+
+export default class Filter {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilterTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
