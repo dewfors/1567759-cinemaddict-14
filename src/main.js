@@ -22,11 +22,11 @@ import {
 
 // films list
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
-console.log(films);
+// console.log(films);
 
 // filters list
 const filters = generateFilter(films);
-console.log(filters);
+// console.log(filters);
 
 const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
@@ -48,7 +48,7 @@ renderElement(siteMainElement, new SiteMenuView().getElement());
 const mainNavigationElement = document.querySelector('.main-navigation');
 
 // filters in main navigation
-renderTemplate(mainNavigationElement, createFilterTemplate(), positionsToInsertElement.AFTERBEGIN);
+renderTemplate(mainNavigationElement, createFilterTemplate(filters), positionsToInsertElement.AFTERBEGIN);
 
 renderTemplate(siteMainElement, createSortTemplate());
 renderTemplate(siteMainElement, createFilmsTemplate());

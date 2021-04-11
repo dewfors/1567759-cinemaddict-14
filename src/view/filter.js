@@ -1,8 +1,33 @@
-export const createFilterTemplate = () => {
-  return `<div class="main-navigation__items">
-      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-      <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-      <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-      <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
-    </div>`;
+const createFilterCountTemplate = (count, isActive) => {
+  return (
+    isActive ? '' : `<span class="main-navigation__item-count">${count}</span>`
+  );
+};
+
+const createFilterItemTemplate = (filter, isActive) => {
+  const {name, properties} = filter;
+
+  const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
+  const linkClassName = `main-navigation__item ${linkActiveClassName}`;
+
+  const filterCountTemplate = createFilterCountTemplate(properties.count, isActive);
+
+  return (
+    `<a
+        href="#${name}"
+        class="${linkClassName}"
+        >
+        ${properties.text} ${filterCountTemplate}
+        </a>`
+  );
+};
+
+export const createFilterTemplate = (filterItems) => {
+  const filterItemsTemplate = filterItems
+    .map((filter, index) => createFilterItemTemplate(filter, index === 0))
+    .join('');
+
+  return `<section class="main-navigation__items">
+    ${filterItemsTemplate}
+  </section>`;
 };
