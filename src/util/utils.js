@@ -80,8 +80,12 @@ const getTimeDuration = (count, format = 'm') => {
   return dayjs.duration(count, format);
 };
 
+const getRandomBoolean = () => {
+  return Boolean(getRandomInteger(0, 1));
+};
+
 export {
   getRandomInteger, getRandomiseArray, generateDate,
   formatDate, getTimeDuration, renderTemplate, getSortFilms,
-  sortFilmsByRating, sortFilmsByCommetns
+  sortFilmsByRating, sortFilmsByCommetns, getRandomBoolean
 };

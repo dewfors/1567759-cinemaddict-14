@@ -2,7 +2,7 @@ import {renderTemplate, getSortFilms, sortFilmsByRating, sortFilmsByCommetns, re
 import {createProfileTemplate} from './view/profile.js';
 // import {createSiteMenuTemplate} from './view/site-menu.js';
 import SiteMenuView from './view/site-menu.js';
-
+import {createFilterTemplate} from './view/filter.js';
 import {createSortTemplate} from './view/sort.js';
 import {createFilmsTemplate} from './view/films.js';
 import {createFilmTemplate} from './view/film-card.js';
@@ -19,6 +19,7 @@ import {
 // import {createFilmPopupTemplate} from './view/film-popup.js';
 
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
+console.log(films);
 
 const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
@@ -38,6 +39,9 @@ const siteMainElement = document.querySelector('.main');
 
 // renderTemplate(siteMainElement, createSiteMenuTemplate());
 renderElement(siteMainElement, new SiteMenuView().getElement());
+const mainNavigationElement = document.querySelector('.main-navigation');
+renderTemplate(mainNavigationElement, createFilterTemplate());
+
 renderTemplate(siteMainElement, createSortTemplate());
 renderTemplate(siteMainElement, createFilmsTemplate());
 
