@@ -4,7 +4,7 @@ import {DAYS_MIN_GAP, DAYS_MAX_GAP, positionsToInsertElement} from './const.js';
 
 dayjs.extend(duration);
 
-export const renderElement = (container, element, place = positionsToInsertElement.BEFOREEND) => {
+export const render = (container, element, place = positionsToInsertElement.BEFOREEND) => {
 
   // console.log(place);
 
@@ -18,9 +18,9 @@ export const renderElement = (container, element, place = positionsToInsertEleme
   }
 };
 
-const renderTemplate = (container, template, place = positionsToInsertElement.BEFOREEND) => {
-  container.insertAdjacentHTML(place, template);
-};
+// const renderTemplate = (container, template, place = positionsToInsertElement.BEFOREEND) => {
+//   container.insertAdjacentHTML(place, template);
+// };
 
 export const createElement = (template) => {
   const newElement = document.createElement('div'); // 1
@@ -86,6 +86,6 @@ const getRandomBoolean = () => {
 
 export {
   getRandomInteger, getRandomiseArray, generateDate,
-  formatDate, getTimeDuration, renderTemplate, getSortFilms,
+  formatDate, getTimeDuration, getSortFilms,
   sortFilmsByRating, sortFilmsByCommetns, getRandomBoolean
 };
