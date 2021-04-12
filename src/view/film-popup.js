@@ -1,8 +1,9 @@
 import {getComments} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/utils.js';
 import {dataFormat} from '../util/const.js';
+import {createElement} from '../util/utils.js';
 
-export const createFilmPopupTemplate = (film) => {
+const createFilmPopupTemplate = (film) => {
 
   const commentsList = getComments();
 
@@ -147,3 +148,27 @@ export const createFilmPopupTemplate = (film) => {
   </form>
 </section>`;
 };
+
+export default class FilmPopup {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
