@@ -1,11 +1,32 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
-import {DAYS_MIN_GAP, DAYS_MAX_GAP,positionsToInsertElement} from './const.js';
+import {DAYS_MIN_GAP, DAYS_MAX_GAP, positionsToInsertElement} from './const.js';
 
 dayjs.extend(duration);
 
-const render = (container, template, place = positionsToInsertElement.BEFOREEND) => {
-  container.insertAdjacentHTML(place, template);
+export const render = (container, element, place = positionsToInsertElement.BEFOREEND) => {
+
+  // console.log(place);
+
+  switch (place) {
+    case positionsToInsertElement.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case positionsToInsertElement.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+// const renderTemplate = (container, template, place = positionsToInsertElement.BEFOREEND) => {
+//   container.insertAdjacentHTML(place, template);
+// };
+
+export const createElement = (template) => {
+  const newElement = document.createElement('div'); // 1
+  newElement.innerHTML = template; // 2
+
+  return newElement.firstChild; // 3
 };
 
 const getRandomInteger = (a = 0, b = 1) => {
@@ -20,7 +41,7 @@ const getRandomiseArray = (array, countOfElements) => {
 
   const result = [];
   while (copyArray.length > countOfElements) {
-    const random = getRandomInteger(0, copyArray.length-1);
+    const random = getRandomInteger(0, copyArray.length - 1);
     const elem = copyArray.splice(random, 1)[0];
     result.push(elem);
   }
@@ -42,9 +63,8 @@ const sortFilmsByCommetns = (pictureA, pictureB) => {
   return rankB - rankA;
 };
 
-const getSortFilms = (keyForSort, filmsToSort) => {
-
-  return keyForSort === 'byRating' ? [...filmsToSort].sort(sortFilmsByRating) : [...filmsToSort].sort(sortFilmsByCommetns);
+const getSortFilms = (filmsToSort, sortFunction) => {
+  return filmsToSort.slice().sort(sortFunction);
 };
 
 const generateDate = () => {
@@ -60,4 +80,12 @@ const getTimeDuration = (count, format = 'm') => {
   return dayjs.duration(count, format);
 };
 
-export {getRandomInteger, getRandomiseArray, generateDate,formatDate, getTimeDuration, render, getSortFilms};
+const getRandomBoolean = () => {
+  return Boolean(getRandomInteger(0, 1));
+};
+
+export {
+  getRandomInteger, getRandomiseArray, generateDate,
+  formatDate, getTimeDuration, getSortFilms,
+  sortFilmsByRating, sortFilmsByCommetns, getRandomBoolean
+};

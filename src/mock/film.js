@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomiseArray} from '../util/utils.js';
+import {getRandomInteger, getRandomiseArray, getRandomBoolean} from '../util/utils.js';
 import {generateComment} from './comment.js';
 import {COMMENT_MIN_COUNT, COMMENT_MAX_COUNT} from '../util/const.js';
 
@@ -190,5 +190,8 @@ export const generateFilm = () => {
     isSeveralGenres,
     description: generateDescription(),
     comments: generateComments(),
+    isFilmForWatch: getRandomBoolean(),
+    isFilmInHistory: getRandomBoolean(),
+    isFilmInFavorites: getRandomBoolean(),
   };
 };
