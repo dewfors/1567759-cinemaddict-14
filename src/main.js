@@ -1,6 +1,7 @@
 import {positionsToInsertElement} from './util/const.js';
-import {renderTemplate, getSortFilms, sortFilmsByRating, sortFilmsByCommetns, renderElement} from './util/utils.js';
-import {createProfileTemplate} from './view/profile.js';
+import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns, renderElement} from './util/utils.js';
+// import {createProfileTemplate} from './view/profile.js';
+import ProfileView from './view/profile.js';
 import {generateFilter} from './mock/filter.js';
 // import {createSiteMenuTemplate} from './view/site-menu.js';
 import SiteMenuView from './view/site-menu.js';
@@ -10,10 +11,12 @@ import FilterView from './view/filter.js';
 import SortView from './view/sort.js';
 // import {createFilmsTemplate} from './view/films.js';
 import FilmsView from './view/films.js';
-import {createFilmTemplate} from './view/film-card.js';
+// import {createFilmTemplate} from './view/film-card.js';
+import FilmCardView from './view/film-card.js';
 // import {createButtonMoreTemplate} from './view/more-button.js';
 import LoadMoreButtonView from './view/more-button.js';
-import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
+// import {createFilmsStatisticsTemplate} from './view/films-statistics.js';
+import FilmsStatisticsView from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
 // import {getComments} from './mock/comment.js';
 import {
@@ -41,7 +44,8 @@ const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
 
 // user profile
 const siteHeaderElement = document.querySelector('.header');
-renderTemplate(siteHeaderElement, createProfileTemplate());
+// renderTemplate(siteHeaderElement, createProfileTemplate());
+renderElement(siteHeaderElement, new ProfileView().getElement());
 
 
 const siteMainElement = document.querySelector('.main');
@@ -72,7 +76,8 @@ const filmListMostCommented = filmsElement.querySelector('.films-list--most-comm
 // All movies
 const filmListContainerAllMovies = filmListAllMovies.querySelector('.films-list__container');
 for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
-  renderTemplate(filmListContainerAllMovies, createFilmTemplate(films[i]));
+  // renderTemplate(filmListContainerAllMovies, createFilmTemplate(films[i]));
+  renderElement(filmListContainerAllMovies, new FilmCardView(films[i]).getElement());
 }
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderedFilmCount = FILM_COUNT_PER_STEP;
@@ -86,7 +91,8 @@ if (films.length > FILM_COUNT_PER_STEP) {
     evt.preventDefault();
     films
       .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-      .forEach((film) => renderTemplate(filmListContainerAllMovies, createFilmTemplate(film)));
+      // .forEach((film) => renderTemplate(filmListContainerAllMovies, createFilmTemplate(film)));
+      .forEach((film) => renderElement(filmListContainerAllMovies, new FilmCardView(film).getElement()));
 
     renderedFilmCount += FILM_COUNT_PER_STEP;
     if (renderedFilmCount >= films.length) {
@@ -100,15 +106,18 @@ if (films.length > FILM_COUNT_PER_STEP) {
 // Top rated
 const filmListContainerTopRated = filmListTopRated.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_TOP_RATED; i++) {
-  renderTemplate(filmListContainerTopRated, createFilmTemplate(filmsTopRated[i]));
+  // renderTemplate(filmListContainerTopRated, createFilmTemplate(filmsTopRated[i]));
+  renderElement(filmListContainerTopRated, new FilmCardView(filmsTopRated[i]).getElement());
 }
 
 // Most commented
 const filmListContainerMostCommented = filmListMostCommented.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT_MOST_COMMENTED; i++) {
-  renderTemplate(filmListContainerMostCommented, createFilmTemplate(filmsMostCommented[i]));
+  // renderTemplate(filmListContainerMostCommented, createFilmTemplate(filmsMostCommented[i]));
+  renderElement(filmListContainerMostCommented, new FilmCardView(filmsMostCommented[i]).getElement());
 }
 
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-renderTemplate(siteFooterStatisticsElement, createFilmsStatisticsTemplate(films));
+// renderTemplate(siteFooterStatisticsElement, createFilmsStatisticsTemplate(films));
+renderElement(siteFooterStatisticsElement, new FilmsStatisticsView(films).getElement());
