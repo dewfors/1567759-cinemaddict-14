@@ -35,17 +35,29 @@ const renderFilm = (filmListElement, task) => {
     siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
   };
 
+  const onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      hideFilmPopup();
+      document.removeEventListener('keydown', onEscKeyDown);
+    }
+  };
+
   filmComponent.getElement().querySelector('.film-card__poster').addEventListener('click', () => {
     showFilmPopup();
+    document.addEventListener('keydown', onEscKeyDown);
   });
   filmComponent.getElement().querySelector('.film-card__title').addEventListener('click', () => {
     showFilmPopup();
+    document.addEventListener('keydown', onEscKeyDown);
   });
   filmComponent.getElement().querySelector('.film-card__comments').addEventListener('click', () => {
     showFilmPopup();
+    document.addEventListener('keydown', onEscKeyDown);
   });
   filmPopupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', () => {
     hideFilmPopup();
+    document.removeEventListener('keydown', onEscKeyDown);
   });
 
   render(filmListElement, filmComponent.getElement(), positionsToInsertElement.BEFOREEND);
