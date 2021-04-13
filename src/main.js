@@ -71,19 +71,19 @@ render(siteHeaderElement, new ProfileView().getElement());
 const siteMainElement = document.querySelector('.main');
 
 // main navigation
-render(siteMainElement, new SiteMenuView().getElement());
+const mainNavigationElement = new SiteMenuView().getElement();
+render(siteMainElement, mainNavigationElement);
 
 // filters in main navigation
-const mainNavigationElement = document.querySelector('.main-navigation');
 render(mainNavigationElement, new FilterView(filters).getElement(), positionsToInsertElement.AFTERBEGIN);
 
 // sort
 render(siteMainElement, new SortView().getElement());
 
 // films
-render(siteMainElement, new FilmsView().getElement());
+const filmsElement = new FilmsView().getElement();
+render(siteMainElement, filmsElement);
 
-const filmsElement = siteMainElement.querySelector('.films');
 const filmListAllMovies = filmsElement.querySelector('.films-list--all-movies');
 const filmListTopRated = filmsElement.querySelector('.films-list--top-rated');
 const filmListMostCommented = filmsElement.querySelector('.films-list--most-commented');
@@ -91,21 +91,18 @@ const filmListMostCommented = filmsElement.querySelector('.films-list--most-comm
 // All movies
 const filmListContainerAllMovies = filmListAllMovies.querySelector('.films-list__container');
 for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
-  // render(filmListContainerAllMovies, new FilmCardView(films[i]).getElement());
   renderFilm(filmListContainerAllMovies, films[i]);
 }
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-  render(filmListAllMovies, new LoadMoreButtonView().getElement());
-
-  const showMoreButton = filmListAllMovies.querySelector('.films-list__show-more');
+  const showMoreButton = new LoadMoreButtonView().getElement();
+  render(filmListAllMovies, showMoreButton);
 
   showMoreButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     films
       .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-      // .forEach((film) => render(filmListContainerAllMovies, new FilmCardView(film).getElement()));
       .forEach((film) => renderFilm(filmListContainerAllMovies, film));
 
     renderedFilmCount += FILM_COUNT_PER_STEP;
