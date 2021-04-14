@@ -1,17 +1,18 @@
 import {createElement} from '../util/utils.js';
 
-const createFilmsTemplate = () => {
-  return `<section class="films">
-        </section>`;
+const createFilmsListNoFilmsTemplate = () => {
+  return `<section class="films-list">
+      <h2 class="films-list__title">There are no movies in our database</h2>
+    </section>`;
 };
 
-export default class Films {
+export default class FilmsListNoFilms {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createFilmsTemplate();
+    return createFilmsListNoFilmsTemplate();
   }
 
   getElement() {
