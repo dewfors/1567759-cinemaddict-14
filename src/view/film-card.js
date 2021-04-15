@@ -1,6 +1,6 @@
+import AbstractView from './abstract.js';
 import {SHORT_DESCRIPTION_MAX_LENGTH} from '../util/const.js';
 import {formatDate, getTimeDuration} from '../util/utils.js';
-import {createElement} from '../util/utils.js';
 
 const createFilmTemplate = (film) => {
 
@@ -36,26 +36,14 @@ const createFilmTemplate = (film) => {
         </article>`;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 
