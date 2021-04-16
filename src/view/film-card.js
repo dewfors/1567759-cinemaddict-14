@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 import {SHORT_DESCRIPTION_MAX_LENGTH} from '../util/const.js';
-import {formatDate, getTimeDuration} from '../util/utils.js';
+import {formatDate, getTimeDuration} from '../util/common.js';
 
 const createFilmTemplate = (film) => {
 

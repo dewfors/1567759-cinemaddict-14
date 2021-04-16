@@ -1,5 +1,5 @@
-import {getRandomInteger, generateDate} from '../util/utils.js';
-import {getRandomiseArray} from '../util/utils';
+import {getRandomInteger, generateDate, getRandomiseArray} from '../util/common.js';
+// import {getRandomiseArray} from '../util/utils';
 
 const comments = [];
 

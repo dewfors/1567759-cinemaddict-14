@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 import {getComments} from '../mock/comment.js';
-import {formatDate, getTimeDuration} from '../util/utils.js';
+import {formatDate, getTimeDuration} from '../util/common.js';
 import {dataFormat} from '../util/const.js';
 
 const createFilmPopupTemplate = (film) => {
