@@ -1,3 +1,4 @@
+import Abstract from '../view/abstract.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 import {DAYS_MIN_GAP, DAYS_MAX_GAP, positionsToInsertElement} from './const.js';
@@ -5,6 +6,15 @@ import {DAYS_MIN_GAP, DAYS_MAX_GAP, positionsToInsertElement} from './const.js';
 dayjs.extend(duration);
 
 export const render = (container, element, place = positionsToInsertElement.BEFOREEND) => {
+
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+
+  if (element instanceof Abstract) {
+    element = element.getElement();
+  }
+
 
   // console.log(place);
 
