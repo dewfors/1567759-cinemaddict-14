@@ -1,5 +1,5 @@
 import {positionsToInsertElement, BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat} from './util/const.js';
-import {render} from './util/utils.js';
+import {render} from './util/render.js';
 import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
 import ProfileView from './view/profile.js';
 import SiteMenuView from './view/site-menu.js';
