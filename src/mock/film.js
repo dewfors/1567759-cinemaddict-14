@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomiseArray, getRandomBoolean} from '../util/utils.js';
+import {getRandomInteger, getRandomiseArray, getRandomBoolean} from '../util/common.js';
 import {generateComment} from './comment.js';
 import {COMMENT_MIN_COUNT, COMMENT_MAX_COUNT} from '../util/const.js';
 

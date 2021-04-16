@@ -1,7 +1,7 @@
+import AbstractView from './abstract.js';
 import {getComments} from '../mock/comment.js';
-import {formatDate, getTimeDuration} from '../util/utils.js';
+import {formatDate, getTimeDuration} from '../util/common.js';
 import {dataFormat} from '../util/const.js';
-import {createElement} from '../util/utils.js';
 
 const createFilmPopupTemplate = (film) => {
 
@@ -149,26 +149,29 @@ const createFilmPopupTemplate = (film) => {
 </section>`;
 };
 
-export default class FilmPopup {
+export default class FilmPopup extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+
+    this._closeClickHandler = this._closeClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmPopupTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _closeClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setCloseClickHandler(callback) {
+    this._callback.closeClick = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
+
+
+
 }
 
