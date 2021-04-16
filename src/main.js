@@ -1,5 +1,5 @@
 import {positionsToInsertElement, BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat} from './util/const.js';
-import {render} from './util/render.js';
+import {render, remove} from './util/render.js';
 import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
 import ProfileView from './view/profile.js';
 import SiteMenuView from './view/site-menu.js';
@@ -160,9 +160,11 @@ const renderFilms = (films) => {
 
       renderedFilmCount += FILM_COUNT_PER_STEP;
       if (renderedFilmCount >= films.length) {
+
+        remove(showMoreButtonComponent);
         // showMoreButtonComponent.remove();
-        showMoreButtonComponent.getElement().remove();
-        showMoreButtonComponent.removeElement();
+        // showMoreButtonComponent.getElement().remove();
+        // showMoreButtonComponent.removeElement();
       }
 
     });
