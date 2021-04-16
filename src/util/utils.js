@@ -59,23 +59,23 @@ export const createElement = (template) => {
 //   return result.slice(0, countOfElements);
 // };
 
-const sortFilmsByRating = (objectA, objectB) => {
-  const rankA = objectA.total_rating;
-  const rankB = objectB.total_rating;
-
-  return rankB - rankA;
-};
-
-const sortFilmsByCommetns = (pictureA, pictureB) => {
-  const rankA = pictureA.comments.length;
-  const rankB = pictureB.comments.length;
-
-  return rankB - rankA;
-};
-
-const getSortFilms = (filmsToSort, sortFunction) => {
-  return filmsToSort.slice().sort(sortFunction);
-};
+// const sortFilmsByRating = (objectA, objectB) => {
+//   const rankA = objectA.total_rating;
+//   const rankB = objectB.total_rating;
+//
+//   return rankB - rankA;
+// };
+//
+// const sortFilmsByCommetns = (pictureA, pictureB) => {
+//   const rankA = pictureA.comments.length;
+//   const rankB = pictureB.comments.length;
+//
+//   return rankB - rankA;
+// };
+//
+// const getSortFilms = (filmsToSort, sortFunction) => {
+//   return filmsToSort.slice().sort(sortFunction);
+// };
 
 // const generateDate = () => {
 //   const daysGap = getRandomInteger(-DAYS_MIN_GAP, -DAYS_MAX_GAP);
@@ -94,7 +94,11 @@ const getSortFilms = (filmsToSort, sortFunction) => {
 //   return Boolean(getRandomInteger(0, 1));
 // };
 
-export {
-  getSortFilms,
-  sortFilmsByRating, sortFilmsByCommetns
-};
+// export {
+//   getSortFilms,
+//   sortFilmsByRating, sortFilmsByCommetns
+// };
+
+// export {
+//   getSortFilms, sortFilmsByRating, sortFilmsByCommetns
+// };
