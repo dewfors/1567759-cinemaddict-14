@@ -1,7 +1,7 @@
 import FilmCardView from '../view/film-card.js';
 import FilmPopupView from '../view/film-popup.js';
 import {BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat, positionsToInsertElement} from '../util/const.js';
-import {render} from '../util/render.js';
+import {render, replace, remove} from '../util/render.js';
 
 
 export default class Movie {
@@ -21,6 +21,10 @@ export default class Movie {
   init(film) {
     this._film = film;
 
+    const prevfilmComponent = this._filmComponent;
+    const prevfilmPopupComponent = this._filmPopupComponent;
+
+
     this._filmComponent = new FilmCardView(this._film);
     this._filmPopupComponent = new FilmPopupView(this._film);
 
@@ -29,7 +33,31 @@ export default class Movie {
     this._filmComponent.setCommentsClickHandler(this._handleShowFilmPopupClick);
     this._filmPopupComponent.setCloseClickHandler(this._handleHideFilmPopupClick);
 
-    render(this._movieListContainer, this._filmComponent, positionsToInsertElement.BEFOREEND);
+    if (prevfilmComponent === null || prevfilmPopupComponent === null) {
+      render(this._movieListContainer, this._filmComponent, positionsToInsertElement.BEFOREEND);
+      return;
+    }
+
+    // console.log('after.return');
+
+    // if (this._movieListContainer.getElement().contains(prevfilmComponent.getElement())) {
+    if (this._movieListContainer.contains(prevfilmComponent.getElement())) {
+      replace(this._filmComponent, prevfilmComponent);
+    }
+
+    // if (this._movieListContainer.getElement().contains(prevfilmPopupComponent.getElement())) {
+    if (this._movieListContainer.contains(prevfilmPopupComponent.getElement())) {
+      replace(this._filmPopupComponent, prevfilmPopupComponent);
+    }
+
+    remove(prevfilmComponent);
+    remove(prevfilmPopupComponent);
+
+  }
+
+  destroy() {
+    remove(this._taskComponent);
+    remove(this._taskEditComponent);
   }
 
   _showFilmPopup() {

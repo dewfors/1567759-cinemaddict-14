@@ -49,6 +49,7 @@ export default class MovieList {
   _renderFilm(filmListContainer, film) {
     const filmPresenter = new Movie(filmListContainer);
     filmPresenter.init(film);
+    // filmPresenter.init({...film, title: '111'});
 
     // const filmComponent = new FilmCardView(film);
     // const filmPopupComponent = new FilmPopupView(film);
