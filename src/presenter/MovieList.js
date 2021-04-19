@@ -10,10 +10,11 @@ import FilmsListNoFilmsView from '../view/films-list-no-films.js';
 import FilmsListAllMoviesView from '../view/films-list-all-movies.js';
 import FilmsListTopRatedView from '../view/films-list-top-rated.js';
 import FilmsListMostCommentedView from '../view/films-list-most-commented.js';
-import FilmCardView from '../view/film-card.js';
-import FilmPopupView from '../view/film-popup.js';
-import {BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat, positionsToInsertElement} from '../util/const.js';
-import LoadMoreButtonView from '../view/more-button';
+// import FilmCardView from '../view/film-card.js';
+// import FilmPopupView from '../view/film-popup.js';
+// import {BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat, positionsToInsertElement} from '../util/const.js';
+import LoadMoreButtonView from '../view/more-button.js';
+import Movie from './Movie.js';
 
 export default class MovieList {
   constructor(mainContainer) {
@@ -33,7 +34,7 @@ export default class MovieList {
     this._filmsListMostCommentedElement = this._filmsListMostCommentedComponent.getElement();
     this._loadMoreButtonComponent =new LoadMoreButtonView();
 
-    this._siteBodyElement = document.querySelector('body');
+    // this._siteBodyElement = document.querySelector('body');
 
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
   }
@@ -46,46 +47,49 @@ export default class MovieList {
   }
 
   _renderFilm(filmListContainer, film) {
-    const filmComponent = new FilmCardView(film);
-    const filmPopupComponent = new FilmPopupView(film);
+    const filmPresenter = new Movie(filmListContainer);
+    filmPresenter.init(film);
 
-    const showFilmPopup = () => {
-      this._siteBodyElement.appendChild(filmPopupComponent.getElement());
-      this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
-    };
-
-    const hideFilmPopup = () => {
-      this._siteBodyElement.removeChild(filmPopupComponent.getElement());
-      this._siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === keyEscapeFormat.ESCAPE || evt.key === keyEscapeFormat.ESC) {
-        evt.preventDefault();
-        hideFilmPopup();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    const handleShowFilmPopupClick = () => {
-      showFilmPopup();
-      document.addEventListener('keydown', onEscKeyDown);
-    };
-
-    const handleHideFilmPopupClick = () => {
-      hideFilmPopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-    };
-
-    filmComponent.setPosterClickHandler(handleShowFilmPopupClick);
-
-    filmComponent.setTitleClickHandler(handleShowFilmPopupClick);
-
-    filmComponent.setCommentsClickHandler(handleShowFilmPopupClick);
-
-    filmPopupComponent.setCloseClickHandler(handleHideFilmPopupClick);
-
-    render(filmListContainer, filmComponent, positionsToInsertElement.BEFOREEND);
+    // const filmComponent = new FilmCardView(film);
+    // const filmPopupComponent = new FilmPopupView(film);
+    //
+    // const showFilmPopup = () => {
+    //   this._siteBodyElement.appendChild(filmPopupComponent.getElement());
+    //   this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
+    // };
+    //
+    // const hideFilmPopup = () => {
+    //   this._siteBodyElement.removeChild(filmPopupComponent.getElement());
+    //   this._siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
+    // };
+    //
+    // const onEscKeyDown = (evt) => {
+    //   if (evt.key === keyEscapeFormat.ESCAPE || evt.key === keyEscapeFormat.ESC) {
+    //     evt.preventDefault();
+    //     hideFilmPopup();
+    //     document.removeEventListener('keydown', onEscKeyDown);
+    //   }
+    // };
+    //
+    // const handleShowFilmPopupClick = () => {
+    //   showFilmPopup();
+    //   document.addEventListener('keydown', onEscKeyDown);
+    // };
+    //
+    // const handleHideFilmPopupClick = () => {
+    //   hideFilmPopup();
+    //   document.removeEventListener('keydown', onEscKeyDown);
+    // };
+    //
+    // filmComponent.setPosterClickHandler(handleShowFilmPopupClick);
+    //
+    // filmComponent.setTitleClickHandler(handleShowFilmPopupClick);
+    //
+    // filmComponent.setCommentsClickHandler(handleShowFilmPopupClick);
+    //
+    // filmPopupComponent.setCloseClickHandler(handleHideFilmPopupClick);
+    //
+    // render(filmListContainer, filmComponent, positionsToInsertElement.BEFOREEND);
   }
 
   _handleLoadMoreButtonClick() {

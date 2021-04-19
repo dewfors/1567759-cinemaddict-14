@@ -171,7 +171,5 @@ export default class FilmPopup extends AbstractView {
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
 
-
-
 }
 
