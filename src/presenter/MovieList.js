@@ -20,6 +20,7 @@ export default class MovieList {
   constructor(mainContainer) {
     this._filmsContainer = mainContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
+    this._filmPresenter = {};
 
     this._FilmsComponent = new FilmsView();
     this._filmsElement = this._FilmsComponent.getElement();
@@ -49,6 +50,9 @@ export default class MovieList {
   _renderFilm(filmListContainer, film) {
     const filmPresenter = new Movie(filmListContainer);
     filmPresenter.init(film);
+    this._filmPresenter[film.id] = film;
+    // console.log(this._filmPresenter);
+
     // filmPresenter.init({...film, title: '111'});
 
     // const filmComponent = new FilmCardView(film);
@@ -157,6 +161,15 @@ export default class MovieList {
     this._renderFilmsTopRated();
     this._renderFilmsMostCommented();
     // render(this._filmsElement, filmsListAllMoviesComponent);
+  }
+
+  _clearTaskList() {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._filmPresenter = {};
+    this._renderedFilmCount = FILM_COUNT_PER_STEP;
+    remove(this._loadMoreButtonComponent);
   }
 
   _renderFilmsBoard() {
