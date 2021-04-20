@@ -49,59 +49,17 @@ export default class MovieList {
   }
 
   _handleFilmChange(updatedFilm) {
+    // console.log(updatedFilm);
     this._films = updateItem(this._films, updatedFilm);
     this._filmPresenter[updatedFilm.id].init(updatedFilm);
   }
 
-
   _renderFilm(filmListContainer, film) {
-    const filmPresenter = new Movie(filmListContainer);
+    const filmPresenter = new Movie(filmListContainer, this._handleFilmChange);
     filmPresenter.init(film);
-    this._filmPresenter[film.id] = film;
+    this._filmPresenter[film.id] = filmPresenter;
     // console.log(this._filmPresenter);
 
-    // filmPresenter.init({...film, title: '111'});
-
-    // const filmComponent = new FilmCardView(film);
-    // const filmPopupComponent = new FilmPopupView(film);
-    //
-    // const showFilmPopup = () => {
-    //   this._siteBodyElement.appendChild(filmPopupComponent.getElement());
-    //   this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
-    // };
-    //
-    // const hideFilmPopup = () => {
-    //   this._siteBodyElement.removeChild(filmPopupComponent.getElement());
-    //   this._siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
-    // };
-    //
-    // const onEscKeyDown = (evt) => {
-    //   if (evt.key === keyEscapeFormat.ESCAPE || evt.key === keyEscapeFormat.ESC) {
-    //     evt.preventDefault();
-    //     hideFilmPopup();
-    //     document.removeEventListener('keydown', onEscKeyDown);
-    //   }
-    // };
-    //
-    // const handleShowFilmPopupClick = () => {
-    //   showFilmPopup();
-    //   document.addEventListener('keydown', onEscKeyDown);
-    // };
-    //
-    // const handleHideFilmPopupClick = () => {
-    //   hideFilmPopup();
-    //   document.removeEventListener('keydown', onEscKeyDown);
-    // };
-    //
-    // filmComponent.setPosterClickHandler(handleShowFilmPopupClick);
-    //
-    // filmComponent.setTitleClickHandler(handleShowFilmPopupClick);
-    //
-    // filmComponent.setCommentsClickHandler(handleShowFilmPopupClick);
-    //
-    // filmPopupComponent.setCloseClickHandler(handleHideFilmPopupClick);
-    //
-    // render(filmListContainer, filmComponent, positionsToInsertElement.BEFOREEND);
   }
 
   _handleLoadMoreButtonClick() {
