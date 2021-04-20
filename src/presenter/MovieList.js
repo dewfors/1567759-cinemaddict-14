@@ -15,6 +15,7 @@ import FilmsListMostCommentedView from '../view/films-list-most-commented.js';
 // import {BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat, positionsToInsertElement} from '../util/const.js';
 import LoadMoreButtonView from '../view/more-button.js';
 import Movie from './Movie.js';
+import {updateItem} from '../util/common.js';
 
 export default class MovieList {
   constructor(mainContainer) {
@@ -36,7 +37,7 @@ export default class MovieList {
     this._loadMoreButtonComponent =new LoadMoreButtonView();
 
     // this._siteBodyElement = document.querySelector('body');
-
+    this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
   }
 
@@ -46,6 +47,12 @@ export default class MovieList {
     this._filmsMostCommented = filmsMostCommented.slice();
     this._renderFilmsBoard();
   }
+
+  _handleFilmChange(updatedFilm) {
+    this._films = updateItem(this._films, updatedFilm);
+    this._filmPresenter[updatedFilm.id].init(updatedFilm);
+  }
+
 
   _renderFilm(filmListContainer, film) {
     const filmPresenter = new Movie(filmListContainer);

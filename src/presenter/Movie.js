@@ -60,6 +60,7 @@ export default class Movie {
     remove(this._taskEditComponent);
   }
 
+
   _showFilmPopup() {
     this._siteBodyElement.appendChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
