@@ -38,6 +38,7 @@ export default class MovieList {
 
     // this._siteBodyElement = document.querySelector('body');
     this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
   }
 
@@ -48,6 +49,12 @@ export default class MovieList {
     this._renderFilmsBoard();
   }
 
+  _handleModeChange() {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
   _handleFilmChange(updatedFilm) {
     // console.log(updatedFilm);
     this._films = updateItem(this._films, updatedFilm);
@@ -55,7 +62,7 @@ export default class MovieList {
   }
 
   _renderFilm(filmListContainer, film) {
-    const filmPresenter = new Movie(filmListContainer, this._handleFilmChange);
+    const filmPresenter = new Movie(filmListContainer, this._handleFilmChange, this._handleModeChange);
     filmPresenter.init(film);
     this._filmPresenter[film.id] = filmPresenter;
     // console.log(this._filmPresenter);
