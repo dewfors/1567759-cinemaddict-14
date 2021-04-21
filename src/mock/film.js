@@ -3,6 +3,7 @@ import {generateComment} from './comment.js';
 import {COMMENT_MIN_COUNT, COMMENT_MAX_COUNT} from '../util/const.js';
 
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 
 const generateDate = () => {
   const minDaysGap = 170;
@@ -176,6 +177,7 @@ export const generateFilm = () => {
   const isSeveralGenres = genre.length > 1;
 
   return {
+    id: nanoid(),
     title: generateTitle(),
     alternative_title: generateTitle(true),
     total_rating: getRandomInteger(3, 9),

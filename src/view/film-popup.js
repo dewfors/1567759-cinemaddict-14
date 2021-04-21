@@ -3,6 +3,12 @@ import {getComments} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
 import {dataFormat} from '../util/const.js';
 
+const getCheckboxCheckedIsActive = (flag) => {
+  return flag
+    ? 'checked'
+    : '';
+};
+
 const createFilmPopupTemplate = (film) => {
 
   const commentsList = getComments();
@@ -18,6 +24,10 @@ const createFilmPopupTemplate = (film) => {
 
   const hours = getTimeDuration(runtime).hours();
   const minutes = getTimeDuration(runtime).minutes();
+
+  const watchlistChecked = getCheckboxCheckedIsActive(film.isFilmForWatch);
+  const watchedChecked = getCheckboxCheckedIsActive(film.isFilmInHistory);
+  const favoriteChecked = getCheckboxCheckedIsActive(film.isFilmInFavorites);
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -83,13 +93,13 @@ const createFilmPopupTemplate = (film) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${watchlistChecked}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${watchedChecked}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favoriteChecked}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -155,6 +165,11 @@ export default class FilmPopup extends AbstractView {
     this._film = film;
 
     this._closeClickHandler = this._closeClickHandler.bind(this);
+
+    this._addWatchlistClickHandler = this._addWatchlistClickHandler.bind(this);
+    this._addWatchedClickHandler = this._addWatchedClickHandler.bind(this);
+    this._addFavoriteClickHandler = this._addFavoriteClickHandler.bind(this);
+
   }
 
   getTemplate() {
@@ -166,11 +181,41 @@ export default class FilmPopup extends AbstractView {
     this._callback.closeClick();
   }
 
+  _addWatchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addWatchlistClick();
+  }
+
+  _addWatchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addWatchedClick();
+  }
+
+  _addFavoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.addFavoriteClick();
+  }
+
+
   setCloseClickHandler(callback) {
     this._callback.closeClick = callback;
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
 
+  setAddWatchlistClickHandler(callback) {
+    this._callback.addWatchlistClick = callback;
+    this.getElement().querySelector('.film-details__control-label--watchlist').addEventListener('click', this._addWatchlistClickHandler);
+  }
+
+  setAddWatchedClickHandler(callback) {
+    this._callback.addWatchedClick = callback;
+    this.getElement().querySelector('.film-details__control-label--watched').addEventListener('click', this._addWatchedClickHandler);
+  }
+
+  setAddFavoriteClickHandler(callback) {
+    this._callback.addFavoriteClick = callback;
+    this.getElement().querySelector('.film-details__control-label--favorite').addEventListener('click', this._addFavoriteClickHandler);
+  }
 
 
 }
