@@ -13,12 +13,15 @@ import FilmsListMostCommentedView from '../view/films-list-most-commented.js';
 import LoadMoreButtonView from '../view/more-button.js';
 import Movie from './Movie.js';
 import {updateItem} from '../util/common.js';
+import {SortType} from '../util/const.js';
+import {sortFilmsByDate, sortFilmsByRating} from '../util/film.js';
 
 export default class MovieList {
   constructor(mainContainer) {
     this._filmsContainer = mainContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = {};
+    this._currentSortType = SortType.DEFAULT;
 
     this._filmsComponent = new FilmsView();
     this._sortComponent = new SortView();
@@ -39,6 +42,7 @@ export default class MovieList {
     this._films = films.slice();
     this._filmsTopRated = filmsTopRated.slice();
     this._filmsMostCommented = filmsMostCommented.slice();
+    this._sourcedFilms = films.slice();
     this._renderFilmsBoard();
   }
 
@@ -50,6 +54,7 @@ export default class MovieList {
 
   _handleFilmChange(updatedFilm) {
     this._films = updateItem(this._films, updatedFilm);
+    this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
     this._filmPresenter[updatedFilm.id].init(updatedFilm);
   }
 
@@ -107,8 +112,31 @@ export default class MovieList {
     render(this._filmsComponent, this._filmsListNoFilmsComponent);
   }
 
+  _sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.DATE:
+        this._films.sort(sortFilmsByDate);
+        break;
+      case SortType.RATING:
+        this._films.sort(sortFilmsByRating);
+        break;
+      default:
+        this._films = this._sourcedFilms.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
   _handleSortTypeChange(sortType) {
+    // - Если нужная сортировка уже установлена, то ничего не делаем
+    if (this._currentSortType === sortType){
+      return;
+    }
     // - Сортируем задачи
+    this._sortFilms(sortType);
+
+    console.log(this._films);
+
     // - Очищаем список
     // - Рендерим список заново
   }

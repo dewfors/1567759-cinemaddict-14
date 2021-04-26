@@ -1,3 +1,9 @@
+import dayjs from 'dayjs';
+
+const sortFilmsByDate = (filmA, filmB) => {
+  return dayjs(filmB.release.date).diff(dayjs(filmA.release.date));
+};
+
 const sortFilmsByRating = (objectA, objectB) => {
   const rankA = objectA.total_rating;
   const rankB = objectB.total_rating;
@@ -17,5 +23,5 @@ const getSortFilms = (filmsToSort, sortFunction) => {
 };
 
 export {
-  getSortFilms, sortFilmsByRating, sortFilmsByCommetns
+  getSortFilms, sortFilmsByRating, sortFilmsByCommetns, sortFilmsByDate
 };
