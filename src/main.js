@@ -4,18 +4,10 @@ import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.
 import ProfileView from './view/profile.js';
 import SiteMenuView from './view/site-menu.js';
 import FilterView from './view/filter.js';
-// import SortView from './view/sort.js';
-// import FilmsView from './view/films.js';
-// import FilmsListAllMoviesView from './view/films-list-all-movies.js';
-// import FilmsListTopRatedView from './view/films-list-top-rated.js';
-// import FilmsListMostCommentedView from './view/films-list-most-commented.js';
-// import FilmsListNoFilmsView from './view/films-list-no-films.js';
-// import FilmCardView from './view/film-card.js';
-// import LoadMoreButtonView from './view/more-button.js';
+
 import FilmsStatisticsView from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
 import {generateFilter} from './mock/filter.js';
-// import FilmPopupView from './view/film-popup.js';
 import MovieListPresenter from './presenter/MovieList.js';
 import {
   FILM_COUNT_ALL_MOVIES

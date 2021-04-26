@@ -32,6 +32,7 @@ export default class MovieList {
     this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(films, filmsTopRated, filmsMostCommented) {
@@ -106,8 +107,15 @@ export default class MovieList {
     render(this._filmsComponent, this._filmsListNoFilmsComponent);
   }
 
+  _handleSortTypeChange(sortType) {
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
+  }
+
   _renderSort() {
     render(this._filmsContainer, this._sortComponent);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderFilms() {
