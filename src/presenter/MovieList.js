@@ -14,6 +14,7 @@ import LoadMoreButtonView from '../view/more-button.js';
 import Movie from './Movie.js';
 import {updateItem} from '../util/common.js';
 import {SortType} from '../util/const.js';
+import {TypeFilmList} from '../util/const.js';
 import {sortFilmsByDate, sortFilmsByRating} from '../util/film.js';
 
 export default class MovieList {
@@ -21,16 +22,18 @@ export default class MovieList {
     this._filmsContainer = mainContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = {};
+    this._filmPresenterTopRated = {};
+    this._filmPresenterMostCommented = {};
     this._currentSortType = SortType.DEFAULT;
 
     this._filmsComponent = new FilmsView();
     this._sortComponent = new SortView();
     this._filmsListNoFilmsComponent = new FilmsListNoFilmsView();
-    this._loadMoreButtonComponent =new LoadMoreButtonView();
+    this._loadMoreButtonComponent = new LoadMoreButtonView();
     this._filmsListAllMoviesComponent = new FilmsListAllMoviesView();
     this._filmsListTopRatedComponent = new FilmsListTopRatedView();
     this._filmsListMostCommentedComponent = new FilmsListMostCommentedView();
-    this._loadMoreButtonComponent =new LoadMoreButtonView();
+    this._loadMoreButtonComponent = new LoadMoreButtonView();
 
     this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
@@ -58,10 +61,20 @@ export default class MovieList {
     this._filmPresenter[updatedFilm.id].init(updatedFilm);
   }
 
-  _renderFilm(filmListContainer, film) {
+  _renderFilm(filmListContainer, film, typeFilmList) {
     const filmPresenter = new Movie(filmListContainer, this._handleFilmChange, this._handleModeChange);
     filmPresenter.init(film);
-    this._filmPresenter[film.id] = filmPresenter;
+
+    switch (typeFilmList) {
+      case TypeFilmList.TOP_RATED:
+        this._filmPresenterTopRated[film.id] = filmPresenter;
+        break;
+      case TypeFilmList.MOST_COMMENTED:
+        this._filmPresenterMostCommented[film.id] = filmPresenter;
+        break;
+      default:
+        this._filmPresenter[film.id] = filmPresenter;
+    }
   }
 
   _handleLoadMoreButtonClick() {
@@ -82,7 +95,7 @@ export default class MovieList {
     const filmListContainerAllMovies = this._filmsListAllMoviesComponent.getElement().querySelector('.films-list__container');
     this._films
       .slice(from, to)
-      .forEach((film) => this._renderFilm(filmListContainerAllMovies, film));
+      .forEach((film) => this._renderFilm(filmListContainerAllMovies, film, TypeFilmList.ALL_MOVIES));
   }
 
   _renderFilmsAllMovies() {
@@ -97,14 +110,14 @@ export default class MovieList {
     const filmListContainerTopRated = this._filmsListTopRatedComponent.getElement().querySelector('.films-list__container');
     this._filmsTopRated
       .slice(0, FILM_COUNT_TOP_RATED)
-      .forEach((film) => this._renderFilm(filmListContainerTopRated, film));
+      .forEach((film) => this._renderFilm(filmListContainerTopRated, film, TypeFilmList.TOP_RATED));
   }
 
   _renderFilmsMostCommented() {
     const filmListContainerMostCommented = this._filmsListMostCommentedComponent.getElement().querySelector('.films-list__container');
     this._filmsMostCommented
       .slice(0, FILM_COUNT_MOST_COMMENTED)
-      .forEach((film) => this._renderFilm(filmListContainerMostCommented, film));
+      .forEach((film) => this._renderFilm(filmListContainerMostCommented, film, TypeFilmList.MOST_COMMENTED));
   }
 
   _renderNoFilms() {
@@ -128,17 +141,20 @@ export default class MovieList {
   }
 
   _handleSortTypeChange(sortType) {
+
     // - Если нужная сортировка уже установлена, то ничего не делаем
-    if (this._currentSortType === sortType){
+    if (this._currentSortType === sortType) {
       return;
     }
+
     // - Сортируем задачи
     this._sortFilms(sortType);
 
-    console.log(this._films);
-
     // - Очищаем список
+    this._clearFilmList();
+
     // - Рендерим список заново
+    this._renderFilmsAllMovies();
   }
 
   _renderSort() {
@@ -159,7 +175,7 @@ export default class MovieList {
     this._renderFilmsMostCommented();
   }
 
-  _clearTaskList() {
+  _clearFilmList() {
     Object
       .values(this._filmPresenter)
       .forEach((presenter) => presenter.destroy());

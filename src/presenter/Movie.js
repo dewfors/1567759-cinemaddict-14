@@ -67,8 +67,8 @@ export default class Movie {
   }
 
   destroy() {
-    remove(this._taskComponent);
-    remove(this._taskEditComponent);
+    remove(this._filmComponent);
+    remove(this._filmPopupComponent);
   }
 
   resetView() {
@@ -78,14 +78,12 @@ export default class Movie {
   }
 
   _showFilmPopup() {
-    // console.log(this._mode);
     this._siteBodyElement.appendChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
 
   }
 
   _hideFilmPopup() {
-    // console.log(this._mode);
     this._siteBodyElement.removeChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
 
