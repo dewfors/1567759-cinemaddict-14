@@ -27,7 +27,7 @@ export default class MovieList {
     this._currentSortType = SortType.DEFAULT;
 
     this._filmsComponent = new FilmsView();
-    this._sortComponent = new SortView();
+    this._sortComponent = new SortView(this._currentSortType);
     this._filmsListNoFilmsComponent = new FilmsListNoFilmsView();
     this._loadMoreButtonComponent = new LoadMoreButtonView();
     this._filmsListAllMoviesComponent = new FilmsListAllMoviesView();
