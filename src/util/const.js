@@ -35,6 +35,18 @@ const mode = {
   POPUP: 'POPUP',
 };
 
+export const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating',
+};
+
+export const TypeFilmList = {
+  ALL_MOVIES: 'all_movies',
+  TOP_RATED: 'top_rated',
+  MOST_COMMENTED: 'most_commented',
+};
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
