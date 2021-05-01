@@ -28,6 +28,8 @@ const keyEscapeFormat = {
   ESC: 'Esc',
 };
 
+const sortClassNameActive = 'sort__button--active';
+
 const BODY_HIDE_OVERFLOW_CLASS_NAME = 'hide-overflow';
 
 const mode = {
@@ -52,5 +54,5 @@ export {
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
   positionsToInsertElement, dataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
-  keyEscapeFormat, mode
+  keyEscapeFormat, mode, sortClassNameActive
 };
