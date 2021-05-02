@@ -55,13 +55,20 @@ export const generateComment = () => {
   comments.push(comment);
 
   return comment.id;
+};
 
-  // return {
-  //   author: generateAuthor(),
-  //   comment: generateCommentText(true),
-  //   date: generateDate(),
-  //   emotion: generateEmotion(),
-  // };
+export const addNewComment = () => {
+
+  const comment =   {
+    id: comments.length,
+    author: generateAuthor(),
+    comment: generateCommentText(true),
+    date: generateDate(),
+    emotion: generateEmotion(),
+  };
+  comments.push(comment);
+  return comment;
+
 };
 
 export const getComments = () => {
