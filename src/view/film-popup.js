@@ -300,7 +300,7 @@ export default class FilmPopup extends SmartView {
   static parseStateToData(filmData) {
     filmData = Object.assign({}, filmData);
     const newComment = addNewComment();
-    console.log(newComment);
+    // console.log(newComment);
     newComment.comment = filmData.currentCommentText;
     newComment.emotion = filmData.currentCommentEmoji;
     filmData.comments.push(newComment.id);

@@ -58,8 +58,9 @@ export default class Movie {
     }
 
     // if (this._mode === mode.DEFAULT){
-      replace(this._filmComponent, prevfilmComponent);
+    //   replace(this._filmComponent, prevfilmComponent);
     // }
+    replace(this._filmComponent, prevfilmComponent);
 
     if (this._mode === mode.POPUP){
       replace(this._filmPopupComponent, prevfilmPopupComponent);
