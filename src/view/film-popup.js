@@ -211,8 +211,18 @@ export default class FilmPopup extends SmartView {
   }
 
   _handlerCommentEmojiChange(evt) {
-    console.log(evt.target.value);
+    // console.log(evt.target.value);
+    // console.log(this.getElement());
+
     evt.preventDefault();
+
+    const inputElements = this.getElement().querySelectorAll('.film-details__emoji-item');
+    inputElements.forEach((element) => {
+      element.checked=false;
+    });
+
+    const inputTargetElement = this.getElement().querySelector(`.film-details__emoji-item[value="${evt.target.value}"]`);
+    inputTargetElement.checked = true;
 
     this.updateData({currentCommentEmoji: evt.target.value});
   }
@@ -223,13 +233,13 @@ export default class FilmPopup extends SmartView {
   }
 
   _handlerCommentSend(evt) {
-    if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == 13) {
+    if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === 13) {
       if ( !this._data.currentCommentEmoji || !this._data.currentCommentText){
         return;
       }
       this._data = FilmPopup.parseStateToData(this._data);
-      // this._callback.setSendNewComment(this._data);
       this.updateElement();
+      this._callback.addComment(this._data);
     }
   }
 
@@ -268,6 +278,11 @@ export default class FilmPopup extends SmartView {
   setAddFavoriteClickHandler(callback) {
     this._callback.addFavoriteClick = callback;
     this.getElement().querySelector('.film-details__control-label--favorite').addEventListener('click', this._addFavoriteClickHandler);
+  }
+
+  setAddCommentHandler(callback) {
+    this._callback.addComment = callback;
+
   }
 
   static parseDataToState(filmData) {

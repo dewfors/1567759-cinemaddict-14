@@ -11,7 +11,7 @@ export default class Smart extends Abstract {
       return;
     }
 
-    console.log(update);
+    // console.log(update);
 
     this._data =  Object.assign(
       {},
@@ -25,17 +25,17 @@ export default class Smart extends Abstract {
     this.updateElement();
   }
 
-
-
   updateElement() {
-    console.log(this._data);
+    // console.log(this._data);
     const prevElement = this.getElement();
     const parent = prevElement.parentElement;
+    this._scroll = prevElement.scrollTop;
     this.removeElement();
 
     const newElement = this.getElement();
 
     parent.replaceChild(newElement, prevElement);
+    newElement.scrollTop = this._scroll;
 
     this.restoreHandlers();
   }
