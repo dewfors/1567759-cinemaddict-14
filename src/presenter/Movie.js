@@ -22,6 +22,8 @@ export default class Movie {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
 
+    this._handleAddComment = this._handleAddComment.bind(this);
+
     this._siteBodyElement = document.querySelector('body');
   }
 
@@ -48,14 +50,17 @@ export default class Movie {
     this._filmPopupComponent.setAddWatchedClickHandler(this._handleWatchedClick);
     this._filmPopupComponent.setAddFavoriteClickHandler(this._handleFavoriteClick);
 
+    this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
+
     if (prevfilmComponent === null || prevfilmPopupComponent === null) {
       render(this._movieListContainer, this._filmComponent, positionsToInsertElement.BEFOREEND);
       return;
     }
 
-    if (this._mode === mode.DEFAULT){
-      replace(this._filmComponent, prevfilmComponent);
-    }
+    // if (this._mode === mode.DEFAULT){
+    //   replace(this._filmComponent, prevfilmComponent);
+    // }
+    replace(this._filmComponent, prevfilmComponent);
 
     if (this._mode === mode.POPUP){
       replace(this._filmPopupComponent, prevfilmPopupComponent);
@@ -73,6 +78,7 @@ export default class Movie {
 
   resetView() {
     if (this._mode !== mode.DEFAULT) {
+      // this._filmComponent.reset(this._film);
       this._handleHideFilmPopupClick();
     }
   }
@@ -92,6 +98,7 @@ export default class Movie {
   _handleEscKeyDown(evt) {
     if (evt.key === keyEscapeFormat.ESCAPE || evt.key === keyEscapeFormat.ESC) {
       evt.preventDefault();
+      this._filmPopupComponent.reset(this._film);
       this._mode = mode.DEFAULT;
       this._hideFilmPopup();
       document.removeEventListener('keydown', this._handleEscKeyDown);
@@ -143,6 +150,23 @@ export default class Movie {
         this._film,
         {
           isFilmInFavorites: !this._film.isFilmInFavorites,
+        },
+      ),
+    );
+  }
+
+  _handleAddComment(data) {
+    // console.log(this._film);
+    // console.log(data);
+
+    const comments = [...data.comments];
+
+    this._changeData(
+      Object.assign(
+        {},
+        this._film,
+        {
+          comments: comments,
         },
       ),
     );

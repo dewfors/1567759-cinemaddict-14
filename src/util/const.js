@@ -28,6 +28,12 @@ const keyEscapeFormat = {
   ESC: 'Esc',
 };
 
+export const keyCodes = {
+  ENTER: 13,
+};
+
+const sortClassNameActive = 'sort__button--active';
+
 const BODY_HIDE_OVERFLOW_CLASS_NAME = 'hide-overflow';
 
 const mode = {
@@ -47,10 +53,12 @@ export const TypeFilmList = {
   MOST_COMMENTED: 'most_commented',
 };
 
+export const emojiList = ['smile','sleeping','puke','angry'];
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
   positionsToInsertElement, dataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
-  keyEscapeFormat, mode
+  keyEscapeFormat, mode, sortClassNameActive
 };

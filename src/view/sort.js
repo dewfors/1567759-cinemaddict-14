@@ -1,9 +1,9 @@
 import AbstractView from './abstract.js';
-import {SortType} from '../util/const.js';
+import {SortType, sortClassNameActive} from '../util/const.js';
 
-const getClassNameIsActive = () => {
-  return 'sort__button--active';
-};
+// const getClassNameIsActive = () => {
+//   return 'sort__button--active';
+// };
 
 const createSortTemplate = () => {
   return `<ul class="sort">
@@ -32,12 +32,12 @@ export default class Sort extends AbstractView {
 
     // - убираем класс sort__button--active
     const activeElement = this.getElement().querySelector(`a[data-sort-type="${this._sortType}"]`);
-    activeElement.classList.remove(getClassNameIsActive());
+    activeElement.classList.remove(sortClassNameActive);
 
     // - устанавливаем класс sort__button--active
     this._sortType = evt.target.dataset.sortType;
     const newActiveElement = this.getElement().querySelector(`a[data-sort-type="${this._sortType}"]`);
-    newActiveElement.classList.add(getClassNameIsActive());
+    newActiveElement.classList.add(sortClassNameActive);
 
     evt.preventDefault();
     this._callback.sortTypeChange(this._sortType);
