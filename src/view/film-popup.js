@@ -2,7 +2,7 @@
 import SmartView from './smart.js';
 import {getComments, addNewComment} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
-import {dataFormat} from '../util/const.js';
+import {dataFormat, emojiList, keyCodes} from '../util/const.js';
 
 const getCheckboxCheckedIsActive = (flag) => {
   return flag
@@ -128,7 +128,7 @@ const createFilmPopupTemplate = (film) => {
 
         <div class="film-details__new-comment">
           <div class="film-details__add-emoji-label">
-            ${currentCommentEmoji ? `<img src="images/emoji/${currentCommentEmoji}.png" width="55" height="55" alt="emoji-smile">`: ''}
+            ${currentCommentEmoji ? `<img src="images/emoji/${currentCommentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ''}
           </div>
 
           <label class="film-details__comment-label">
@@ -136,25 +136,10 @@ const createFilmPopupTemplate = (film) => {
           </label>
 
           <div class="film-details__emoji-list">
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-            <label class="film-details__emoji-label" for="emoji-smile">
-              <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-            <label class="film-details__emoji-label" for="emoji-sleeping">
-              <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-            <label class="film-details__emoji-label" for="emoji-puke">
-              <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-            <label class="film-details__emoji-label" for="emoji-angry">
-              <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-            </label>
+            ${emojiList.map((emojiItem) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiItem}" value="${emojiItem}" ${emojiItem === currentCommentEmoji ? 'checked' : '' }>
+            <label class="film-details__emoji-label" for="emoji-${emojiItem}">
+              <img src="./images/emoji/${emojiItem}.png" width="30" height="30" alt="emoji">
+            </label>`).join('')}
           </div>
         </div>
       </section>
@@ -180,13 +165,16 @@ export default class FilmPopup extends SmartView {
     this._handlerCommentTextInput = this._handlerCommentTextInput.bind(this);
     this._handlerCommentSend = this._handlerCommentSend.bind(this);
 
-
     this._setInnerHandlers();
+  }
 
+  reset(film) {
+    this.updateData(
+      FilmPopup.parseDataToState(film),
+    );
   }
 
   getTemplate() {
-    // return createFilmPopupTemplate(this._film);
     return createFilmPopupTemplate(this._data);
   }
 
@@ -211,19 +199,7 @@ export default class FilmPopup extends SmartView {
   }
 
   _handlerCommentEmojiChange(evt) {
-    // console.log(evt.target.value);
-    // console.log(this.getElement());
-
     evt.preventDefault();
-
-    const inputElements = this.getElement().querySelectorAll('.film-details__emoji-item');
-    inputElements.forEach((element) => {
-      element.checked=false;
-    });
-
-    const inputTargetElement = this.getElement().querySelector(`.film-details__emoji-item[value="${evt.target.value}"]`);
-    inputTargetElement.checked = true;
-
     this.updateData({currentCommentEmoji: evt.target.value});
   }
 
@@ -233,8 +209,8 @@ export default class FilmPopup extends SmartView {
   }
 
   _handlerCommentSend(evt) {
-    if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === 13) {
-      if ( !this._data.currentCommentEmoji || !this._data.currentCommentText){
+    if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === keyCodes.ENTER) {
+      if (!this._data.currentCommentEmoji || !this._data.currentCommentText) {
         return;
       }
       this._data = FilmPopup.parseStateToData(this._data);

@@ -28,6 +28,10 @@ const keyEscapeFormat = {
   ESC: 'Esc',
 };
 
+export const keyCodes = {
+  ENTER: 13,
+};
+
 const sortClassNameActive = 'sort__button--active';
 
 const BODY_HIDE_OVERFLOW_CLASS_NAME = 'hide-overflow';
@@ -48,6 +52,8 @@ export const TypeFilmList = {
   TOP_RATED: 'top_rated',
   MOST_COMMENTED: 'most_commented',
 };
+
+export const emojiList = ['smile','sleeping','puke','angry'];
 
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,

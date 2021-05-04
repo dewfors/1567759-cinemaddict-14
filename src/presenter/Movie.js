@@ -78,6 +78,7 @@ export default class Movie {
 
   resetView() {
     if (this._mode !== mode.DEFAULT) {
+      // this._filmComponent.reset(this._film);
       this._handleHideFilmPopupClick();
     }
   }
@@ -97,6 +98,7 @@ export default class Movie {
   _handleEscKeyDown(evt) {
     if (evt.key === keyEscapeFormat.ESCAPE || evt.key === keyEscapeFormat.ESC) {
       evt.preventDefault();
+      this._filmPopupComponent.reset(this._film);
       this._mode = mode.DEFAULT;
       this._hideFilmPopup();
       document.removeEventListener('keydown', this._handleEscKeyDown);
