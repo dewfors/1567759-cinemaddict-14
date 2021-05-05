@@ -21,6 +21,7 @@ const positionsToInsertElement = {
 const dataFormat = {
   FORMAT_YEAR_LONG: 'YYYY',
   FORMAT_DATE_LONG: 'D MMMM YYYY',
+  FORMAT_DATE_TIME: 'YYYY/MM/DD HH:mm',
 };
 
 const keyEscapeFormat = {

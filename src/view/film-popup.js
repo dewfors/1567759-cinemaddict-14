@@ -119,7 +119,7 @@ const createFilmPopupTemplate = (film) => {
               <p class="film-details__comment-text">${comment}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${formatDate(date, dataFormat.FORMAT_DATE_LONG)}</span>
+                <span class="film-details__comment-day">${formatDate(date, dataFormat.FORMAT_DATE_TIME)}</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
