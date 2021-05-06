@@ -11,24 +11,25 @@ const DAYS_MAX_GAP = 70;
 
 const SHORT_DESCRIPTION_MAX_LENGTH = 140;
 
-const positionsToInsertElement = {
+const PositionsToInsertElement = {
   BEFOREBEGIN: 'beforebegin',
   AFTERBEGIN: 'afterbegin',
   BEFOREEND: 'beforeend',
   AFTEREND: 'afterend',
 };
 
-const dataFormat = {
+const DataFormat = {
   FORMAT_YEAR_LONG: 'YYYY',
   FORMAT_DATE_LONG: 'D MMMM YYYY',
+  FORMAT_DATE_TIME: 'YYYY/MM/DD HH:mm',
 };
 
-const keyEscapeFormat = {
+const KeyEscapeFormat = {
   ESCAPE: 'Escape',
   ESC: 'Esc',
 };
 
-export const keyCodes = {
+export const KeyCodes = {
   ENTER: 13,
 };
 
@@ -36,7 +37,7 @@ const sortClassNameActive = 'sort__button--active';
 
 const BODY_HIDE_OVERFLOW_CLASS_NAME = 'hide-overflow';
 
-const mode = {
+const Mode = {
   DEFAULT: 'DEFAULT',
   POPUP: 'POPUP',
 };
@@ -59,6 +60,6 @@ export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
-  positionsToInsertElement, dataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
-  keyEscapeFormat, mode, sortClassNameActive
+  PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
+  KeyEscapeFormat, Mode, sortClassNameActive
 };

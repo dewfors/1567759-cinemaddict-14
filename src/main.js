@@ -1,4 +1,4 @@
-import {positionsToInsertElement} from './util/const.js';
+import {PositionsToInsertElement} from './util/const.js';
 import {render} from './util/render.js';
 import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
 import ProfileView from './view/profile.js';
@@ -38,7 +38,7 @@ const renderNavigation = () => {
 
   // filters in main navigation
   const filterComponent = new FilterView(filters);
-  render(mainNavigationComponent, filterComponent, positionsToInsertElement.AFTERBEGIN);
+  render(mainNavigationComponent, filterComponent, PositionsToInsertElement.AFTERBEGIN);
 };
 
 renderHeader();

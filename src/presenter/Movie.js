@@ -1,6 +1,6 @@
 import FilmCardView from '../view/film-card.js';
 import FilmPopupView from '../view/film-popup.js';
-import {BODY_HIDE_OVERFLOW_CLASS_NAME, keyEscapeFormat, positionsToInsertElement, mode} from '../util/const.js';
+import {BODY_HIDE_OVERFLOW_CLASS_NAME, KeyEscapeFormat, PositionsToInsertElement, Mode} from '../util/const.js';
 import {render, replace, remove} from '../util/render.js';
 
 
@@ -12,7 +12,7 @@ export default class Movie {
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
-    this._mode = mode.DEFAULT;
+    this._mode = Mode.DEFAULT;
 
     this._handleShowFilmPopupClick = this._handleShowFilmPopupClick.bind(this);
     this._handleHideFilmPopupClick = this._handleHideFilmPopupClick.bind(this);
@@ -53,7 +53,7 @@ export default class Movie {
     this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
 
     if (prevfilmComponent === null || prevfilmPopupComponent === null) {
-      render(this._movieListContainer, this._filmComponent, positionsToInsertElement.BEFOREEND);
+      render(this._movieListContainer, this._filmComponent, PositionsToInsertElement.BEFOREEND);
       return;
     }
 
@@ -62,7 +62,7 @@ export default class Movie {
     // }
     replace(this._filmComponent, prevfilmComponent);
 
-    if (this._mode === mode.POPUP){
+    if (this._mode === Mode.POPUP){
       replace(this._filmPopupComponent, prevfilmPopupComponent);
     }
 
@@ -77,7 +77,7 @@ export default class Movie {
   }
 
   resetView() {
-    if (this._mode !== mode.DEFAULT) {
+    if (this._mode !== Mode.DEFAULT) {
       // this._filmComponent.reset(this._film);
       this._handleHideFilmPopupClick();
     }
@@ -96,10 +96,10 @@ export default class Movie {
   }
 
   _handleEscKeyDown(evt) {
-    if (evt.key === keyEscapeFormat.ESCAPE || evt.key === keyEscapeFormat.ESC) {
+    if (evt.key === KeyEscapeFormat.ESCAPE || evt.key === KeyEscapeFormat.ESC) {
       evt.preventDefault();
       this._filmPopupComponent.reset(this._film);
-      this._mode = mode.DEFAULT;
+      this._mode = Mode.DEFAULT;
       this._hideFilmPopup();
       document.removeEventListener('keydown', this._handleEscKeyDown);
     }
@@ -107,14 +107,14 @@ export default class Movie {
 
   _handleShowFilmPopupClick() {
     this._changeMode();
-    this._mode = mode.POPUP;
+    this._mode = Mode.POPUP;
 
     this._showFilmPopup();
     document.addEventListener('keydown', this._handleEscKeyDown);
   }
 
   _handleHideFilmPopupClick() {
-    this._mode = mode.DEFAULT;
+    this._mode = Mode.DEFAULT;
     this._hideFilmPopup();
     document.removeEventListener('keydown', this._handleEscKeyDown);
   }

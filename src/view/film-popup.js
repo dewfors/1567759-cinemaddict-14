@@ -2,7 +2,7 @@
 import SmartView from './smart.js';
 import {getComments, addNewComment} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
-import {dataFormat, emojiList, keyCodes} from '../util/const.js';
+import {DataFormat, emojiList, KeyCodes} from '../util/const.js';
 
 const getCheckboxCheckedIsActive = (flag) => {
   return flag
@@ -21,7 +21,7 @@ const createFilmPopupTemplate = (film) => {
   } = film;
   // } = data;
 
-  const dateRelease = formatDate(release.date, dataFormat.FORMAT_DATE_LONG);
+  const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
   const countryRelease = release.release_country;
 
   const hours = getTimeDuration(runtime).hours();
@@ -119,7 +119,7 @@ const createFilmPopupTemplate = (film) => {
               <p class="film-details__comment-text">${comment}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${formatDate(date, dataFormat.FORMAT_DATE_LONG)}</span>
+                <span class="film-details__comment-day">${formatDate(date, DataFormat.FORMAT_DATE_TIME)}</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
@@ -209,7 +209,7 @@ export default class FilmPopup extends SmartView {
   }
 
   _handlerCommentSend(evt) {
-    if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === keyCodes.ENTER) {
+    if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === KeyCodes.ENTER) {
       if (!this._data.currentCommentEmoji || !this._data.currentCommentText) {
         return;
       }
