@@ -29,7 +29,7 @@ const KeyEscapeFormat = {
   ESC: 'Esc',
 };
 
-export const KeyCodes = {
+const KeyCodes = {
   ENTER: 13,
 };
 
@@ -42,24 +42,25 @@ const Mode = {
   POPUP: 'POPUP',
 };
 
-export const SortType = {
+const SortType = {
   DEFAULT: 'default',
   DATE: 'date',
   RATING: 'rating',
 };
 
-export const TypeFilmList = {
+const TypeFilmList = {
   ALL_MOVIES: 'all_movies',
   TOP_RATED: 'top_rated',
   MOST_COMMENTED: 'most_commented',
 };
 
-export const emojiList = ['smile','sleeping','puke','angry'];
+const emojiList = ['smile','sleeping','puke','angry'];
 
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
-  KeyEscapeFormat, Mode, sortClassNameActive
+  KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
+  TypeFilmList, emojiList
 };
