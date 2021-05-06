@@ -56,11 +56,21 @@ const TypeFilmList = {
 
 const emojiList = ['smile','sleeping','puke','angry'];
 
+const UserAction = {
+  UPDATE_FILM: 'UPDATE_FILM',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
-  TypeFilmList, emojiList
+  TypeFilmList, emojiList, UserAction, UpdateType
 };

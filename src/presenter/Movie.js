@@ -1,6 +1,13 @@
 import FilmCardView from '../view/film-card.js';
 import FilmPopupView from '../view/film-popup.js';
-import {BODY_HIDE_OVERFLOW_CLASS_NAME, KeyEscapeFormat, PositionsToInsertElement, Mode} from '../util/const.js';
+import {
+  BODY_HIDE_OVERFLOW_CLASS_NAME,
+  KeyEscapeFormat,
+  PositionsToInsertElement,
+  Mode,
+  UserAction,
+  UpdateType
+} from '../util/const.js';
 import {render, replace, remove} from '../util/render.js';
 
 
@@ -62,7 +69,7 @@ export default class Movie {
     // }
     replace(this._filmComponent, prevfilmComponent);
 
-    if (this._mode === Mode.POPUP){
+    if (this._mode === Mode.POPUP) {
       replace(this._filmPopupComponent, prevfilmPopupComponent);
     }
 
@@ -121,6 +128,8 @@ export default class Movie {
 
   _handleWatchlistClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
@@ -133,6 +142,8 @@ export default class Movie {
 
   _handleWatchedClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
@@ -145,6 +156,8 @@ export default class Movie {
 
   _handleFavoriteClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
