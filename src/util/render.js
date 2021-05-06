@@ -1,7 +1,7 @@
 import Abstract from '../view/abstract.js';
-import {positionsToInsertElement} from './const.js';
+import {PositionsToInsertElement} from './const.js';
 
-export const render = (container, element, place = positionsToInsertElement.BEFOREEND) => {
+export const render = (container, element, place = PositionsToInsertElement.BEFOREEND) => {
   if (container instanceof Abstract) {
     container = container.getElement();
   }
@@ -11,10 +11,10 @@ export const render = (container, element, place = positionsToInsertElement.BEFO
   }
 
   switch (place) {
-    case positionsToInsertElement.AFTERBEGIN:
+    case PositionsToInsertElement.AFTERBEGIN:
       container.prepend(element);
       break;
-    case positionsToInsertElement.BEFOREEND:
+    case PositionsToInsertElement.BEFOREEND:
       container.append(element);
       break;
   }
