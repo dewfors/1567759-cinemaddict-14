@@ -18,7 +18,8 @@ import {TypeFilmList} from '../util/const.js';
 import {sortFilmsByDate, sortFilmsByRating} from '../util/film.js';
 
 export default class MovieList {
-  constructor(mainContainer) {
+  constructor(mainContainer, filmsModel) {
+    this._filmsModel = filmsModel;
     this._filmsContainer = mainContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = {};
@@ -47,6 +48,10 @@ export default class MovieList {
     this._filmsMostCommented = filmsMostCommented.slice();
     this._sourcedFilms = films.slice();
     this._renderFilmsBoard();
+  }
+
+  _getFilms() {
+    return this._filmsModel.getFilms();
   }
 
   _handleModeChange() {

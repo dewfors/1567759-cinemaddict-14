@@ -8,6 +8,7 @@ import FilterView from './view/filter.js';
 import FilmsStatisticsView from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
 import {generateFilter} from './mock/filter.js';
+import FilmsModel from './model/films';
 import MovieListPresenter from './presenter/MovieList.js';
 import {
   FILM_COUNT_ALL_MOVIES
@@ -17,6 +18,9 @@ import {
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
 const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
+
+const filmsModel = new FilmsModel();
+filmsModel.setFilms(films);
 
 // filters list
 const filters = generateFilter(films);
@@ -44,7 +48,7 @@ const renderNavigation = () => {
 renderHeader();
 renderNavigation();
 
-const movieListPresenter = new MovieListPresenter(siteMainElement);
+const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel);
 movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
 
 const siteFooterElement = document.querySelector('.footer');
