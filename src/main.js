@@ -49,7 +49,8 @@ renderHeader();
 renderNavigation();
 
 const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel);
-movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
+// movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
+movieListPresenter.init();
 
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
