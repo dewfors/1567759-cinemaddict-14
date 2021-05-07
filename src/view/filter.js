@@ -6,27 +6,44 @@ const createFilterCountTemplate = (count, isActive) => {
   );
 };
 
-const createFilterItemTemplate = (filter, isActive) => {
+// const createFilterItemTemplate = (filter, isActive) => {
+const createFilterItemTemplate = (filter, currentFilterType) => {
   const {name, properties} = filter;
 
-  const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
+  // const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
+  // const linkClassName = `main-navigation__item ${linkActiveClassName}`;
+  //
+  // const filterCountTemplate = createFilterCountTemplate(properties.count, isActive);
+
+  // return (
+  //   `<a
+  //       href="#${name}"
+  //       class="${linkClassName}"
+  //       >
+  //       ${properties.text} ${filterCountTemplate}
+  //       </a>`
+  // );
+
+  const linkActiveClassName = !true ? '' : 'main-navigation__item--active';
   const linkClassName = `main-navigation__item ${linkActiveClassName}`;
 
-  const filterCountTemplate = createFilterCountTemplate(properties.count, isActive);
+  const filterCountTemplate = createFilterCountTemplate(24, false);
+
 
   return (
     `<a
         href="#${name}"
         class="${linkClassName}"
         >
-        ${properties.text} ${filterCountTemplate}
+        ${'All'} ${filterCountTemplate}
         </a>`
   );
 };
 
-const createFilterTemplate = (filterItems) => {
+const createFilterTemplate = (filterItems, currentFilterType) => {
   const filterItemsTemplate = filterItems
-    .map((filter, index) => createFilterItemTemplate(filter, index === 0))
+    // .map((filter, index) => createFilterItemTemplate(filter, index === 0))
+    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
     .join('');
 
   return `<section class="main-navigation__items">
@@ -35,12 +52,25 @@ const createFilterTemplate = (filterItems) => {
 };
 
 export default class Filter extends AbstractView {
-  constructor(filters) {
+  constructor(filters, currentFilterType) {
     super();
     this._filters = filters;
+    this._currentFilter = currentFilterType;
+
+    this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return createFilterTemplate(this._filters);
+    return createFilterTemplate(this._filters, this._currentFilter);
+  }
+
+  _filterTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this._callback.filterTypeChange(evt.target.value);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().addEventListener('change', this._filterTypeChangeHandler);
   }
 }

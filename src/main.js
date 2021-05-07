@@ -24,7 +24,15 @@ filmsModel.setFilms(films);
 const filterModel = new FilterModel();
 
 // filters list
-const filters = generateFilter(films);
+// const filters = generateFilter(films);
+
+const filters = [
+  {
+    type: 'all',
+    name: 'ALL',
+    count: 0,
+  },
+];
 
 const siteBodyElement = document.querySelector('body');
 const siteMainElement = siteBodyElement.querySelector('.main');
@@ -42,7 +50,8 @@ const renderNavigation = () => {
   render(siteMainElement, mainNavigationComponent);
 
   // filters in main navigation
-  const filterComponent = new FilterView(filters);
+  // const filterComponent = new FilterView(filters);
+  const filterComponent = new FilterView(filters, 'all');
   render(mainNavigationComponent, filterComponent, PositionsToInsertElement.AFTERBEGIN);
 };
 
