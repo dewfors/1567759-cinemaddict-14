@@ -44,6 +44,8 @@ export default class MovieList {
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+
+    this._filmsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -109,9 +111,13 @@ export default class MovieList {
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
+        this._clearFilmList();
+        this._renderFilmList();
         break;
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
+        this._clearFilmList({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderFilmList();
         break;
     }
   }

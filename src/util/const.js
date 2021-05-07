@@ -66,11 +66,18 @@ const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
+const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
+};
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
-  TypeFilmList, emojiList, UserAction, UpdateType
+  TypeFilmList, emojiList, UserAction, UpdateType, FilterType
 };

@@ -1,6 +1,6 @@
-import {PositionsToInsertElement} from './util/const.js';
+import {PositionsToInsertElement, FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
-import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
+// import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
 import ProfileView from './view/profile.js';
 import SiteMenuView from './view/site-menu.js';
 import FilterView from './view/filter.js';
@@ -8,19 +8,20 @@ import FilterView from './view/filter.js';
 import FilmsStatisticsView from './view/films-statistics.js';
 import {generateFilm} from './mock/film.js';
 import {generateFilter} from './mock/filter.js';
-import FilmsModel from './model/films';
+import FilmsModel from './model/films.js';
+import FilterModel from './model/filter.js';
 import MovieListPresenter from './presenter/MovieList.js';
-import {
-  FILM_COUNT_ALL_MOVIES
-} from './util/const.js';
+
 
 // films list
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
-const filmsTopRated = getSortFilms(films, sortFilmsByRating);
-const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
+// const filmsTopRated = getSortFilms(films, sortFilmsByRating);
+// const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
+
+const filterModel = new FilterModel();
 
 // filters list
 const filters = generateFilter(films);
