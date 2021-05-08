@@ -15,11 +15,14 @@ const createFilmPopupTemplate = (film) => {
   const commentsList = getComments();
 
   const {
-    id, title, alternative_title, total_rating, release, runtime,
+    title, alternative_title, total_rating, release, runtime,
     genre, description, poster, age_rating, director, writers,
     actors, comments, currentCommentEmoji, currentCommentText,
   } = film;
-  // } = data;
+
+  const filmComments =commentsList.filter((comment) =>comments.indexOf(comment.id) >=0);
+
+  console.log(filmComments);
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
   const countryRelease = release.release_country;
@@ -111,7 +114,8 @@ const createFilmPopupTemplate = (film) => {
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
-          ${film.comments.map((id) => commentsList[id]).map(({author, comment, date, emotion}) => `<li class="film-details__comment">
+          ${filmComments.map(({id, author, comment, date, emotion}) => `<li class="film-details__comment" data-id="${id}">
+<span>${id}</span>
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
             </span>
@@ -166,6 +170,16 @@ export default class FilmPopup extends SmartView {
     this._handlerCommentSend = this._handlerCommentSend.bind(this);
 
     this._setInnerHandlers();
+
+    // const commentsList = getComments();
+    // const comments = film.comments;
+    // // const filmComments = film.comments.map((id) => commentsList.filter((comment) => comment.id = id));
+    // // const filmComments = commentsList.map((comment) => comment.id in commentsList);
+    // const filmComments =commentsList.filter((comment) =>comments.indexOf(comment.id) >=0);
+    //
+    //
+    // console.log(filmComments);
+
   }
 
   reset(film) {
