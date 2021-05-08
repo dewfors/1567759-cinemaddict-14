@@ -30,6 +30,7 @@ export default class Movie {
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
 
     this._handleAddComment = this._handleAddComment.bind(this);
+    this._handleDeleteComment = this._handleDeleteComment.bind(this);
 
     this._siteBodyElement = document.querySelector('body');
   }
@@ -58,6 +59,7 @@ export default class Movie {
     this._filmPopupComponent.setAddFavoriteClickHandler(this._handleFavoriteClick);
 
     this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
+    this._filmPopupComponent.setDeleteCommentHandler(this._handleDeleteComment);
 
     if (prevfilmComponent === null || prevfilmPopupComponent === null) {
       render(this._movieListContainer, this._filmComponent, PositionsToInsertElement.BEFOREEND);
@@ -186,6 +188,23 @@ export default class Movie {
         },
       ),
     );
+  }
+
+  _handleDeleteComment(data) {
+    // console.log(this._film);
+    console.log(data);
+
+    // const comments = [...data.comments];
+    //
+    // this._changeData(
+    //   Object.assign(
+    //     {},
+    //     this._film,
+    //     {
+    //       comments: comments,
+    //     },
+    //   ),
+    // );
   }
 
 }

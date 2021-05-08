@@ -15,7 +15,7 @@ const createFilmPopupTemplate = (film) => {
   const commentsList = getComments();
 
   const {
-    title, alternative_title, total_rating, release, runtime,
+    id, title, alternative_title, total_rating, release, runtime,
     genre, description, poster, age_rating, director, writers,
     actors, comments, currentCommentEmoji, currentCommentText,
   } = film;
@@ -219,10 +219,18 @@ export default class FilmPopup extends SmartView {
     }
   }
 
+  _handlerCommentDelete(evt) {
+    evt.preventDefault();
+    console.log(evt);
+  }
+
+
+
   _setInnerHandlers() {
     this.getElement().querySelector('.film-details__emoji-list').addEventListener('change', this._handlerCommentEmojiChange);
     this.getElement().querySelector('.film-details__comment-input').addEventListener('input', this._handlerCommentTextInput);
     this.getElement().addEventListener('keydown', this._handlerCommentSend);
+    this.getElement().querySelector('.film-details__comments-list').addEventListener('click', this._handlerCommentDelete);
   }
 
   restoreHandlers() {
@@ -258,6 +266,11 @@ export default class FilmPopup extends SmartView {
 
   setAddCommentHandler(callback) {
     this._callback.addComment = callback;
+
+  }
+
+  setDeleteCommentHandler(callback) {
+    this._callback.deleteComment = callback;
 
   }
 

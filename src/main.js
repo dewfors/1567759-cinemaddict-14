@@ -10,12 +10,15 @@ import {generateFilm} from './mock/film.js';
 import {generateFilter} from './mock/filter.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
+import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/MovieList.js';
 import FilterPresenter from './presenter/Filter.js';
+import {getComments} from './mock/comment.js';
 
 
 // films list
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
+const comments = getComments();
 // const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 // const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
 
@@ -23,6 +26,9 @@ const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
 
 const filterModel = new FilterModel();
+
+const commentsModel = new CommentsModel();
+commentsModel.setComments(comments);
 
 // filters list
 // const filters = generateFilter(films);
@@ -64,7 +70,7 @@ const renderNavigation = () => {
 renderHeader();
 renderNavigation();
 
-const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel, filterModel);
+const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel, filterModel, commentsModel);
 // movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
 movieListPresenter.init();
 

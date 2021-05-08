@@ -16,9 +16,10 @@ import {sortFilmsByDate, sortFilmsByRating, sortFilmsByCommetns} from '../util/f
 import {filter} from '../util/filter.js';
 
 export default class MovieList {
-  constructor(mainContainer, filmsModel, filterModel) {
+  constructor(mainContainer, filmsModel, filterModel, commentsModel) {
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
+    this._commentsModel = commentsModel;
 
     this._filmsContainer = mainContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;

@@ -8,7 +8,7 @@ import {SortType} from '../util/const.js';
 
 const createSortTemplate = (currentSortType) => {
 
-  console.log(currentSortType === SortType.DEFAULT);
+  // console.log(currentSortType === SortType.DEFAULT);
 
   return `<ul class="sort">
     <li><a href="#" class="sort__button ${currentSortType === SortType.DEFAULT ? 'sort__button--active' : ''}" data-sort-type="${SortType.DEFAULT}">Sort by default</a></li>
