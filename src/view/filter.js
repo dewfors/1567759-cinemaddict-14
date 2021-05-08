@@ -8,7 +8,8 @@ const createFilterCountTemplate = (count, isActive) => {
 
 // const createFilterItemTemplate = (filter, isActive) => {
 const createFilterItemTemplate = (filter, currentFilterType) => {
-  const {name, properties} = filter;
+  // const {name, properties} = filter;
+  const {type, name, count} = filter;
 
   // const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
   // const linkClassName = `main-navigation__item ${linkActiveClassName}`;
@@ -24,18 +25,20 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
   //       </a>`
   // );
 
-  const linkActiveClassName = !true ? '' : 'main-navigation__item--active';
+  const isActive = type === currentFilterType;
+  const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
   const linkClassName = `main-navigation__item ${linkActiveClassName}`;
 
-  const filterCountTemplate = createFilterCountTemplate(24, false);
+  const filterCountTemplate = createFilterCountTemplate(count, isActive);
 
 
   return (
     `<a
-        href="#${name}"
+        href="#${type}"
         class="${linkClassName}"
+        data-filter = "${type}"
         >
-        ${'All'} ${filterCountTemplate}
+        ${name} ${filterCountTemplate}
         </a>`
   );
 };
@@ -66,11 +69,13 @@ export default class Filter extends AbstractView {
 
   _filterTypeChangeHandler(evt) {
     evt.preventDefault();
-    this._callback.filterTypeChange(evt.target.value);
+    // this._callback.filterTypeChange(evt.target.value);
+    this._callback.filterTypeChange(evt.target.dataset.filter);
   }
 
   setFilterTypeChangeHandler(callback) {
     this._callback.filterTypeChange = callback;
-    this.getElement().addEventListener('change', this._filterTypeChangeHandler);
+    // this.getElement().addEventListener('change', this._filterTypeChangeHandler);
+    this.getElement().addEventListener('click', this._filterTypeChangeHandler);
   }
 }

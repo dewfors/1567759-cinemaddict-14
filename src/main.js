@@ -11,6 +11,7 @@ import {generateFilter} from './mock/filter.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import MovieListPresenter from './presenter/MovieList.js';
+import FilterPresenter from './presenter/Filter.js';
 
 
 // films list
@@ -26,13 +27,13 @@ const filterModel = new FilterModel();
 // filters list
 // const filters = generateFilter(films);
 
-const filters = [
-  {
-    type: 'all',
-    name: 'ALL',
-    count: 0,
-  },
-];
+// const filters = [
+//   {
+//     type: 'all',
+//     name: 'ALL',
+//     count: 0,
+//   },
+// ];
 
 const siteBodyElement = document.querySelector('body');
 const siteMainElement = siteBodyElement.querySelector('.main');
@@ -51,14 +52,19 @@ const renderNavigation = () => {
 
   // filters in main navigation
   // const filterComponent = new FilterView(filters);
-  const filterComponent = new FilterView(filters, 'all');
-  render(mainNavigationComponent, filterComponent, PositionsToInsertElement.AFTERBEGIN);
+  // const filterComponent = new FilterView(filters, 'all');
+  // render(mainNavigationComponent, filterComponent, PositionsToInsertElement.AFTERBEGIN);
+
+  const filterPresenter = new FilterPresenter(mainNavigationComponent, filterModel, filmsModel);
+
+  filterPresenter.init();
+
 };
 
 renderHeader();
 renderNavigation();
 
-const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel);
+const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel, filterModel);
 // movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
 movieListPresenter.init();
 

@@ -1,8 +1,4 @@
-import {
-  FILM_COUNT_PER_STEP,
-  FILM_COUNT_TOP_RATED,
-  FILM_COUNT_MOST_COMMENTED
-} from '../util/const.js';
+import {FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED, FILM_COUNT_MOST_COMMENTED} from '../util/const.js';
 import {render, remove, replace} from '../util/render.js';
 import FilmsView from '../view/films.js';
 import SortView from '../view/sort.js';
@@ -17,10 +13,13 @@ import {SortType, UpdateType, UserAction} from '../util/const.js';
 import {TypeFilmList} from '../util/const.js';
 import {sortFilmsByDate, sortFilmsByRating, sortFilmsByCommetns} from '../util/film.js';
 // import {sortFilmsByCommetns} from "../util/film";
+import {filter} from '../util/filter.js';
 
 export default class MovieList {
-  constructor(mainContainer, filmsModel) {
+  constructor(mainContainer, filmsModel, filterModel) {
     this._filmsModel = filmsModel;
+    this._filterModel = filterModel;
+
     this._filmsContainer = mainContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = {};
@@ -46,6 +45,7 @@ export default class MovieList {
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
 
     this._filmsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -53,14 +53,30 @@ export default class MovieList {
   }
 
   _getFilms() {
+    // switch (this._currentSortType) {
+    //   case SortType.RATING:
+    //     return this._filmsModel.getFilms().slice().sort(sortFilmsByRating);
+    //   case SortType.DATE:
+    //     return this._filmsModel.getFilms().slice().sort(sortFilmsByDate);
+    // }
+    //
+    // return this._filmsModel.getFilms();
+
+    const filterType = this._filterModel.getFilter();
+    const films = this._filmsModel.getFilms();
+    const filtredFilms = filter[filterType](films);
+
     switch (this._currentSortType) {
       case SortType.RATING:
-        return this._filmsModel.getFilms().slice().sort(sortFilmsByRating);
+        // return this._filmsModel.getFilms().slice().sort(sortFilmsByRating);
+        return filtredFilms.sort(sortFilmsByRating);
       case SortType.DATE:
-        return this._filmsModel.getFilms().slice().sort(sortFilmsByDate);
+        // return this._filmsModel.getFilms().slice().sort(sortFilmsByDate);
+        return filtredFilms.sort(sortFilmsByDate);
     }
 
-    return this._filmsModel.getFilms();
+    // return this._filmsModel.getFilms();
+    return filtredFilms;
   }
 
   _getFilmsTopRated() {
