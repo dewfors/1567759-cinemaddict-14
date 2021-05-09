@@ -17,6 +17,7 @@ import {filter} from '../util/filter.js';
 
 export default class MovieList {
   constructor(mainContainer, filmsModel, filterModel, commentsModel) {
+
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
     this._commentsModel = commentsModel;
@@ -128,8 +129,9 @@ export default class MovieList {
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
-        this._clearFilmList();
-        this._renderFilmList();
+        // this._clearFilmList();
+        // this._renderFilmList();
+        this._filmPresenter[data.id].init(data);
         break;
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
@@ -141,7 +143,7 @@ export default class MovieList {
 
   _renderFilm(filmListContainer, film, typeFilmList) {
     // const filmPresenter = new Movie(filmListContainer, this._handleFilmChange, this._handleModeChange);
-    const filmPresenter = new Movie(filmListContainer, this._handleViewAction, this._handleModeChange);
+    const filmPresenter = new Movie(filmListContainer, this._filmsModel, this._commentsModel, this._handleViewAction, this._handleModeChange);
     filmPresenter.init(film);
 
     switch (typeFilmList) {

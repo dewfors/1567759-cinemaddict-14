@@ -3,6 +3,7 @@ import SmartView from './smart.js';
 import {getComments, addNewComment} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
 import {DataFormat, emojiList, KeyCodes} from '../util/const.js';
+import {deleteCommentButtonClassName, commentContainerClassName} from '../util/const.js';
 
 const getCheckboxCheckedIsActive = (flag) => {
   return flag
@@ -20,9 +21,9 @@ const createFilmPopupTemplate = (film) => {
     actors, comments, currentCommentEmoji, currentCommentText,
   } = film;
 
-  const filmComments =commentsList.filter((comment) =>comments.indexOf(comment.id) >=0);
+  const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
 
-  console.log(filmComments);
+  // console.log(filmComments);
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
   const countryRelease = release.release_country;
@@ -140,7 +141,7 @@ const createFilmPopupTemplate = (film) => {
           </label>
 
           <div class="film-details__emoji-list">
-            ${emojiList.map((emojiItem) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiItem}" value="${emojiItem}" ${emojiItem === currentCommentEmoji ? 'checked' : '' }>
+            ${emojiList.map((emojiItem) => `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiItem}" value="${emojiItem}" ${emojiItem === currentCommentEmoji ? 'checked' : ''}>
             <label class="film-details__emoji-label" for="emoji-${emojiItem}">
               <img src="./images/emoji/${emojiItem}.png" width="30" height="30" alt="emoji">
             </label>`).join('')}
@@ -168,6 +169,7 @@ export default class FilmPopup extends SmartView {
     this._handlerCommentEmojiChange = this._handlerCommentEmojiChange.bind(this);
     this._handlerCommentTextInput = this._handlerCommentTextInput.bind(this);
     this._handlerCommentSend = this._handlerCommentSend.bind(this);
+    this._handlerCommentDelete = this._handlerCommentDelete.bind(this);
 
     this._setInnerHandlers();
 
@@ -235,9 +237,22 @@ export default class FilmPopup extends SmartView {
 
   _handlerCommentDelete(evt) {
     evt.preventDefault();
-    console.log(evt);
-  }
+    // console.log("-------------------");
+    // console.log(evt);
 
+    const isDeleteCommentButton = evt.target.classList.contains(deleteCommentButtonClassName);
+    if (!isDeleteCommentButton) {
+      return;
+    }
+
+    // console.log(this._data.comments);
+
+    const commentIdToDelete = evt.target.closest(`.${commentContainerClassName}`).dataset.id;
+    // console.log(commentIdToDelete);
+
+    this._callback.deleteComment(commentIdToDelete, this._data);
+
+  }
 
 
   _setInnerHandlers() {

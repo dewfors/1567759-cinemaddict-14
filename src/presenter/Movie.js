@@ -12,8 +12,12 @@ import {render, replace, remove} from '../util/render.js';
 
 
 export default class Movie {
-  constructor(movieListContainer, changeData, changeMode) {
+  constructor(movieListContainer, filmsModel, commentsModel, changeData, changeMode) {
+
     this._movieListContainer = movieListContainer;
+    this._filmsModel = filmsModel;
+    // console.log(this._filmsModel);
+    this._commentsModel = commentsModel;
     this._changeData = changeData;
     this._changeMode = changeMode;
 
@@ -31,6 +35,10 @@ export default class Movie {
 
     this._handleAddComment = this._handleAddComment.bind(this);
     this._handleDeleteComment = this._handleDeleteComment.bind(this);
+
+    this._handleDeleteCommentsModelEvent = this._handleDeleteCommentsModelEvent.bind(this);
+
+
 
     this._siteBodyElement = document.querySelector('body');
   }
@@ -95,13 +103,13 @@ export default class Movie {
   _showFilmPopup() {
     this._siteBodyElement.appendChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
-
+    this._commentsModel.addObserver(this._handleDeleteCommentsModelEvent);
   }
 
   _hideFilmPopup() {
     this._siteBodyElement.removeChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
-
+    this._commentsModel.removeObserver(this._handleDeleteCommentsModelEvent);
   }
 
   _handleEscKeyDown(evt) {
@@ -190,9 +198,14 @@ export default class Movie {
     );
   }
 
-  _handleDeleteComment(data) {
+  _handleDeleteComment(commentId, film) {
     // console.log(this._film);
-    console.log(data);
+    // console.log('_handleDeleteComment');
+
+    // console.log(this._commentsModel);
+
+
+    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
 
     // const comments = [...data.comments];
     //
@@ -205,6 +218,16 @@ export default class Movie {
     //     },
     //   ),
     // );
+  }
+
+  _handleDeleteCommentsModelEvent(updateType, updatedFilm, commentIndex) {
+    console.log('_handleDeleteCommentsModelEvent');
+    // console.log(this);
+    switch (updateType) {
+      case UpdateType.MINOR:
+        this._filmsModel.deleteComment(updateType, updatedFilm, commentIndex);
+        break;
+    }
   }
 
 }

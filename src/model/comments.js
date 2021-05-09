@@ -20,9 +20,10 @@ export default class Comments extends Observer {
   }
 
   deleteComment(updateType, deletedCommentId, film) {
-    this._comments = [...this._comments];
-    const index = this._comments.findIndex((comment) => comment.id === Number(deletedCommentId));
+    this._comments = [...this._comments].filter((comment) => comment !== deletedCommentId);
+    //const index = this._comments.findIndex((comment) => comment.id === deletedCommentId);
 
-    this._notify(updateType, film, index);
+    // this._notify(updateType, film, index);
+    this._notify(updateType, film, deletedCommentId);
   }
 }

@@ -34,8 +34,9 @@ const KeyCodes = {
 };
 
 const sortClassNameActive = 'sort__button--active';
-
 const BODY_HIDE_OVERFLOW_CLASS_NAME = 'hide-overflow';
+const deleteCommentButtonClassName = 'film-details__comment-delete';
+const commentContainerClassName = 'film-details__comment';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -79,5 +80,6 @@ export {
   DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
-  TypeFilmList, emojiList, UserAction, UpdateType, FilterType
+  TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
+  deleteCommentButtonClassName, commentContainerClassName
 };
