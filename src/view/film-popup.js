@@ -116,7 +116,6 @@ const createFilmPopupTemplate = (film) => {
 
         <ul class="film-details__comments-list">
           ${filmComments.map(({id, author, comment, date, emotion}) => `<li class="film-details__comment" data-id="${id}">
-<span>${id}</span>
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
             </span>

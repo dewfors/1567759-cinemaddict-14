@@ -80,18 +80,13 @@ export default class Movie {
     replace(this._filmComponent, prevfilmComponent);
 
     if (this._mode === Mode.POPUP) {
-
-      //this._filmPopupComponent.getTemplate().scrollTop = 100;
-
+      const scrollTop = prevfilmPopupComponent.getElement().scrollTop;
       replace(this._filmPopupComponent, prevfilmPopupComponent);
-
-      // this._filmPopupComponent.getTemplate().scrollTop = 300;
-      // prevfilmPopupComponent.updateElement();
-      //this._filmPopupComponent = prevfilmPopupComponent;
+      this._filmPopupComponent.getElement().scrollTop = scrollTop;
     }
 
     remove(prevfilmComponent);
-    //remove(prevfilmPopupComponent);
+    remove(prevfilmPopupComponent);
 
   }
 
