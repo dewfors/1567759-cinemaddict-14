@@ -1,4 +1,5 @@
 // import AbstractView from './abstract.js';
+import he from 'he';
 import SmartView from './smart.js';
 import {getComments, addNewComment} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
@@ -120,7 +121,7 @@ const createFilmPopupTemplate = (film) => {
               <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
             </span>
             <div>
-              <p class="film-details__comment-text">${comment}</p>
+              <p class="film-details__comment-text">${he.encode(comment)}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
                 <span class="film-details__comment-day">${formatDate(date, DataFormat.FORMAT_DATE_TIME)}</span>
@@ -136,7 +137,7 @@ const createFilmPopupTemplate = (film) => {
           </div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${!currentCommentText ? '' : currentCommentText}</textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${!currentCommentText ? '' : he.encode(currentCommentText)}</textarea>
           </label>
 
           <div class="film-details__emoji-list">
