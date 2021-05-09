@@ -23,6 +23,7 @@ export default class Movie {
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
+    // this._filmPopupComponent = new FilmPopupView(this._film);
     this._mode = Mode.DEFAULT;
 
     this._handleShowFilmPopupClick = this._handleShowFilmPopupClick.bind(this);
@@ -36,9 +37,8 @@ export default class Movie {
     this._handleAddComment = this._handleAddComment.bind(this);
     this._handleDeleteComment = this._handleDeleteComment.bind(this);
 
+    this._handleAddCommentsModelEvent = this._handleAddCommentsModelEvent.bind(this);
     this._handleDeleteCommentsModelEvent = this._handleDeleteCommentsModelEvent.bind(this);
-
-
 
     this._siteBodyElement = document.querySelector('body');
   }
@@ -80,11 +80,18 @@ export default class Movie {
     replace(this._filmComponent, prevfilmComponent);
 
     if (this._mode === Mode.POPUP) {
+
+      //this._filmPopupComponent.getTemplate().scrollTop = 100;
+
       replace(this._filmPopupComponent, prevfilmPopupComponent);
+
+      // this._filmPopupComponent.getTemplate().scrollTop = 300;
+      // prevfilmPopupComponent.updateElement();
+      //this._filmPopupComponent = prevfilmPopupComponent;
     }
 
     remove(prevfilmComponent);
-    remove(prevfilmPopupComponent);
+    //remove(prevfilmPopupComponent);
 
   }
 
@@ -103,12 +110,14 @@ export default class Movie {
   _showFilmPopup() {
     this._siteBodyElement.appendChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
+    this._commentsModel.addObserver(this._handleAddCommentsModelEvent);
     this._commentsModel.addObserver(this._handleDeleteCommentsModelEvent);
   }
 
   _hideFilmPopup() {
     this._siteBodyElement.removeChild(this._filmPopupComponent.getElement());
     this._siteBodyElement.classList.remove(BODY_HIDE_OVERFLOW_CLASS_NAME);
+    this._commentsModel.removeObserver(this._handleAddCommentsModelEvent);
     this._commentsModel.removeObserver(this._handleDeleteCommentsModelEvent);
   }
 
@@ -181,31 +190,12 @@ export default class Movie {
     );
   }
 
-  _handleAddComment(data) {
+  _handleAddComment(data, newComment) {
+
+    this._commentsModel.addComment(UpdateType.MINOR, newComment, data);
+
     // console.log(this._film);
     // console.log(data);
-
-    const comments = [...data.comments];
-
-    this._changeData(
-      Object.assign(
-        {},
-        this._film,
-        {
-          comments: comments,
-        },
-      ),
-    );
-  }
-
-  _handleDeleteComment(commentId, film) {
-    // console.log(this._film);
-    // console.log('_handleDeleteComment');
-
-    // console.log(this._commentsModel);
-
-
-    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
 
     // const comments = [...data.comments];
     //
@@ -220,14 +210,37 @@ export default class Movie {
     // );
   }
 
-  _handleDeleteCommentsModelEvent(updateType, updatedFilm, commentIndex) {
-    console.log('_handleDeleteCommentsModelEvent');
-    // console.log(this);
-    switch (updateType) {
-      case UpdateType.MINOR:
-        this._filmsModel.deleteComment(updateType, updatedFilm, commentIndex);
-        break;
-    }
+  _handleAddCommentsModelEvent(updateType, updatedFilm) {
+    // console.log('_handleAddCommentsModelEvent');
+    this._changeData(
+      UserAction.UPDATE_FILM,
+      // UpdateType.MINOR,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        updatedFilm,
+      ),
+    );
+
+  }
+
+
+  _handleDeleteComment(commentId, film) {
+    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
+  }
+
+  _handleDeleteCommentsModelEvent(updateType, updatedFilm) {
+    // console.log('_handleDeleteCommentsModelEvent');
+    this._changeData(
+      UserAction.UPDATE_FILM,
+      // UpdateType.MINOR,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        updatedFilm,
+      ),
+    );
+
   }
 
 }

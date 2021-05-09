@@ -2,7 +2,7 @@
 import SmartView from './smart.js';
 import {getComments, addNewComment} from '../mock/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
-import {DataFormat, emojiList, KeyCodes} from '../util/const.js';
+import {DataFormat, emojiList, KeyCodes, UserAction} from '../util/const.js';
 import {deleteCommentButtonClassName, commentContainerClassName} from '../util/const.js';
 
 const getCheckboxCheckedIsActive = (flag) => {
@@ -229,9 +229,13 @@ export default class FilmPopup extends SmartView {
       if (!this._data.currentCommentEmoji || !this._data.currentCommentText) {
         return;
       }
-      this._data = FilmPopup.parseStateToData(this._data);
+      const newComment = addNewComment();
+      newComment.comment = this._data.currentCommentText;
+      newComment.emotion = this._data.currentCommentEmoji;
+
+      this._data = FilmPopup.parseStateToData(this._data, UserAction.ADD_COMMENT, newComment);
       this.updateElement();
-      this._callback.addComment(this._data);
+      this._callback.addComment(this._data, newComment);
     }
   }
 
@@ -250,8 +254,10 @@ export default class FilmPopup extends SmartView {
     const commentIdToDelete = evt.target.closest(`.${commentContainerClassName}`).dataset.id;
     // console.log(commentIdToDelete);
 
-    this._callback.deleteComment(commentIdToDelete, this._data);
+    this._data = FilmPopup.parseStateToData(this._data, UserAction.DELETE_COMMENT, commentIdToDelete);
+    this.updateElement();
 
+    this._callback.deleteComment(commentIdToDelete, this._data);
   }
 
 
@@ -315,15 +321,23 @@ export default class FilmPopup extends SmartView {
     );
   }
 
-  static parseStateToData(filmData) {
+  static parseStateToData(filmData, action, comment) {
     filmData = Object.assign({}, filmData);
-    const newComment = addNewComment();
-    // console.log(newComment);
-    newComment.comment = filmData.currentCommentText;
-    newComment.emotion = filmData.currentCommentEmoji;
-    filmData.comments.push(newComment.id);
-    delete filmData.currentCommentText;
-    delete filmData.currentCommentEmoji;
+    // const newComment = addNewComment();
+    // // console.log(newComment);
+    // newComment.comment = filmData.currentCommentText;
+    // newComment.emotion = filmData.currentCommentEmoji;
+
+    if (action === UserAction.ADD_COMMENT){
+      filmData.comments.push(comment.id);
+      delete filmData.currentCommentText;
+      delete filmData.currentCommentEmoji;
+    }
+
+    if (action === UserAction.DELETE_COMMENT){
+      filmData.comments = [...filmData.comments].filter((commentItem) => commentItem !== comment);
+    }
+
     return filmData;
   }
 

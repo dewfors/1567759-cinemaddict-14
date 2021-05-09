@@ -95,16 +95,8 @@ export default class MovieList {
       .forEach((presenter) => presenter.resetView());
   }
 
-  _handleFilmChange(updatedFilm) {
-    // this._films = updateItem(this._films, updatedFilm);
-    // this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
-
-    // Здесь будем вызывать обновление модели
-    this._filmPresenter[updatedFilm.id].init(updatedFilm);
-  }
-
   _handleViewAction(actionType, updateType, update) {
-    console.log(actionType, updateType, update);
+    // console.log(actionType, updateType, update);
     // Здесь будем вызывать обновление модели.
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
@@ -117,7 +109,7 @@ export default class MovieList {
   }
 
   _handleModelEvent(updateType, data) {
-    console.log(updateType, data);
+    // console.log(updateType, data);
     // В зависимости от типа изменений решаем, что делать:
     // - обновить часть списка (например, когда поменялось описание)
     // - обновить список (например, когда задача ушла в архив)

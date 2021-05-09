@@ -33,19 +33,11 @@ export default class Films extends Observer {
     this._notify(updateType, update);
   }
 
-  // deleteComment(updateType, film, commentIndex) {
   deleteComment(updateType, film, commentId) {
     const oldComments = [...film.comments];
-
-    // console.log(commentId);
-
-    // console.log('before',oldComments);
     const comments = oldComments.filter((comment) => comment !== commentId);
 
-    // console.log(comments);
-
     const updatedFilm = {...film, comments};
-
     this.updateFilm(updateType, updatedFilm);
   }
 
