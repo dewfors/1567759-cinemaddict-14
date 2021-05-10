@@ -118,6 +118,11 @@ export default class MovieList {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
 
+        this._clearFilmTopRated();
+        this._clearFilmMostCommented();
+        this._renderFilmsTopRated();
+        this._renderFilmsMostCommented();
+
         if (this._filmPresenter[data.id]){
           this._filmPresenter[data.id].init(data);
         }
@@ -141,7 +146,10 @@ export default class MovieList {
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
         this._clearFilmList({resetRenderedFilmCount: true, resetSortType: true});
-        this._renderFilmList();
+        this._clearFilmTopRated();
+        this._clearFilmMostCommented();
+        // this._renderFilmList();
+        this._renderFilmsBoard();
         break;
     }
   }
@@ -200,6 +208,8 @@ export default class MovieList {
     this._currentSortType = sortType;
 
     this._rerenderSort();
+    // this._renderSort();
+
     this._clearFilmList({resetRenderedFilmCount: true});
     this._renderFilmList();
   }
@@ -299,6 +309,7 @@ export default class MovieList {
     }
 
     if (resetSortType) {
+      remove(this._sortComponent);
       this._currentSortType = SortType.DEFAULT;
     }
 
