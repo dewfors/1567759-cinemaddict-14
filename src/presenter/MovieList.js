@@ -117,13 +117,26 @@ export default class MovieList {
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        this._filmPresenter[data.id].init(data);
+
+        if (this._filmPresenter[data.id]){
+          this._filmPresenter[data.id].init(data);
+        }
+
+        if (this._filmPresenterTopRated[data.id]){
+          this._filmPresenterTopRated[data.id].init(data);
+        }
+
+        if (this._filmPresenterMostCommented[data.id]){
+          this._filmPresenterMostCommented[data.id].init(data);
+        }
+
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
         // this._clearFilmList();
         // this._renderFilmList();
         this._filmPresenter[data.id].init(data);
+
         break;
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
