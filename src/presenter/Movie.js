@@ -43,6 +43,10 @@ export default class Movie {
     this._siteBodyElement = document.querySelector('body');
   }
 
+  isThisFilm(filmId) {
+    return this._film && this._film.id === filmId;
+  }
+
   init(film) {
     this._film = film;
 
@@ -92,7 +96,11 @@ export default class Movie {
 
   destroy() {
     remove(this._filmComponent);
-    remove(this._filmPopupComponent);
+    if (this._mode === Mode.POPUP) {
+      this._hideFilmPopup();
+    } else {
+      remove(this._filmPopupComponent);
+    }
   }
 
   resetView() {
@@ -144,7 +152,7 @@ export default class Movie {
     this._changeData(
       UserAction.UPDATE_FILM,
       // UpdateType.MINOR,
-      UpdateType.PATCH,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
@@ -159,7 +167,7 @@ export default class Movie {
     this._changeData(
       UserAction.UPDATE_FILM,
       // UpdateType.MINOR,
-      UpdateType.PATCH,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
@@ -174,7 +182,7 @@ export default class Movie {
     this._changeData(
       UserAction.UPDATE_FILM,
       // UpdateType.MINOR,
-      UpdateType.PATCH,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
