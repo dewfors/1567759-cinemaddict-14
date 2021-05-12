@@ -1,4 +1,5 @@
 import FilmCardView from '../view/film-card.js';
+import AbstractPresenter from './abstract-presenter.js';
 import FilmPopupView from '../view/film-popup.js';
 import {
   BODY_HIDE_OVERFLOW_CLASS_NAME,
@@ -8,35 +9,32 @@ import {
   UserAction,
   UpdateType
 } from '../util/const.js';
-import { render, replace, remove } from '../util/render.js';
+import {render, replace, remove} from '../util/render.js';
 
 
-export default class FilmPopupPresenter {
+export default class FilmPopupPresenter extends AbstractPresenter {
   constructor(popupContainer, commentsModel, handleFilmChange, callback) {
-
+    super();
     this._commentsModel = commentsModel;
     this._popupContainer = popupContainer;
     this._filmPopupComponent = null;
     this._scrollTop = 0;
     this._changeData = handleFilmChange;
+    this._handleControlButtons = this._handleControlButtons.bind(this);
 
     this._clearPopup = callback;
 
-    this._handleShowFilmPopupClick = this._handleShowFilmPopupClick.bind(this);
-    this._handleHideFilmPopupClick = this._handleHideFilmPopupClick.bind(this);
+
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
+    this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
 
-    this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
-    this._handleWatchedClick = this._handleWatchedClick.bind(this);
-    this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
 
-    this._handleAddComment = this._handleAddComment.bind(this);
-    this._handleDeleteComment = this._handleDeleteComment.bind(this);
-
-    this._handleAddCommentsModelEvent = this._handleAddCommentsModelEvent.bind(this);
-    this._handleDeleteCommentsModelEvent = this._handleDeleteCommentsModelEvent.bind(this);
 
     this._siteBodyElement = document.querySelector('body');
+  }
+
+  getFilm() {
+    return this._film;
   }
 
 
@@ -44,7 +42,7 @@ export default class FilmPopupPresenter {
     this._film = film;
 
     const prevfilmPopupComponent = this._filmPopupComponent;
-    this._filmPopupComponent = new FilmPopupView(this._film);
+    this._filmPopupComponent = new FilmPopupView(this._film, this._commentsModel.getComments());
 
     if (prevfilmPopupComponent !== null) {
       this._scrollTop = prevfilmPopupComponent.getElement().scrollTop;
@@ -58,14 +56,9 @@ export default class FilmPopupPresenter {
     document.addEventListener('keydown', this._handleEscKeyDown);
 
 
-    this._filmPopupComponent.setCloseClickHandler(this._handleClosePopupButton);
+    this._filmPopupComponent.setCloseButtonClickHandler(this._handleClosePopupButton);
+    this._filmPopupComponent.setControlButtonsClick(this._handleControlButtons);
 
-    this._filmPopupComponent.setAddWatchlistClickHandler(this._handleWatchlistClick);
-    this._filmPopupComponent.setAddWatchedClickHandler(this._handleWatchedClick);
-    this._filmPopupComponent.setAddFavoriteClickHandler(this._handleFavoriteClick);
-
-    this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
-    this._filmPopupComponent.setDeleteCommentHandler(this._handleDeleteComment);
 
   }
 
@@ -89,14 +82,6 @@ export default class FilmPopupPresenter {
     this._removePopup();
   }
 
-  // обновление модели комментариев
-  _handleDeleteCommentButton(commentId, film) {
-    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
-  }
-
-  _handleCommentFormSubmit(text, emoji, film) {
-    this._commentsModel.createComment(UpdateType.MINOR, text, emoji, film);
-  }
 
   _handleWatchlistClick() {
     this._changeData(
@@ -139,5 +124,6 @@ export default class FilmPopupPresenter {
       ),
     );
   }
+
 
 }

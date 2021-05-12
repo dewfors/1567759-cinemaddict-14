@@ -10,7 +10,7 @@ const getClassNameIsActive = (flag) => {
 
 const createFilmTemplate = (film) => {
 
-  const {title, total_rating, release, runtime, genre, description, poster} = film;
+  const {id, title, total_rating, release, runtime, genre, description, poster} = film;
   const year = formatDate(release.date);
 
   const hours = getTimeDuration(runtime).hours();
@@ -27,7 +27,7 @@ const createFilmTemplate = (film) => {
   const favoriteClassName = getClassNameIsActive(film.isFilmInFavorites);
 
 
-  return `<article class="film-card">
+  return `<article class="film-card" data-film-id = "${id}">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${total_rating}</p>
           <p class="film-card__info">
