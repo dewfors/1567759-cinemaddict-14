@@ -39,7 +39,7 @@ export default class MovieList {
     this._filmsListTopRatedComponent = new FilmsListTopRatedView();
     this._filmsListMostCommentedComponent = new FilmsListMostCommentedView();
 
-    // this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleFilmsList = this._handleFilmsList.bind(this);
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
@@ -101,11 +101,14 @@ export default class MovieList {
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
     // update - обновленные данные
-    switch (actionType) {
-      case UserAction.UPDATE_FILM:
-        this._filmsModel.updateFilm(updateType, update);
-        break;
-    }
+    // switch (actionType) {
+    //   case UserAction.UPDATE_FILM:
+    //     this._filmsModel.updateFilm(updateType, update);
+    //     break;
+    // }
+
+    this._filmsModel.updateFilm(updateType, update);
+
   }
 
   _handleModelEvent(updateType, data) {
@@ -125,6 +128,10 @@ export default class MovieList {
         // this._renderFilmList();
         this._clearInvisibleMovies();
         this._renderFilmList();
+        this._clearFilmTopRated();
+        this._renderFilmsTopRated();
+        this._clearFilmMostCommented();
+        this._renderFilmsMostCommented();
         //this._filmPresenter[data.id].init(data);
         break;
       case UpdateType.MAJOR:
@@ -289,6 +296,10 @@ export default class MovieList {
     render(this._filmsComponent, this._filmsListTopRatedComponent);
     render(this._filmsComponent, this._filmsListMostCommentedComponent);
 
+    this._filmsListAllMoviesComponent.setFilmCardClickHandler(this._handleFilmsList);
+    this._filmsListTopRatedComponent.setFilmCardClickHandler(this._handleFilmsList);
+    this._filmsListMostCommentedComponent.setFilmCardClickHandler(this._handleFilmsList);
+
     this._renderFilmsAllMovies(films);
     this._renderFilmsTopRated();
     this._renderFilmsMostCommented();
@@ -363,6 +374,27 @@ export default class MovieList {
       .forEach((presenter) => presenter.destroy());
     this._filmPresenterMostCommented = {};
   }
+
+  // обработчик кликов по карточкам фильмов для открытия попапа
+  _handleFilmsList(evt) {
+    const target = evt.target;
+
+    console.log(target);
+
+    // // отлавливаем клики по заголовку, постеру и комментариям
+    // const isTargetCorrect = target.classList.contains('film-card__title')
+    //   || target.classList.contains('film-card__poster')
+    //   || target.classList.contains('film-card__comments');
+    // if (!isTargetCorrect) {
+    //   return false;
+    // }
+    // // сопоставляем id в карточке фильма с id фильма в массиве
+    // const filmCardId = target.closest('.film-card').dataset.id;
+    // const film = this._getFilms().find(({filmInfo}) => filmCardId === filmInfo.id);
+    // // рендерим попап
+    // this._renderPopup(this._filmsContainer, film, this._clearPopupPresenter);
+  }
+
 
 
 }
