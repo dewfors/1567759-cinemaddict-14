@@ -1,57 +1,20 @@
 import AbstractView from './abstract.js';
-
-const createFilterCountTemplate = (count, isActive) => {
-  return (
-    isActive ? '' : `<span class="main-navigation__item-count">${count}</span>`
-  );
-};
-
-// const createFilterItemTemplate = (filter, isActive) => {
-const createFilterItemTemplate = (filter, currentFilterType) => {
-  // const {name, properties} = filter;
-  const {type, name, count} = filter;
-
-  // const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
-  // const linkClassName = `main-navigation__item ${linkActiveClassName}`;
-  //
-  // const filterCountTemplate = createFilterCountTemplate(properties.count, isActive);
-
-  // return (
-  //   `<a
-  //       href="#${name}"
-  //       class="${linkClassName}"
-  //       >
-  //       ${properties.text} ${filterCountTemplate}
-  //       </a>`
-  // );
-
-  const isActive = type === currentFilterType;
-  const linkActiveClassName = !isActive ? '' : 'main-navigation__item--active';
-  const linkClassName = `main-navigation__item ${linkActiveClassName}`;
-
-  const filterCountTemplate = createFilterCountTemplate(count, isActive);
-
-
-  return (
-    `<a
-        href="#${type}"
-        class="${linkClassName}"
-        data-filter = "${type}"
-        >
-        ${name} ${filterCountTemplate}
-        </a>`
-  );
-};
+import {FilterType} from '../util/const.js';
 
 const createFilterTemplate = (filterItems, currentFilterType) => {
-  const filterItemsTemplate = filterItems
-    // .map((filter, index) => createFilterItemTemplate(filter, index === 0))
-    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
-    .join('');
+  const watchlistCount = filterItems.filter((filterItem) => filterItem.type === FilterType.WATCHLIST)[0].count;
+  const watchCount = filterItems.filter((filterItem) => filterItem.type === FilterType.HISTORY)[0].count;
+  const favoriteCount = filterItems.filter((filterItem) => filterItem.type === FilterType.FAVORITES)[0].count;
 
-  return `<section class="main-navigation__items">
-    ${filterItemsTemplate}
-  </section>`;
+  const linkActiveClassName = 'main-navigation__item--active';
+
+  return `<div class="main-navigation__items">
+    <a href="#all" class="main-navigation__item ${currentFilterType === FilterType.ALL ? linkActiveClassName : ''}" data-filter="all">All movies</a>
+    <a href="#watchlist" class="main-navigation__item ${currentFilterType === FilterType.WATCHLIST ? linkActiveClassName : ''}" data-filter="watchlist">Watchlist <span class="main-navigation__item-count">${watchlistCount}</span></a>
+    <a href="#history" class="main-navigation__item ${currentFilterType === FilterType.HISTORY ? linkActiveClassName : ''}" data-filter="history">History <span class="main-navigation__item-count">${watchCount}</span></a>
+    <a href="#favorites" class="main-navigation__item ${currentFilterType === FilterType.FAVORITES ? linkActiveClassName : ''}" data-filter="favorites">Favorites <span class="main-navigation__item-count">${favoriteCount}</span></a>
+  </div>`;
+
 };
 
 export default class Filter extends AbstractView {
@@ -69,13 +32,11 @@ export default class Filter extends AbstractView {
 
   _filterTypeChangeHandler(evt) {
     evt.preventDefault();
-    // this._callback.filterTypeChange(evt.target.value);
     this._callback.filterTypeChange(evt.target.dataset.filter);
   }
 
   setFilterTypeChangeHandler(callback) {
     this._callback.filterTypeChange = callback;
-    // this.getElement().addEventListener('change', this._filterTypeChangeHandler);
     this.getElement().addEventListener('click', this._filterTypeChangeHandler);
   }
 }
