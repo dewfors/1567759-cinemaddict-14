@@ -137,6 +137,7 @@ export default class MovieList {
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
         this._clearFilmList({ resetRenderedFilmCount: true, resetSortType: true });
+        this._rerenderSort();
         this._renderFilmList();
         break;
     }
