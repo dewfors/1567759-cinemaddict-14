@@ -47,6 +47,7 @@ export default class MovieList {
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._resetPopupPresenter = this._resetPopupPresenter.bind(this);
+    this._handleCommentsModelEvent = this._handleCommentsModelEvent.bind(this);
 
     this._filmsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
@@ -135,8 +136,8 @@ export default class MovieList {
 
         this._clearInvisibleMovies();
         this._renderFilmList();
-        this._clearFilmTopRated();
-        this._renderFilmsTopRated();
+        // this._clearFilmTopRated();
+        // this._renderFilmsTopRated();
         this._clearFilmMostCommented();
         this._renderFilmsMostCommented();
         this._initPopup();
@@ -353,24 +354,22 @@ export default class MovieList {
     const films = this._getFilms();
     const filmCount = films.length;
 
-    // Object
-    //   .entries(this._filmPresenter)
-    //   .forEach(([key, presenter]) => {
-    //
-    //     const isVisible = films.some((film) => presenter.isThisFilm(film.id));
-    //
-    //     if (!isVisible) {
-    //       presenter.destroy();
-    //       delete this._filmPresenter[key];
-    //     }
-    //   });
-
     Object
-      .values(this._filmPresenter)
-      .forEach((presenter) => presenter.destroy());
-    this._filmPresenter = {};
-    // this._renderedFilmCount = FILM_COUNT_PER_STEP;
+      .entries(this._filmPresenter)
+      .forEach(([key, presenter]) => {
 
+        const isVisible = films.some((film) => presenter.isThisFilm(film.id));
+
+        if (!isVisible) {
+          presenter.destroy();
+          delete this._filmPresenter[key];
+        }
+      });
+
+    // Object
+    //   .values(this._filmPresenter)
+    //   .forEach((presenter) => presenter.destroy());
+    // this._filmPresenter = {};
 
 
     this._renderedFilmCount = Math.min(filmCount, this._renderedFilmCount);
@@ -404,7 +403,8 @@ export default class MovieList {
   _handleFilmsList(evt) {
     const target = evt.target;
 
-    console.log(target.closest('.film-card').dataset.filmId);
+    // console.log(target.closest('.film-card').dataset.filmId);
+    console.log(target);
 
     // клики по постеру заголовку или сомментариям
     const isCorrectClick = target.classList.contains('film-card__title')
@@ -436,7 +436,7 @@ export default class MovieList {
   _resetPopupPresenter() {
     this._popupPresenter = null;
     // this._filmsSectionComponent.setFilmCardClickHandler(this._handleFilmsList);
-    // this._commentsModel.removeObserver(this._handleCommentsModelEvent);
+    this._commentsModel.removeObserver(this._handleCommentsModelEvent);
   }
 
 
@@ -444,10 +444,10 @@ export default class MovieList {
     this._popupPresenter = new PopupPresenter(container, this._commentsModel, this._handleViewAction, callback);
     this._popupPresenter.init(film);
     // this._filmsSectionComponent.removeFilmCardClickHandler();
-    // this._commentsModel.addObserver(this._handleCommentsModelEvent);
+    this._commentsModel.addObserver(this._handleCommentsModelEvent);
   }
 
-  _initPopup(){
+  _initPopup() {
     if (this._popupPresenter !== null) {
 
       const filmId = this._popupPresenter.getFilm().id;
@@ -460,6 +460,23 @@ export default class MovieList {
     }
   }
 
+  // обработчик изменения модели комментариев
+  _handleCommentsModelEvent(updateType, updatedFilm, commentIndex) {
+
+    const k = 1;
+
+    console.log(updatedFilm.comments);
+
+    this._initPopup();
+
+    this._handleModelEvent(UpdateType.PATCH, updatedFilm);
+
+    // switch (updateType) {
+    //   case UpdateType.MINOR:
+    //     this._filmsModel.deleteComment(updateType, updatedFilm, commentIndex);
+    //     break;
+    // }
+  }
 
 
 }

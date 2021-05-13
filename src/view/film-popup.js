@@ -12,9 +12,9 @@ const getCheckboxCheckedIsActive = (flag) => {
     : '';
 };
 
-const createFilmPopupTemplate = (film) => {
+const createFilmPopupTemplate = (film, commentsAll) => {
 
-  const commentsList = getComments();
+  const commentsList = commentsAll;
 
   const {
     title, alternative_title, total_rating, release, runtime,
@@ -154,11 +154,12 @@ const createFilmPopupTemplate = (film) => {
 };
 
 export default class FilmPopup extends SmartView {
-  constructor(film) {
+  constructor(film, comments) {
     super();
     // this._film = film;
 
     this._data = FilmPopup.parseDataToState(film);
+    this._comments = comments;
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
 
@@ -168,12 +169,12 @@ export default class FilmPopup extends SmartView {
     // this._addWatchedClickHandler = this._addWatchedClickHandler.bind(this);
     // this._addFavoriteClickHandler = this._addFavoriteClickHandler.bind(this);
 
-    // this._handlerCommentEmojiChange = this._handlerCommentEmojiChange.bind(this);
-    // this._handlerCommentTextInput = this._handlerCommentTextInput.bind(this);
-    // this._handlerCommentSend = this._handlerCommentSend.bind(this);
-    // this._handlerCommentDelete = this._handlerCommentDelete.bind(this);
+    this._handlerCommentEmojiChange = this._handlerCommentEmojiChange.bind(this);
+    this._handlerCommentTextInput = this._handlerCommentTextInput.bind(this);
+    this._handlerCommentSend = this._handlerCommentSend.bind(this);
+    this._handlerCommentDelete = this._handlerCommentDelete.bind(this);
 
-    // this._setInnerHandlers();
+    this._setInnerHandlers();
 
     // const commentsList = getComments();
     // const comments = film.comments;
@@ -193,15 +194,18 @@ export default class FilmPopup extends SmartView {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._data);
+    return createFilmPopupTemplate(this._data, this._comments);
   }
 
   restoreHandlers() {
-    this._setEmojiListClickHandler();
+
+    this._setInnerHandlers();
+
+    // this._setEmojiListClickHandler();
     this.setCloseButtonClickHandler(this._callback.closeButtonClick);
     this.setControlButtonsClick(this._callback.buttonsClick);
-    this.setCommentsListClickHandler(this._callback.deleteButtonClick);
-    this.setCommentsFormKeydownHandler(this._callback.commentsFormKeydown);
+    // this.setCommentsListClickHandler(this._callback.deleteButtonClick);
+    // this.setCommentsFormKeydownHandler(this._callback.commentsFormKeydown);
   }
 
   _closeButtonClickHandler(evt) {
@@ -338,13 +342,13 @@ export default class FilmPopup extends SmartView {
   }
 
 
-  // _setInnerHandlers() {
-  //   this.getElement().querySelector('.film-details__emoji-list').addEventListener('change', this._handlerCommentEmojiChange);
-  //   this.getElement().querySelector('.film-details__comment-input').addEventListener('input', this._handlerCommentTextInput);
-  //   this.getElement().addEventListener('keydown', this._handlerCommentSend);
-  //   this.getElement().querySelector('.film-details__comments-list').addEventListener('click', this._handlerCommentDelete);
-  // }
-  //
+  _setInnerHandlers() {
+    this.getElement().querySelector('.film-details__emoji-list').addEventListener('change', this._handlerCommentEmojiChange);
+    this.getElement().querySelector('.film-details__comment-input').addEventListener('input', this._handlerCommentTextInput);
+    this.getElement().addEventListener('keydown', this._handlerCommentSend);
+    this.getElement().querySelector('.film-details__comments-list').addEventListener('click', this._handlerCommentDelete);
+  }
+
   // restoreHandlers() {
   //   this._setInnerHandlers();
   //
@@ -376,16 +380,16 @@ export default class FilmPopup extends SmartView {
   //   this.getElement().querySelector('.film-details__control-label--favorite').addEventListener('click', this._addFavoriteClickHandler);
   // }
   //
-  // setAddCommentHandler(callback) {
-  //   this._callback.addComment = callback;
-  //
-  // }
-  //
-  // setDeleteCommentHandler(callback) {
-  //   this._callback.deleteComment = callback;
-  //
-  // }
-  //
+  setAddCommentHandler(callback) {
+    this._callback.addComment = callback;
+
+  }
+
+  setDeleteCommentHandler(callback) {
+    this._callback.deleteComment = callback;
+
+  }
+
   static parseDataToState(filmData) {
     return Object.assign(
       {},

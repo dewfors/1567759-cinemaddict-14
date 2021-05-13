@@ -10,6 +10,7 @@ import {
   UpdateType
 } from '../util/const.js';
 import {render, replace, remove} from '../util/render.js';
+import comments from "../model/comments";
 
 
 export default class FilmPopupPresenter extends AbstractPresenter {
@@ -28,7 +29,8 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
     this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
 
-
+    this._handleAddComment = this._handleAddComment.bind(this);
+    this._handleDeleteComment = this._handleDeleteComment.bind(this);
 
     this._siteBodyElement = document.querySelector('body');
   }
@@ -58,7 +60,8 @@ export default class FilmPopupPresenter extends AbstractPresenter {
 
     this._filmPopupComponent.setCloseButtonClickHandler(this._handleClosePopupButton);
     this._filmPopupComponent.setControlButtonsClick(this._handleControlButtons);
-
+    this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
+    this._filmPopupComponent.setDeleteCommentHandler(this._handleDeleteComment);
 
   }
 
@@ -81,6 +84,41 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   _handleClosePopupButton() {
     this._removePopup();
   }
+
+  _handleAddComment(data, newComment) {
+    this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        this._film,
+        {
+          comments: data.comments,
+        },
+      ),
+    );
+
+    this._commentsModel.addComment(UpdateType.MINOR, newComment, data);
+  }
+
+  _handleDeleteComment(commentId, film) {
+
+    this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        this._film,
+        {
+          comments: film.comments,
+        },
+      ),
+    );
+
+
+    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
+  }
+
 
 
   _handleWatchlistClick() {
