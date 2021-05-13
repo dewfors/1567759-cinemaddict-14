@@ -51,21 +51,12 @@ export default class FilmCard extends AbstractView {
     super();
     this._film = film;
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
-
-    // this._posterClickHandler = this._posterClickHandler.bind(this);
-    // this._titleClickHandler = this._titleClickHandler.bind(this);
-    // this._commentsClickHandler = this._commentsClickHandler.bind(this);
-    //
-    // this._addWatchlistClickHandler = this._addWatchlistClickHandler.bind(this);
-    // this._addWatchedClickHandler = this._addWatchedClickHandler.bind(this);
-    // this._addFavoriteClickHandler = this._addFavoriteClickHandler.bind(this);
   }
 
   _controlButtonsClickHandler(evt) {
     evt.preventDefault();
     this._callback.buttonsClick(evt);
   }
-
 
   getTemplate() {
     return createFilmTemplate(this._film);
@@ -78,65 +69,4 @@ export default class FilmCard extends AbstractView {
       .addEventListener('click', this._controlButtonsClickHandler);
   }
 
-  // _posterClickHandler(evt) {
-  //   evt.preventDefault();
-  //   this._callback.posterClick();
-  // }
-  //
-  // _titleClickHandler(evt) {
-  //   evt.preventDefault();
-  //   this._callback.titleClick();
-  // }
-  //
-  // _commentsClickHandler(evt) {
-  //   evt.preventDefault();
-  //   this._callback.commentsClick();
-  // }
-  //
-  // _addWatchlistClickHandler(evt) {
-  //   evt.preventDefault();
-  //   this._callback.addWatchlistClick();
-  // }
-  //
-  // _addWatchedClickHandler(evt) {
-  //   evt.preventDefault();
-  //   this._callback.addWatchedClick();
-  // }
-  //
-  // _addFavoriteClickHandler(evt) {
-  //   evt.preventDefault();
-  //   this._callback.addFavoriteClick();
-  // }
-  //
-  // setPosterClickHandler(callback) {
-  //   this._callback.posterClick = callback;
-  //   this.getElement().querySelector('.film-card__poster').addEventListener('click', this._posterClickHandler);
-  // }
-  //
-  // setTitleClickHandler(callback) {
-  //   this._callback.titleClick = callback;
-  //   this.getElement().querySelector('.film-card__title').addEventListener('click', this._titleClickHandler);
-  // }
-  //
-  // setCommentsClickHandler(callback) {
-  //   this._callback.commentsClick = callback;
-  //   this.getElement().querySelector('.film-card__comments').addEventListener('click', this._commentsClickHandler);
-  // }
-  //
-  // setAddWatchlistClickHandler(callback) {
-  //   this._callback.addWatchlistClick = callback;
-  //   this.getElement().querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this._addWatchlistClickHandler);
-  // }
-  //
-  // setAddWatchedClickHandler(callback) {
-  //   this._callback.addWatchedClick = callback;
-  //   this.getElement().querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this._addWatchedClickHandler);
-  // }
-  //
-  // setAddFavoriteClickHandler(callback) {
-  //   this._callback.addFavoriteClick = callback;
-  //   this.getElement().querySelector('.film-card__controls-item--favorite').addEventListener('click', this._addFavoriteClickHandler);
-  // }
-
 }
-

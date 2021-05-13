@@ -10,7 +10,7 @@ import LoadMoreButtonView from '../view/more-button.js';
 import Movie from './Movie.js';
 import PopupPresenter from './film-popup.js';
 // import {updateItem} from '../util/common.js';
-import {SortType, UpdateType, UserAction} from '../util/const.js';
+import {SortType, UpdateType} from '../util/const.js';
 import {TypeFilmList} from '../util/const.js';
 import {sortFilmsByDate, sortFilmsByRating, sortFilmsByCommetns} from '../util/film.js';
 // import {sortFilmsByCommetns} from "../util/film";
@@ -28,6 +28,7 @@ export default class MovieList {
     this._filmPresenter = {};
     this._filmPresenterTopRated = {};
     this._filmPresenterMostCommented = {};
+    this._popupPresenter = null;
     this._currentSortType = SortType.DEFAULT;
 
     this._sortComponent = null;
@@ -99,19 +100,7 @@ export default class MovieList {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    // console.log(actionType, updateType, update);
-    // Здесь будем вызывать обновление модели.
-    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
-    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
-    // update - обновленные данные
-    // switch (actionType) {
-    //   case UserAction.UPDATE_FILM:
-    //     this._filmsModel.updateFilm(updateType, update);
-    //     break;
-    // }
-
     this._filmsModel.updateFilm(updateType, update);
-
   }
 
   _handleModelEvent(updateType, data) {
@@ -188,20 +177,6 @@ export default class MovieList {
     } else {
       renderedPresenter.init(film);
     }
-
-    // const filmPresenter = new Movie(filmListContainer, this._handleFilmChange, this._handleModeChange);
-
-
-    // switch (typeFilmList) {
-    //   case TypeFilmList.TOP_RATED:
-    //     this._filmPresenterTopRated[film.id] = filmPresenter;
-    //     break;
-    //   case TypeFilmList.MOST_COMMENTED:
-    //     this._filmPresenterMostCommented[film.id] = filmPresenter;
-    //     break;
-    //   default:
-    //     this._filmPresenter[film.id] = filmPresenter;
-    // }
   }
 
   _handleLoadMoreButtonClick() {
@@ -218,10 +193,6 @@ export default class MovieList {
   }
 
   _renderLoadMoreButton() {
-    // render(this._filmsListAllMoviesComponent, this._loadMoreButtonComponent);
-    // this._loadMoreButtonComponent.setClickHandler(this._handleLoadMoreButtonClick);
-
-
     if (this._loadMoreButtonComponent !== null) {
       this._loadMoreButtonComponent = null;
     }
@@ -263,7 +234,6 @@ export default class MovieList {
     render(this._filmsContainer, this._sortComponent);
 
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
-
   }
 
   _renderFilmsListPerStep(films) {
@@ -334,7 +304,6 @@ export default class MovieList {
 
     this._clearFilmAllMovies();
 
-    // remove(this._sortComponent);
     remove(this._filmsListNoFilmsComponent);
     remove(this._loadMoreButtonComponent);
 
@@ -404,7 +373,6 @@ export default class MovieList {
     const target = evt.target;
 
     // console.log(target.closest('.film-card').dataset.filmId);
-    console.log(target);
 
     // клики по постеру заголовку или сомментариям
     const isCorrectClick = target.classList.contains('film-card__title')
@@ -419,18 +387,6 @@ export default class MovieList {
     const film = this._getFilms().find((filmItem) => filmId === filmItem.id);
     this._renderPopup(this._filmsContainer, film, this._resetPopupPresenter);
 
-    // // отлавливаем клики по заголовку, постеру и комментариям
-    // const isTargetCorrect = target.classList.contains('film-card__title')
-    //   || target.classList.contains('film-card__poster')
-    //   || target.classList.contains('film-card__comments');
-    // if (!isTargetCorrect) {
-    //   return false;
-    // }
-    // // сопоставляем id в карточке фильма с id фильма в массиве
-    // const filmCardId = target.closest('.film-card').dataset.id;
-    // const film = this._getFilms().find(({filmInfo}) => filmCardId === filmInfo.id);
-    // // рендерим попап
-    // this._renderPopup(this._filmsContainer, film, this._clearPopupPresenter);
   }
 
   _resetPopupPresenter() {
@@ -454,29 +410,15 @@ export default class MovieList {
       const film = this._filmsModel.getFilms().find((filmItem) => filmId === filmItem.id);
 
       this._popupPresenter.init(film);
-
-      // console.log(this._popupPresenter._film);
-
     }
   }
 
   // обработчик изменения модели комментариев
-  _handleCommentsModelEvent(updateType, updatedFilm, commentIndex) {
-
-    const k = 1;
-
-    console.log(updatedFilm.comments);
+  _handleCommentsModelEvent(updateType, updatedFilm) {
 
     this._initPopup();
-
     this._handleModelEvent(UpdateType.PATCH, updatedFilm);
 
-    // switch (updateType) {
-    //   case UpdateType.MINOR:
-    //     this._filmsModel.deleteComment(updateType, updatedFilm, commentIndex);
-    //     break;
-    // }
   }
-
 
 }

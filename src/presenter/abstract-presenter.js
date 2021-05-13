@@ -8,16 +8,12 @@ export default class AbstractPresenter {
   _handleControlButtons(evt) {
     const buttonType = evt.target.dataset.type;
 
-    // const changedDetails = {...this._film};
-
     if (!buttonType) {
       return;
     }
 
     switch (buttonType) {
       case ButtonType.WATCHLIST:
-        //changedDetails.isFilmForWatch = !this._film.isFilmForWatch;
-
         this._changeData(
           UserAction.UPDATE_FILM,
           UpdateType.MINOR,
@@ -29,11 +25,8 @@ export default class AbstractPresenter {
             },
           ),
         );
-
-
         break;
       case ButtonType.HISTORY:
-        //changedDetails.isFilmInHistory = !this._film.isFilmInHistory;
         this._changeData(
           UserAction.UPDATE_FILM,
           UpdateType.MINOR,
@@ -45,11 +38,8 @@ export default class AbstractPresenter {
             },
           ),
         );
-
-
         break;
       case ButtonType.FAVORITE:
-        //changedDetails.isFilmInFavorites = !this._film.isFilmInFavorites;
         this._changeData(
           UserAction.UPDATE_FILM,
           UpdateType.MINOR,
@@ -61,12 +51,7 @@ export default class AbstractPresenter {
             },
           ),
         );
-
-
         break;
     }
-
-    // и передаем объект с измененными данными фильма
-    //this._changeData(UpdateType.MINOR, {...this._film, userDetails: changedDetails});
   }
 }

@@ -1,17 +1,7 @@
-import FilmCardView from '../view/film-card.js';
 import AbstractPresenter from './abstract-presenter.js';
 import FilmPopupView from '../view/film-popup.js';
-import {
-  BODY_HIDE_OVERFLOW_CLASS_NAME,
-  KeyEscapeFormat,
-  PositionsToInsertElement,
-  Mode,
-  UserAction,
-  UpdateType
-} from '../util/const.js';
-import {render, replace, remove} from '../util/render.js';
-import comments from "../model/comments";
-
+import {KeyEscapeFormat, UserAction, UpdateType} from '../util/const.js';
+import {render, remove} from '../util/render.js';
 
 export default class FilmPopupPresenter extends AbstractPresenter {
   constructor(popupContainer, commentsModel, handleFilmChange, callback) {
@@ -39,7 +29,6 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     return this._film;
   }
 
-
   init(film) {
     this._film = film;
 
@@ -56,7 +45,6 @@ export default class FilmPopupPresenter extends AbstractPresenter {
 
     document.body.classList.add('hide-overflow');
     document.addEventListener('keydown', this._handleEscKeyDown);
-
 
     this._filmPopupComponent.setCloseButtonClickHandler(this._handleClosePopupButton);
     this._filmPopupComponent.setControlButtonsClick(this._handleControlButtons);
@@ -115,53 +103,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
       ),
     );
 
-
     this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
   }
-
-
-
-  _handleWatchlistClick() {
-    this._changeData(
-      UserAction.UPDATE_FILM,
-      UpdateType.MINOR,
-      Object.assign(
-        {},
-        this._film,
-        {
-          isFilmForWatch: !this._film.isFilmForWatch,
-        },
-      ),
-    );
-  }
-
-  _handleWatchedClick() {
-    this._changeData(
-      UserAction.UPDATE_FILM,
-      UpdateType.MINOR,
-      Object.assign(
-        {},
-        this._film,
-        {
-          isFilmInHistory: !this._film.isFilmInHistory,
-        },
-      ),
-    );
-  }
-
-  _handleFavoriteClick() {
-    this._changeData(
-      UserAction.UPDATE_FILM,
-      UpdateType.MINOR,
-      Object.assign(
-        {},
-        this._film,
-        {
-          isFilmInFavorites: !this._film.isFilmInFavorites,
-        },
-      ),
-    );
-  }
-
 
 }
