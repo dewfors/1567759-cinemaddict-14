@@ -33,13 +33,14 @@ commentsModel.setComments(comments);
 
 const siteBodyElement = document.querySelector('body');
 const siteMainElement = siteBodyElement.querySelector('.main');
+const siteHeaderElement = siteBodyElement.querySelector('.header');
 
-const renderHeader = () => {
-  // user profile
-  const siteHeaderElement = siteBodyElement.querySelector('.header');
-  const profileComponent = new ProfileView();
-  render(siteHeaderElement, profileComponent);
-};
+// const renderHeader = () => {
+//   // user profile
+//
+//   const profileComponent = new ProfileView();
+//   render(siteHeaderElement, profileComponent);
+// };
 
 const renderNavigation = () => {
   // main navigation
@@ -54,10 +55,10 @@ const renderNavigation = () => {
 
 };
 
-renderHeader();
+// renderHeader();
 renderNavigation();
 
-const movieListPresenter = new MovieListPresenter(siteMainElement, filmsModel, filterModel, commentsModel);
+const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, filmsModel, filterModel, commentsModel);
 // movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
 movieListPresenter.init();
 
