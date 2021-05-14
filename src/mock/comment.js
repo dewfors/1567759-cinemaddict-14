@@ -1,4 +1,5 @@
 import {getRandomInteger, generateDate, getRandomiseArray} from '../util/common.js';
+import {nanoid} from 'nanoid';
 // import {getRandomiseArray} from '../util/utils';
 
 const comments = [];
@@ -45,7 +46,7 @@ const generateCommentText = () => {
 export const generateComment = () => {
 
   const comment = {
-    id: comments.length,
+    id: nanoid(),
     author: generateAuthor(),
     comment: generateCommentText(true),
     date: generateDate(),
@@ -60,7 +61,7 @@ export const generateComment = () => {
 export const addNewComment = () => {
 
   const comment =   {
-    id: comments.length,
+    id: nanoid(),
     author: generateAuthor(),
     comment: generateCommentText(true),
     date: generateDate(),
