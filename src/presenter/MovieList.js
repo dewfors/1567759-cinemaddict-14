@@ -69,6 +69,11 @@ export default class MovieList {
     // return this._filmsModel.getFilms();
 
     const filterType = this._filterModel.getFilter();
+
+    if (filterType === null) {
+      return [];
+    }
+
     const films = this._filmsModel.getFilms();
     const filtredFilms = filter[filterType](films);
 
