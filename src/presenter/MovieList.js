@@ -129,6 +129,8 @@ export default class MovieList {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
         this._filmPresenter[data.id].init(data);
+        this._clearFilmMostCommented();
+        this._renderFilmsMostCommented();
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
