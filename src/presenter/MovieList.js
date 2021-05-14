@@ -9,6 +9,7 @@ import FilmsListMostCommentedView from '../view/films-list-most-commented.js';
 import LoadMoreButtonView from '../view/more-button.js';
 import Movie from './Movie.js';
 import PopupPresenter from './film-popup.js';
+import StatisticsPresenter from './statistics.js';
 // import {updateItem} from '../util/common.js';
 import {SortType, UpdateType} from '../util/const.js';
 import {TypeFilmList} from '../util/const.js';
@@ -29,6 +30,7 @@ export default class MovieList {
     this._filmPresenterTopRated = {};
     this._filmPresenterMostCommented = {};
     this._popupPresenter = null;
+    this._statisticsPresenter = null;
     this._currentSortType = SortType.DEFAULT;
 
     this._sortComponent = null;
@@ -114,6 +116,7 @@ export default class MovieList {
   _handleModelEvent(updateType, data, statisticsFlag) {
     if (statisticsFlag) {
       this._clearFilmsBoard();
+      this._renderStatistics();
       return;
     }
 
@@ -285,10 +288,10 @@ export default class MovieList {
   }
 
   _renderFilmsBoard(update = null) {
-    // if (this._statsPresenter) {
-    //   this._statsPresenter.destroy();
-    //   this._statsPresenter = null;
-    // }
+    if (this._statisticsPresenter) {
+      this._statisticsPresenter.destroy();
+      this._statisticsPresenter = null;
+    }
 
     if (this._getFilms().length > 0) {
       this._renderSort();
@@ -301,7 +304,7 @@ export default class MovieList {
     }
 
     if (this._popupPresenter !== null) {
-      this._initPopup();
+      this._initPopup(update);
     }
 
 
@@ -490,6 +493,11 @@ export default class MovieList {
     this._popupPresenter = null;
     // this._filmsSectionComponent.setFilmCardClickHandler(this._handleFilmsList);
     this._commentsModel.removeObserver(this._handleCommentsModelEvent);
+  }
+
+  _renderStatistics() {
+    this._statisticsPresenter = new StatisticsPresenter(this._filmsContainer, this._filmsModel);
+    this._statisticsPresenter.init();
   }
 
 
