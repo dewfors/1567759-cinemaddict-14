@@ -50,12 +50,15 @@ export default class MovieList {
     this._resetPopupPresenter = this._resetPopupPresenter.bind(this);
     this._handleCommentsModelEvent = this._handleCommentsModelEvent.bind(this);
 
-    this._filmsModel.addObserver(this._handleModelEvent);
-    this._filterModel.addObserver(this._handleModelEvent);
+    // this._filmsModel.addObserver(this._handleModelEvent);
+    // this._filterModel.addObserver(this._handleModelEvent);
   }
 
   init() {
     this._renderFilmsBoard();
+    this._filmsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
+
   }
 
   _getFilms() {
