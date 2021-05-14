@@ -12,9 +12,9 @@ export default class Stats {
 
   init() {
     const prevStatsComponent = this._statisticsComponent;
-    const aaa = filter[FilterType.HISTORY](this._films);
-    console.log(aaa);
-    this._statisticsComponent = new StatisticsView();
+    const filmsHistory = filter[FilterType.HISTORY](this._films);
+    // console.log(filter[FilterType.HISTORY](this._films));
+    this._statisticsComponent = new StatisticsView(filmsHistory);
 
     if (prevStatsComponent === null) {
       render(this._container, this._statisticsComponent);

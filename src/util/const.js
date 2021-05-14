@@ -89,6 +89,38 @@ const MenuItem = {
   STATISTICS: 'STATISTICS',
 };
 
+const DatePeriod = {
+  all: 'all-time',
+  today: 'today',
+  week: 'week',
+  month: 'month',
+  year: 'year',
+};
+
+const DateRanges = {
+  years: -2,
+  months: 12,
+  days: 31,
+};
+
+const Rang = {
+  novice: 'Novice',
+  fan: 'Fan',
+  movieBuff: 'Movie Buff',
+};
+
+
+const RangLevels = {
+  novice: {
+    min: 1,
+    max: 10,
+  },
+  fan: {
+    min: 11,
+    max: 20,
+  },
+};
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
@@ -97,5 +129,5 @@ export {
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
-  MenuItem
+  MenuItem, DatePeriod, DateRanges, Rang, RangLevels
 };
