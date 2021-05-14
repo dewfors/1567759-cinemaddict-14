@@ -1,7 +1,7 @@
 import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
 // import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
-import ProfileView from './view/profile.js';
+// import ProfileView from './view/profile.js';
 // import SiteMenuView from './view/site-menu.js';
 // import FilterView from './view/filter.js';
 
@@ -14,7 +14,7 @@ import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/MovieList.js';
 import FilterPresenter from './presenter/Filter.js';
 import {getComments} from './mock/comment.js';
-import {MenuItem} from './util/const.js';
+// import {MenuItem} from './util/const.js';
 
 
 // films list

@@ -16,8 +16,8 @@ import {TypeFilmList} from '../util/const.js';
 import {sortFilmsByDate, sortFilmsByRating, sortFilmsByCommetns} from '../util/film.js';
 // import {sortFilmsByCommetns} from "../util/film";
 import {filter} from '../util/filter.js';
-import ProfileView from "../view/profile";
-import {FilterType} from "../util/const";
+import ProfileView from '../view/profile.js';
+import {FilterType} from '../util/const.js';
 
 export default class MovieList {
   constructor(mainContainer, headerContainer, filmsModel, filterModel, commentsModel) {
