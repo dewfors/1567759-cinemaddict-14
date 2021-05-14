@@ -2,7 +2,7 @@ import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
 // import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
 import ProfileView from './view/profile.js';
-import SiteMenuView from './view/site-menu.js';
+// import SiteMenuView from './view/site-menu.js';
 // import FilterView from './view/filter.js';
 
 import FilmsStatisticsView from './view/films-statistics.js';
@@ -14,6 +14,7 @@ import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/MovieList.js';
 import FilterPresenter from './presenter/Filter.js';
 import {getComments} from './mock/comment.js';
+import {MenuItem} from './util/const.js';
 
 
 // films list
@@ -42,15 +43,12 @@ const renderHeader = () => {
 
 const renderNavigation = () => {
   // main navigation
-  const mainNavigationComponent = new SiteMenuView();
-  render(siteMainElement, mainNavigationComponent);
+  // const mainNavigationComponent = new SiteMenuView();
+  // render(siteMainElement, mainNavigationComponent);
 
-  // filters in main navigation
-  // const filterComponent = new FilterView(filters);
-  // const filterComponent = new FilterView(filters, 'all');
-  // render(mainNavigationComponent, filterComponent, PositionsToInsertElement.AFTERBEGIN);
 
-  const filterPresenter = new FilterPresenter(mainNavigationComponent, filterModel, filmsModel);
+  // const filterPresenter = new FilterPresenter(mainNavigationComponent, filterModel, filmsModel);
+  const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmsModel);
 
   filterPresenter.init();
 

@@ -103,12 +103,13 @@ export default class MovieList {
     this._filmsModel.updateFilm(updateType, update);
   }
 
-  _handleModelEvent(updateType, data) {
-    // console.log(updateType, data);
-    // В зависимости от типа изменений решаем, что делать:
-    // - обновить часть списка (например, когда поменялось описание)
-    // - обновить список (например, когда задача ушла в архив)
-    // - обновить всю доску (например, при переключении фильтра)
+  _handleModelEvent(updateType, data, statisticsFlag) {
+    if (statisticsFlag) {
+      this._clearFilmsBoard();
+      return;
+    }
+
+
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
@@ -116,30 +117,30 @@ export default class MovieList {
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
-        // this._clearFilmList();
+
+
+        // this._clearInvisibleMovies();
         // this._renderFilmList();
+        //
+        // this._clearFilmMostCommented();
+        // this._renderFilmsMostCommented();
+        // this._initPopup();
 
-        // this._clearFilmList({resetRenderedFilmCount: false});
-        // this._renderFilmList();
+        this._clearFilmsBoard();
+        this._renderFilmsBoard(data);
 
-
-        this._clearInvisibleMovies();
-        this._renderFilmList();
-        // this._clearFilmTopRated();
-        // this._renderFilmsTopRated();
-        this._clearFilmMostCommented();
-        this._renderFilmsMostCommented();
-        this._initPopup();
-        //this._filmPresenter[data.id].init(data);
         break;
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
 
-        this._clearFilmList({resetRenderedFilmCount: true, resetSortType: true});
-        this._rerenderSort();
-        this._renderFilmList();
+        // this._clearFilmList({resetRenderedFilmCount: true, resetSortType: true});
+        this._clearFilmsBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderFilmsBoard(data);
 
-        this._resetPopupPresenter();
+
+        // this._rerenderSort();
+        // this._renderFilmList();
+        // this._resetPopupPresenter();
         break;
     }
   }
@@ -211,9 +212,13 @@ export default class MovieList {
 
     this._currentSortType = sortType;
 
-    this._rerenderSort();
-    this._clearFilmList({resetRenderedFilmCount: true});
-    this._renderFilmList();
+    // this._rerenderSort();
+    // this._clearFilmList({resetRenderedFilmCount: true});
+    // this._renderFilmList();
+
+    this._clearFilmsBoard({resetRenderedFilmCount: true});
+    this._renderFilmsBoard();
+
   }
 
   _rerenderSort() {
@@ -271,7 +276,51 @@ export default class MovieList {
     render(this._filmsComponent, this._filmsListNoFilmsComponent);
   }
 
-  _renderFilmsBoard() {
+  _renderFilmsBoard(update = null) {
+    // if (this._statsPresenter) {
+    //   this._statsPresenter.destroy();
+    //   this._statsPresenter = null;
+    // }
+
+    if (this._getFilms().length > 0) {
+      this._renderSort();
+      this._renderFilmsContainer();
+      this._renderFilmsListsContainer();
+      this._renderFilms(this._getFilms());
+    } else {
+      this._renderFilmsContainer();
+      this._renderNoFilms();
+    }
+
+    if (this._popupPresenter !== null) {
+      this._initPopup();
+    }
+
+
+  }
+
+  _renderFilmsContainer() {
+    render(this._filmsContainer, this._filmsComponent);
+  }
+
+  _renderFilmsListsContainer() {
+    render(this._filmsComponent, this._filmsListAllMoviesComponent);
+    render(this._filmsComponent, this._filmsListTopRatedComponent);
+    render(this._filmsComponent, this._filmsListMostCommentedComponent);
+
+    this._filmsListAllMoviesComponent.setFilmCardClickHandler(this._handleFilmsList);
+    this._filmsListTopRatedComponent.setFilmCardClickHandler(this._handleFilmsList);
+    this._filmsListMostCommentedComponent.setFilmCardClickHandler(this._handleFilmsList);
+  }
+
+  _renderFilms(films) {
+    this._renderFilmsAllMovies(films);
+    this._renderFilmsTopRated();
+    this._renderFilmsMostCommented();
+
+  }
+
+  _renderFilmsBoard1() {
     const films = this._getFilms();
     if (films.length === 0) {
       this._renderNoFilms();
@@ -367,6 +416,46 @@ export default class MovieList {
       .forEach((presenter) => presenter.destroy());
     this._filmPresenterMostCommented = {};
   }
+
+  _clearFilmPresenters () {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._filmPresenter = {};
+
+    Object
+      .values(this._filmPresenterTopRated)
+      .forEach((presenter) => presenter.destroy());
+    this._filmPresenterTopRated = {};
+
+    Object
+      .values(this._filmPresenterMostCommented)
+      .forEach((presenter) => presenter.destroy());
+    this._filmPresenterMostCommented = {};
+
+  }
+
+  _clearFilmsBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
+    const filmsCount = this._getFilms().length;
+    this._clearFilmPresenters();
+    remove(this._sortComponent);
+    remove(this._loadMoreButtonComponent);
+    remove(this._filmsListTopRatedComponent);
+    remove(this._filmsListMostCommentedComponent);
+    remove(this._filmsComponent);
+
+    if (resetRenderedFilmCount) {
+      this._renderedFilmCount = FILM_COUNT_PER_STEP;
+    } else {
+      this._renderedFilmCount = Math.min(filmsCount, this._renderedFilmCount);
+    }
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DEFAULT;
+    }
+
+  }
+
 
   // обработчик кликов по карточкам фильмов для открытия попапа
   _handleFilmsList(evt) {
