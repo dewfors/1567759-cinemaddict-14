@@ -9,6 +9,7 @@ import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/movie-list.js';
 import FilterPresenter from './presenter/filter.js';
 import {getComments} from './mock/comment.js';
+import {UpdateType} from "./util/const";
 
 
 // films list
@@ -72,9 +73,15 @@ movieListPresenter.init();
 
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-const filmsStatisticsComponent = new FilmsStatisticsView(films);
-render(siteFooterStatisticsElement, filmsStatisticsComponent);
+// const filmsStatisticsComponent = new FilmsStatisticsView(films);
+// render(siteFooterStatisticsElement, filmsStatisticsComponent);
 
-api.getFilms().then((films) => {
-  filmsModel.setFilms(films);
-});
+api.getFilms()
+  .then((films) => {
+    filmsModel.setFilms(UpdateType.INIT, films);
+  })
+  .catch(() => {
+    filmsModel.setFilms(UpdateType.INIT, []);
+  })
+
+;
