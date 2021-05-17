@@ -90,32 +90,32 @@ const MenuItem = {
 };
 
 const DatePeriod = {
-  all: 'all-time',
-  today: 'today',
-  week: 'week',
-  month: 'month',
-  year: 'year',
+  ALL: 'all-time',
+  TODAY: 'today',
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year',
 };
 
 const DateRanges = {
-  years: -2,
-  months: 12,
-  days: 31,
+  YEARS: -2,
+  MONTHS: 12,
+  DAYS: 31,
 };
 
 const Rang = {
-  novice: 'Novice',
-  fan: 'Fan',
-  movieBuff: 'Movie Buff',
+  NOVICE: 'Novice',
+  FAN: 'Fan',
+  MOVIE_BUFF: 'Movie Buff',
 };
 
 
 const RangLevels = {
-  novice: {
+  NOVICE: {
     min: 1,
     max: 10,
   },
-  fan: {
+  FAN: {
     min: 11,
     max: 20,
   },

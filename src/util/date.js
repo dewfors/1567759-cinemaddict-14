@@ -11,9 +11,9 @@ const isDateInRange = (currentDate, dateFrom) => {
 
 const getRandomDate = () => {
   dayjs.extend(isSameOrBefore);
-  const randomDate = dayjs().add(getRandomInteger(DateRanges.years), 'year')
-    .add(getRandomInteger(DateRanges.months), 'month')
-    .add(getRandomInteger(DateRanges.days), 'day')
+  const randomDate = dayjs().add(getRandomInteger(DateRanges.YEARS), 'year')
+    .add(getRandomInteger(DateRanges.MONTHS), 'month')
+    .add(getRandomInteger(DateRanges.DAYS), 'day')
     .toDate();
 
   return dayjs().isBefore(dayjs(randomDate))
