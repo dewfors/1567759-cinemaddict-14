@@ -50,6 +50,8 @@ export default class FilmPopupPresenter extends AbstractPresenter {
           this._comments = this._commentsModel.getComments();
           this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
         });
+    } else {
+      this._renderPopup();
     }
 
 

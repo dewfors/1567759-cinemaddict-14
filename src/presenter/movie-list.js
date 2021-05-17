@@ -173,7 +173,9 @@ export default class MovieList {
         remove(this._loadingComponent);
         this._renderFilmsBoard();
         break;
+
     }
+    this._initPopup();
   }
 
   _getRenderedPresenter(filmId, type) {
