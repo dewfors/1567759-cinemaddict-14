@@ -121,8 +121,9 @@ export default class Statistics extends SmartView {
 
   _periodClickHandler(evt) {
     const target = evt.target;
-    const isPeriod = (target) => target.classList.contains('statistic__filters-input');
-    if (!isPeriod(target)) {
+    // const isPeriod = (target) => target.classList.contains('statistic__filters-input');
+    // if (!isPeriod(target)) {
+    if (!target.classList.contains('statistic__filters-input')) {
       return;
     }
     this.updateState({

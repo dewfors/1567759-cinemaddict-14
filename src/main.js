@@ -11,8 +11,8 @@ import {generateFilm} from './mock/film.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
-import MovieListPresenter from './presenter/MovieList.js';
-import FilterPresenter from './presenter/Filter.js';
+import MovieListPresenter from './presenter/movie-list.js';
+import FilterPresenter from './presenter/filter.js';
 import {getComments} from './mock/comment.js';
 // import {MenuItem} from './util/const.js';
 
