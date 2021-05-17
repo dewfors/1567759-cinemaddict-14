@@ -11,8 +11,9 @@ const getCheckboxCheckedIsActive = (flag) => {
     : '';
 };
 
-const createFilmPopupTemplate = (film, commentsAll) => {
+const createFilmPopupTemplate = (film, commentsAll, error) => {
 
+  const {isLoadCommentsError, errorMessage} = error;
   const commentsList = commentsAll;
 
   const {
@@ -112,7 +113,9 @@ const createFilmPopupTemplate = (film, commentsAll) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+        <h3 class="film-details__comments-title">
+          ${isLoadCommentsError ? 'Comments not loaded. Please, reload page' : `Comments <span class="film-details__comments-count">${comments.length}</span>`}
+        </h3>
 
         <ul class="film-details__comments-list">
           ${filmComments.map(({id, author, comment, date, emotion}) => `<li class="film-details__comment" data-id="${id}">
@@ -153,12 +156,13 @@ const createFilmPopupTemplate = (film, commentsAll) => {
 };
 
 export default class FilmPopup extends SmartView {
-  constructor(film, comments) {
+  constructor(film, comments, error) {
     super();
     // this._film = film;
 
     this._data = FilmPopup.parseDataToState(film);
     this._comments = comments;
+    this._error = error;
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
 
@@ -180,7 +184,7 @@ export default class FilmPopup extends SmartView {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._data, this._comments);
+    return createFilmPopupTemplate(this._data, this._comments, this._error);
   }
 
   restoreHandlers() {

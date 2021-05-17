@@ -17,6 +17,7 @@ import {filter} from '../util/filter.js';
 import ProfileView from '../view/profile.js';
 import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
+import api from "../model/api";
 
 export default class MovieList {
   constructor(mainContainer, headerContainer, filmsModel, filterModel, commentsModel, api) {
@@ -552,7 +553,7 @@ export default class MovieList {
 
 
   _renderPopup(container, film, callback) {
-    this._popupPresenter = new PopupPresenter(container, this._commentsModel, this._handleViewAction, callback);
+    this._popupPresenter = new PopupPresenter(container, this._commentsModel, this._handleViewAction, callback, this._api);
     this._popupPresenter.init(film);
     // this._filmsSectionComponent.removeFilmCardClickHandler();
     this._commentsModel.addObserver(this._handleCommentsModelEvent);

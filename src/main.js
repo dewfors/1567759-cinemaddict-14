@@ -2,14 +2,14 @@ import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
 import Api from './model/api.js';
 import FilmsStatisticsView from './view/films-statistics.js';
-import {generateFilm} from './mock/film.js';
+// import {generateFilm} from './mock/film.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/movie-list.js';
 import FilterPresenter from './presenter/filter.js';
 import {getComments} from './mock/comment.js';
-import {UpdateType} from "./util/const";
+import {UpdateType, API_AUTHORIZATION, API_END_POINT} from './util/const.js';
 
 
 // films list
@@ -19,18 +19,11 @@ const comments = getComments();
 // const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 // const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
 
-const AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
-const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
+// const AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
+// const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
 
-const api = new Api(END_POINT, AUTHORIZATION);
+const api = new Api(API_END_POINT, API_AUTHORIZATION);
 
-// api.getFilms().then((films) => {
-//   console.log(films);
-//   // Есть проблема: cтруктура объекта похожа, но некоторые ключи называются иначе,
-//   // а ещё на сервере используется snake_case, а у нас camelCase.
-//   // Можно, конечно, переписать часть нашего клиентского приложения, но зачем?
-//   // Есть вариант получше - паттерн "Адаптер"
-// });
 
 const filmsModel = new FilmsModel();
 // filmsModel.setFilms(films);
@@ -78,6 +71,7 @@ const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__st
 
 api.getFilms()
   .then((films) => {
+    console.log(films);
     filmsModel.setFilms(UpdateType.INIT, films);
     renderNavigation();
     const filmsStatisticsComponent = new FilmsStatisticsView(films);
@@ -90,3 +84,5 @@ api.getFilms()
     const filmsStatisticsComponent = new FilmsStatisticsView([]);
     render(siteFooterStatisticsElement, filmsStatisticsComponent);
   });
+
+

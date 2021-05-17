@@ -122,6 +122,9 @@ const RangLevels = {
   },
 };
 
+const API_END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
+const API_AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
+
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
@@ -130,5 +133,6 @@ export {
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
-  MenuItem, DatePeriod, DateRanges, Rang, RangLevels
+  MenuItem, DatePeriod, DateRanges, Rang, RangLevels,
+  API_AUTHORIZATION, API_END_POINT
 };
