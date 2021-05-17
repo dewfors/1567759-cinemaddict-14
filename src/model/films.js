@@ -45,7 +45,7 @@ export default class Films extends Observer {
 
 
   static adaptToClient(film) {
-    return {
+    const adaptedFilm = {
       id: film.id,
       title: film.film_info.title,
       alternativeTitle: film.film_info.alternative_title,
@@ -69,6 +69,7 @@ export default class Films extends Observer {
       isFilmInFavorites: film.user_details.favorite,
       dateViewed: new Date(film.user_details.watching_date),
     };
+    return adaptedFilm;
   }
 
   static adaptToServer(film) {

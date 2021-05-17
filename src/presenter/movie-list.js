@@ -10,13 +10,12 @@ import LoadMoreButtonView from '../view/more-button.js';
 import Movie from './movie.js';
 import PopupPresenter from './film-popup.js';
 import StatisticsPresenter from './statistics.js';
-// import {updateItem} from '../util/common.js';
 import {SortType, UpdateType} from '../util/const.js';
 import {TypeFilmList} from '../util/const.js';
 import {sortFilmsByDate, sortFilmsByRating, sortFilmsByCommetns} from '../util/film.js';
-// import {sortFilmsByCommetns} from "../util/film";
 import {filter} from '../util/filter.js';
 import ProfileView from '../view/profile.js';
+import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
 
 export default class MovieList {
@@ -35,6 +34,9 @@ export default class MovieList {
     this._popupPresenter = null;
     this._statisticsPresenter = null;
     this._currentSortType = SortType.DEFAULT;
+
+    this._isLoading = true;
+    this._loadingComponent = new LoadingView();
 
     this._profileComponent = null;
     this._sortComponent = null;
@@ -158,6 +160,11 @@ export default class MovieList {
         // this._rerenderSort();
         // this._renderFilmList();
         // this._resetPopupPresenter();
+        break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        this._renderFilmsBoard();
         break;
     }
   }
@@ -304,6 +311,11 @@ export default class MovieList {
   }
 
   _renderFilmsBoard(update = null) {
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     if (this._statisticsPresenter) {
       this._statisticsPresenter.destroy();
       this._statisticsPresenter = null;
@@ -350,6 +362,10 @@ export default class MovieList {
     this._renderFilmsTopRated();
     this._renderFilmsMostCommented();
 
+  }
+
+  _renderLoading() {
+    render(this._filmsContainer, this._loadingComponent);
   }
 
   _renderFilmsBoard1() {
@@ -472,6 +488,7 @@ export default class MovieList {
     this._clearFilmPresenters();
     remove(this._sortComponent);
     remove(this._profileComponent);
+    remove(this._loadingComponent);
 
     remove(this._loadMoreButtonComponent);
     remove(this._filmsListTopRatedComponent);
