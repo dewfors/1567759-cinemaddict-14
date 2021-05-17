@@ -22,7 +22,7 @@ export default class Filter {
     const filters = this._getFilters();
     const prevFilterComponent = this._filterComponent;
 
-    this._filterComponent = new FilterView(filters, this._filterModel.getFilter());
+    this._filterComponent = new FilterView(filters, this._filterModel.getFilter(), this._filterModel.getState());
     this._filterComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
 
     if (prevFilterComponent === null) {
@@ -39,11 +39,14 @@ export default class Filter {
   }
 
   _handleFilterTypeChange(filterType) {
-    if (this._filterModel.getFilter() === filterType) {
-      return;
-    }
 
-    this._filterModel.setFilter(UpdateType.MAJOR, filterType);
+    this._filterModel.setState(UpdateType.MAJOR, filterType);
+
+    // if (this._filterModel.getFilter() === filterType) {
+    //   return;
+    // }
+    //
+    // this._filterModel.setFilter(UpdateType.MAJOR, filterType);
   }
 
   _getFilters() {

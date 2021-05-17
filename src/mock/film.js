@@ -4,6 +4,7 @@ import {COMMENT_MIN_COUNT, COMMENT_MAX_COUNT} from '../util/const.js';
 
 import dayjs from 'dayjs';
 import {nanoid} from 'nanoid';
+import {getRandomDate} from '../util/date.js';
 
 const generateDate = () => {
   const minDaysGap = 170;
@@ -195,5 +196,6 @@ export const generateFilm = () => {
     isFilmForWatch: getRandomBoolean(),
     isFilmInHistory: getRandomBoolean(),
     isFilmInFavorites: getRandomBoolean(),
+    dateViewed: getRandomDate(),
   };
 };

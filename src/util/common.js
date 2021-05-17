@@ -1,6 +1,8 @@
-import {DAYS_MIN_GAP, DAYS_MAX_GAP} from './const.js';
+import {DAYS_MIN_GAP, DAYS_MAX_GAP, DatePeriod} from './const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
+import {Rang, RangLevels} from './const.js';
+
 
 dayjs.extend(duration);
 
@@ -55,7 +57,47 @@ export const updateItem = (items, update) => {
   ];
 };
 
+const getSortedGenres = (films) => {
+  const genresMap = new Map();
+  films.forEach((filmItem) => {
+    filmItem.genre.forEach((genre) => {
+      const counter = genresMap.get(genre) + 1 || 1;
+      genresMap.set(genre, counter);
+    });
+  });
+  return [...genresMap.entries()].sort((a, b) => b[1] - a[1]);
+};
+
+const getDatePeriod = (period) => {
+  switch (period) {
+    case DatePeriod.today:
+      return dayjs().toDate();
+    case DatePeriod.week:
+      return dayjs().subtract(6, 'day').toDate();
+    case DatePeriod.month:
+      return dayjs().subtract(1, 'month').toDate();
+    case DatePeriod.year:
+      return dayjs().subtract(1, 'year').toDate();
+  }
+};
+
+// ранг пользователя
+const getRangUser = (filmsCount) => {
+  const { novice, fan } = RangLevels;
+  if (!filmsCount) {
+    return false;
+  }
+  if (filmsCount >= novice.min && filmsCount <= novice.max) {
+    return Rang.novice;
+  } else if (filmsCount >= fan.min && filmsCount <= fan.max) {
+    return Rang.fan;
+  } else {
+    return Rang.movieBuff;
+  }
+};
+
 export {
   getRandomInteger, getRandomiseArray, getRandomBoolean,
-  generateDate, formatDate, getTimeDuration
+  generateDate, formatDate, getTimeDuration, getSortedGenres,
+  getDatePeriod, getRangUser
 };

@@ -1,4 +1,4 @@
-const FILM_COUNT_ALL_MOVIES = 24;
+const FILM_COUNT_ALL_MOVIES = 21;
 const FILM_COUNT_PER_STEP = 5;
 const FILM_COUNT_TOP_RATED = 2;
 const FILM_COUNT_MOST_COMMENTED = 2;
@@ -70,16 +70,55 @@ const UpdateType = {
 };
 
 const FilterType = {
+  NONE: null,
   ALL: 'all',
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
   FAVORITES: 'favorites',
+  STATS: 'stats',
 };
 
 const ButtonType = {
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
   FAVORITE: 'favorite',
+};
+
+const MenuItem = {
+  FILMS: 'FILMS',
+  STATISTICS: 'STATISTICS',
+};
+
+const DatePeriod = {
+  all: 'all-time',
+  today: 'today',
+  week: 'week',
+  month: 'month',
+  year: 'year',
+};
+
+const DateRanges = {
+  years: -2,
+  months: 12,
+  days: 31,
+};
+
+const Rang = {
+  novice: 'Novice',
+  fan: 'Fan',
+  movieBuff: 'Movie Buff',
+};
+
+
+const RangLevels = {
+  novice: {
+    min: 1,
+    max: 10,
+  },
+  fan: {
+    min: 11,
+    max: 20,
+  },
 };
 
 export {
@@ -89,5 +128,6 @@ export {
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
-  deleteCommentButtonClassName, commentContainerClassName, ButtonType
+  deleteCommentButtonClassName, commentContainerClassName, ButtonType,
+  MenuItem, DatePeriod, DateRanges, Rang, RangLevels
 };
