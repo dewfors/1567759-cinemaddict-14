@@ -13,7 +13,7 @@ const getCheckboxCheckedIsActive = (flag) => {
 
 const createFilmPopupTemplate = (film, commentsAll, error) => {
 
-  const {isLoadCommentsError, errorMessage} = error;
+  const {isLoadCommentsError} = error;
   const commentsList = commentsAll;
 
   const {

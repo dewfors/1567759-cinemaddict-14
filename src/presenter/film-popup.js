@@ -54,8 +54,6 @@ export default class FilmPopupPresenter extends AbstractPresenter {
       this._renderPopup();
     }
 
-
-
   }
 
   _renderPopup(error = {}) {

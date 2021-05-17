@@ -1,4 +1,4 @@
-import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
+// import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
 import Api from './model/api.js';
 import FilmsStatisticsView from './view/films-statistics.js';
@@ -71,7 +71,7 @@ const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__st
 
 api.getFilms()
   .then((films) => {
-    console.log(films);
+    // console.log(films);
     filmsModel.setFilms(UpdateType.INIT, films);
     renderNavigation();
     const filmsStatisticsComponent = new FilmsStatisticsView(films);

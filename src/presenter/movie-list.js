@@ -17,7 +17,7 @@ import {filter} from '../util/filter.js';
 import ProfileView from '../view/profile.js';
 import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
-import api from "../model/api";
+// import api from '../model/api';
 
 export default class MovieList {
   constructor(mainContainer, headerContainer, filmsModel, filterModel, commentsModel, api) {
