@@ -1,5 +1,6 @@
 import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
+import Api from './model/api.js';
 // import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
 // import ProfileView from './view/profile.js';
 // import SiteMenuView from './view/site-menu.js';
@@ -22,6 +23,19 @@ const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
 const comments = getComments();
 // const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 // const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
+
+const AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
+const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
+
+const api = new Api(END_POINT, AUTHORIZATION);
+
+api.getFilms().then((films) => {
+  console.log(films);
+  // Есть проблема: cтруктура объекта похожа, но некоторые ключи называются иначе,
+  // а ещё на сервере используется snake_case, а у нас camelCase.
+  // Можно, конечно, переписать часть нашего клиентского приложения, но зачем?
+  // Есть вариант получше - паттерн "Адаптер"
+});
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
