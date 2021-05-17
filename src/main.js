@@ -20,6 +20,7 @@ import {getComments} from './mock/comment.js';
 
 // films list
 const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
+console.log(films);
 const comments = getComments();
 // const filmsTopRated = getSortFilms(films, sortFilmsByRating);
 // const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);

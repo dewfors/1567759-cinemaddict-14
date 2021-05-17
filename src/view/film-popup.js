@@ -16,8 +16,8 @@ const createFilmPopupTemplate = (film, commentsAll) => {
   const commentsList = commentsAll;
 
   const {
-    title, alternative_title, total_rating, release, runtime,
-    genre, description, poster, age_rating, director, writers,
+    title, alternativeTitle, totalRating, release, runtime,
+    genre, description, poster, ageRating, director, writers,
     actors, comments, currentCommentEmoji, currentCommentText,
   } = film;
 
@@ -26,7 +26,7 @@ const createFilmPopupTemplate = (film, commentsAll) => {
   // console.log(filmComments);
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
-  const countryRelease = release.release_country;
+  const countryRelease = release.releaseCountry;
 
   const hours = getTimeDuration(runtime).hours();
   const minutes = getTimeDuration(runtime).minutes();
@@ -45,18 +45,18 @@ const createFilmPopupTemplate = (film, commentsAll) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
 
-          <p class="film-details__age">${age_rating}+</p>
+          <p class="film-details__age">${ageRating}+</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">${alternative_title}</h3>
+              <h3 class="film-details__title">${alternativeTitle}</h3>
               <p class="film-details__title-original">${title}</p>
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">${total_rating}</p>
+              <p class="film-details__total-rating">${totalRating}</p>
             </div>
           </div>
 

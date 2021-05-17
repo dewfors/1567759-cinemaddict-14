@@ -35,7 +35,7 @@ const generateReleaseCountry = () => {
 const generateRelease = () => {
   return {
     date: generateDate(),
-    release_country: generateReleaseCountry(),
+    releaseCountry: generateReleaseCountry(),
   };
 };
 
@@ -180,10 +180,10 @@ export const generateFilm = () => {
   return {
     id: nanoid(),
     title: generateTitle(),
-    alternative_title: generateTitle(true),
-    total_rating: getRandomInteger(3, 9),
+    alternativeTitle: generateTitle(true),
+    totalRating: getRandomInteger(3, 9),
     poster: `${generatePoster()}`,
-    age_rating: 0,
+    ageRating: 0,
     director: generateDirector(),
     writers: generateWriters(),
     actors: generateActors(),

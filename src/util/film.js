@@ -5,8 +5,8 @@ const sortFilmsByDate = (filmA, filmB) => {
 };
 
 const sortFilmsByRating = (objectA, objectB) => {
-  const rankA = objectA.total_rating;
-  const rankB = objectB.total_rating;
+  const rankA = objectA.totalRating;
+  const rankB = objectB.totalRating;
 
   return rankB - rankA;
 };
