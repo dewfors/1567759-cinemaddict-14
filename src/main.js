@@ -67,7 +67,7 @@ const renderNavigation = () => {
 // renderHeader();
 // renderNavigation();
 
-const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, filmsModel, filterModel, commentsModel);
+const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, filmsModel, filterModel, commentsModel, api);
 // movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
 movieListPresenter.init();
 
@@ -87,6 +87,6 @@ api.getFilms()
   .catch(() => {
     filmsModel.setFilms(UpdateType.INIT, []);
     renderNavigation();
-    const filmsStatisticsComponent = new FilmsStatisticsView(films);
+    const filmsStatisticsComponent = new FilmsStatisticsView([]);
     render(siteFooterStatisticsElement, filmsStatisticsComponent);
   });

@@ -19,7 +19,7 @@ import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
 
 export default class MovieList {
-  constructor(mainContainer, headerContainer, filmsModel, filterModel, commentsModel) {
+  constructor(mainContainer, headerContainer, filmsModel, filterModel, commentsModel, api) {
 
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
@@ -35,6 +35,7 @@ export default class MovieList {
     this._statisticsPresenter = null;
     this._currentSortType = SortType.DEFAULT;
 
+    this._api = api;
     this._isLoading = true;
     this._loadingComponent = new LoadingView();
 
@@ -116,7 +117,12 @@ export default class MovieList {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    this._filmsModel.updateFilm(updateType, update);
+    // this._filmsModel.updateFilm(updateType, update);
+
+    this._api.updateFilm(update).then((response) => {
+      this._filmsModel.updateFilm(updateType, response);
+    });
+
   }
 
   _handleModelEvent(updateType, data, statisticsFlag) {
