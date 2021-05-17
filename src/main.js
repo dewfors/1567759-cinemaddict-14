@@ -65,7 +65,7 @@ const renderNavigation = () => {
 };
 
 // renderHeader();
-renderNavigation();
+// renderNavigation();
 
 const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, filmsModel, filterModel, commentsModel);
 // movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
@@ -79,7 +79,14 @@ const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__st
 api.getFilms()
   .then((films) => {
     filmsModel.setFilms(UpdateType.INIT, films);
+    renderNavigation();
+    const filmsStatisticsComponent = new FilmsStatisticsView(films);
+    render(siteFooterStatisticsElement, filmsStatisticsComponent);
+
   })
   .catch(() => {
     filmsModel.setFilms(UpdateType.INIT, []);
+    renderNavigation();
+    const filmsStatisticsComponent = new FilmsStatisticsView(films);
+    render(siteFooterStatisticsElement, filmsStatisticsComponent);
   });
