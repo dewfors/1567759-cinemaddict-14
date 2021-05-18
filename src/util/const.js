@@ -9,6 +9,8 @@ const COMMENT_MAX_COUNT = 5;
 const DAYS_MIN_GAP = 170;
 const DAYS_MAX_GAP = 70;
 
+const MINUTES_IN_HOUR = 60;
+
 const SHORT_DESCRIPTION_MAX_LENGTH = 140;
 
 const PositionsToInsertElement = {
@@ -134,5 +136,5 @@ export {
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
   MenuItem, DatePeriod, DateRanges, Rang, RangLevels,
-  API_AUTHORIZATION, API_END_POINT
+  API_AUTHORIZATION, API_END_POINT, MINUTES_IN_HOUR
 };
