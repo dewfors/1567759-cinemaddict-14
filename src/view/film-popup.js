@@ -15,6 +15,7 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
 
   const {isLoadCommentsError} = error;
   const commentsList = commentsAll;
+  // console.log(commentsList);
 
   const {
     title, alternativeTitle, totalRating, release, runtime,
@@ -22,9 +23,8 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
     actors, comments, currentCommentEmoji, currentCommentText,
   } = film;
 
-  const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
-
-  // console.log(filmComments);
+  // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
+  const filmComments = commentsList;
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
   const countryRelease = release.releaseCountry;

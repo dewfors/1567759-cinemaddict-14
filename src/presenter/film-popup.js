@@ -58,6 +58,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
 
   _renderPopup(error = {}) {
     const prevfilmPopupComponent = this._filmPopupComponent;
+
     this._filmPopupComponent = new FilmPopupView(this._film, this._comments, error);
 
     if (prevfilmPopupComponent !== null) {

@@ -1,88 +1,40 @@
-// import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
 import {render} from './util/render.js';
 import Api from './model/api.js';
 import FilmsStatisticsView from './view/films-statistics.js';
-// import {generateFilm} from './mock/film.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/movie-list.js';
 import FilterPresenter from './presenter/filter.js';
-import {getComments} from './mock/comment.js';
 import {UpdateType, API_AUTHORIZATION, API_END_POINT} from './util/const.js';
-
-
-// films list
-// const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
-// console.log(films);
-const comments = getComments();
-// const filmsTopRated = getSortFilms(films, sortFilmsByRating);
-// const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
-
-// const AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
-// const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
-
-const api = new Api(API_END_POINT, API_AUTHORIZATION);
-
-
-const filmsModel = new FilmsModel();
-// filmsModel.setFilms(films);
-
-const filterModel = new FilterModel();
-
-const commentsModel = new CommentsModel();
-commentsModel.setComments(comments);
 
 const siteBodyElement = document.querySelector('body');
 const siteMainElement = siteBodyElement.querySelector('.main');
 const siteHeaderElement = siteBodyElement.querySelector('.header');
+const siteFooterElement = document.querySelector('.footer').querySelector('.footer__statistics');
 
-// const renderHeader = () => {
-//   // user profile
-//
-//   const profileComponent = new ProfileView();
-//   render(siteHeaderElement, profileComponent);
-// };
-
-const renderNavigation = () => {
-  // main navigation
-  // const mainNavigationComponent = new SiteMenuView();
-  // render(siteMainElement, mainNavigationComponent);
-
-
-  // const filterPresenter = new FilterPresenter(mainNavigationComponent, filterModel, filmsModel);
-  const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmsModel);
-
-  filterPresenter.init();
-
-};
-
-// renderHeader();
-// renderNavigation();
-
-const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, filmsModel, filterModel, commentsModel, api);
-// movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
-movieListPresenter.init();
-
-const siteFooterElement = document.querySelector('.footer');
-const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-// const filmsStatisticsComponent = new FilmsStatisticsView(films);
-// render(siteFooterStatisticsElement, filmsStatisticsComponent);
+const api = new Api(API_END_POINT, API_AUTHORIZATION);
+const filmsModel = new FilmsModel();
+const filterModel = new FilterModel();
+const commentsModel = new CommentsModel();
+commentsModel.setComments();
 
 api.getFilms()
-  .then((films) => {
-    // console.log(films);
-    filmsModel.setFilms(UpdateType.INIT, films);
-    renderNavigation();
-    const filmsStatisticsComponent = new FilmsStatisticsView(films);
-    render(siteFooterStatisticsElement, filmsStatisticsComponent);
+  .then((films) => filmsModel.setFilms(UpdateType.INIT, films))
+  .catch(() => filmsModel.setFilms(UpdateType.INIT, []));
 
-  })
-  .catch(() => {
-    filmsModel.setFilms(UpdateType.INIT, []);
-    renderNavigation();
-    const filmsStatisticsComponent = new FilmsStatisticsView([]);
-    render(siteFooterStatisticsElement, filmsStatisticsComponent);
-  });
+const renderNavigation = () => {
+  const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmsModel);
+  filterPresenter.init();
+};
+
+const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, siteFooterElement, filmsModel, filterModel, commentsModel, api);
+movieListPresenter.init();
 
 
+// const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
+
+//
+renderNavigation();
+// const filmsStatisticsComponent = new FilmsStatisticsView(filmsModel);
+// render(siteFooterStatisticsElement, filmsStatisticsComponent);

@@ -17,10 +17,11 @@ import {filter} from '../util/filter.js';
 import ProfileView from '../view/profile.js';
 import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
+import FilmsStatisticsView from "../view/films-statistics";
 // import api from '../model/api';
 
 export default class MovieList {
-  constructor(mainContainer, headerContainer, filmsModel, filterModel, commentsModel, api) {
+  constructor(mainContainer, headerContainer, footerContainer, filmsModel, filterModel, commentsModel, api) {
 
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
@@ -28,6 +29,7 @@ export default class MovieList {
 
     this._filmsContainer = mainContainer;
     this._headerContainer = headerContainer;
+    this._footerContainer = footerContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = {};
     this._filmPresenterTopRated = {};
@@ -43,6 +45,7 @@ export default class MovieList {
     this._profileComponent = null;
     this._sortComponent = null;
     this._loadMoreButtonComponent = null;
+    this._footerStatisticsComponent = null;
 
     this._filmsComponent = new FilmsView();
     this._filmsListNoFilmsComponent = new FilmsListNoFilmsView();
@@ -128,6 +131,9 @@ export default class MovieList {
 
   _handleModelEvent(updateType, data, statisticsFlag) {
     if (statisticsFlag) {
+      if (this._statisticsPresenter) {
+        return;
+      }
       this._clearFilmsBoard();
       this._renderStatistics();
       return;
@@ -344,6 +350,7 @@ export default class MovieList {
       this._renderFilmsContainer();
       this._renderNoFilms();
     }
+    this._renderFooterStatistics(this._getFilms());
 
     if (this._popupPresenter !== null) {
       this._initPopup(update);
@@ -503,6 +510,7 @@ export default class MovieList {
     remove(this._filmsListTopRatedComponent);
     remove(this._filmsListMostCommentedComponent);
     remove(this._filmsComponent);
+    remove(this._footerStatisticsComponent);
 
     if (resetRenderedFilmCount) {
       this._renderedFilmCount = FILM_COUNT_PER_STEP;
@@ -551,6 +559,11 @@ export default class MovieList {
   _renderStatistics() {
     this._statisticsPresenter = new StatisticsPresenter(this._filmsContainer, this._filmsModel);
     this._statisticsPresenter.init();
+  }
+
+  _renderFooterStatistics(films) {
+    this._footerStatisticsComponent = new FilmsStatisticsView(films);
+    render(this._footerContainer, this._footerStatisticsComponent);
   }
 
 
