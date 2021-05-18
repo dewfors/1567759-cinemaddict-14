@@ -6,7 +6,7 @@ export default class Comments extends Observer {
     this._comments = [];
   }
 
-  setComments(comments) {
+  setComments(comments = []) {
     this._comments = comments.slice();
   }
 

@@ -1,7 +1,6 @@
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { getSortedGenres } from './common.js';
-
+import {getSortedGenres} from './common.js';
 
 export const calcChart = (statisticsCtx, state) => {
   const BAR_HEIGHT = 50;

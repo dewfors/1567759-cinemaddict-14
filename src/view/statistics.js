@@ -32,7 +32,7 @@ const formatNumber = (number) => {
 };
 
 const getStringPeriod = (period) => {
-  return (period[0].toUpperCase() + period.slice(1)).replace(/-/g , ' ');
+  return (period[0].toUpperCase() + period.slice(1)).replace(/-/g, ' ');
 };
 
 const createStatisticsTemplate = (state, films) => {
@@ -97,7 +97,7 @@ export default class Statistics extends SmartView {
   constructor(films) {
     super();
     this._films = films;
-    this._state = {period: DatePeriod.all, filmsPeriod: this._getFilmsByPeriod(DatePeriod.all, this._films)};
+    this._state = {period: DatePeriod.ALL, filmsPeriod: this._getFilmsByPeriod(DatePeriod.ALL, this._films)};
 
     this._periodClickHandler = this._periodClickHandler.bind(this);
     this._setPeriodClickHandler();
@@ -121,8 +121,9 @@ export default class Statistics extends SmartView {
 
   _periodClickHandler(evt) {
     const target = evt.target;
-    const isPeriod = (target) => target.classList.contains('statistic__filters-input');
-    if (!isPeriod(target)) {
+    // const isPeriod = (target) => target.classList.contains('statistic__filters-input');
+    // if (!isPeriod(target)) {
+    if (!target.classList.contains('statistic__filters-input')) {
       return;
     }
     this.updateState({
@@ -133,18 +134,23 @@ export default class Statistics extends SmartView {
   }
 
   _getFilmsByPeriod(period, films) {
-    const filmsByPeriod = [];
-    if (period === DatePeriod.all) {
+    // const filmsByPeriod = [];
+    if (period === DatePeriod.ALL) {
       return films.slice();
     }
     const dateFrom = getDatePeriod(period);
-    films.forEach((film) => {
-      const filmViewedDate = film.dateViewed;
-      if (isDateInRange(filmViewedDate, dateFrom)) {
-        filmsByPeriod.push(film);
-      }
-    });
-    return filmsByPeriod;
+
+    // films.forEach((film) => {
+    //   const filmViewedDate = film.dateViewed;
+    //   if (isDateInRange(filmViewedDate, dateFrom)) {
+    //     filmsByPeriod.push(film);
+    //   }
+    // });
+    // console.log(filmsByPeriod);
+
+    // return filmsByPeriod;
+
+    return films.filter((film) => isDateInRange(film.dateViewed, dateFrom));
   }
 
   _setPeriodClickHandler() {

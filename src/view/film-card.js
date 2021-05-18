@@ -10,7 +10,7 @@ const getClassNameIsActive = (flag) => {
 
 const createFilmTemplate = (film) => {
 
-  const {id, title, total_rating, release, runtime, genre, description, poster} = film;
+  const {id, title, totalRating, release, runtime, genre, description, poster} = film;
   const year = formatDate(release.date);
 
   const hours = getTimeDuration(runtime).hours();
@@ -29,13 +29,13 @@ const createFilmTemplate = (film) => {
 
   return `<article class="film-card" data-film-id = "${id}">
           <h3 class="film-card__title">${title}</h3>
-          <p class="film-card__rating">${total_rating}</p>
+          <p class="film-card__rating">${totalRating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${year}</span>
             <span class="film-card__duration">${hours}h ${minutes}m</span>
             <span class="film-card__genre">${currentGenre}</span>
           </p>
-          <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+          <img src="${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${shortDescription}</p>
           <a class="film-card__comments">${commentsCount} comments</a>
           <div class="film-card__controls">

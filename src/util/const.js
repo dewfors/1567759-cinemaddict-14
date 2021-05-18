@@ -9,6 +9,8 @@ const COMMENT_MAX_COUNT = 5;
 const DAYS_MIN_GAP = 170;
 const DAYS_MAX_GAP = 70;
 
+const MINUTES_IN_HOUR = 60;
+
 const SHORT_DESCRIPTION_MAX_LENGTH = 140;
 
 const PositionsToInsertElement = {
@@ -67,6 +69,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 const FilterType = {
@@ -90,36 +93,39 @@ const MenuItem = {
 };
 
 const DatePeriod = {
-  all: 'all-time',
-  today: 'today',
-  week: 'week',
-  month: 'month',
-  year: 'year',
+  ALL: 'all-time',
+  TODAY: 'today',
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year',
 };
 
 const DateRanges = {
-  years: -2,
-  months: 12,
-  days: 31,
+  YEARS: -2,
+  MONTHS: 12,
+  DAYS: 31,
 };
 
 const Rang = {
-  novice: 'Novice',
-  fan: 'Fan',
-  movieBuff: 'Movie Buff',
+  NOVICE: 'Novice',
+  FAN: 'Fan',
+  MOVIE_BUFF: 'Movie Buff',
 };
 
 
 const RangLevels = {
-  novice: {
+  NOVICE: {
     min: 1,
     max: 10,
   },
-  fan: {
+  FAN: {
     min: 11,
     max: 20,
   },
 };
+
+const API_END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
+const API_AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
 
 export {
   FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
@@ -129,5 +135,6 @@ export {
   KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
-  MenuItem, DatePeriod, DateRanges, Rang, RangLevels
+  MenuItem, DatePeriod, DateRanges, Rang, RangLevels,
+  API_AUTHORIZATION, API_END_POINT, MINUTES_IN_HOUR
 };

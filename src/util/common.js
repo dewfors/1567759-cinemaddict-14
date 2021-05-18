@@ -70,29 +70,29 @@ const getSortedGenres = (films) => {
 
 const getDatePeriod = (period) => {
   switch (period) {
-    case DatePeriod.today:
+    case DatePeriod.TODAY:
       return dayjs().toDate();
-    case DatePeriod.week:
+    case DatePeriod.WEEK:
       return dayjs().subtract(6, 'day').toDate();
-    case DatePeriod.month:
+    case DatePeriod.MONTH:
       return dayjs().subtract(1, 'month').toDate();
-    case DatePeriod.year:
+    case DatePeriod.YEAR:
       return dayjs().subtract(1, 'year').toDate();
   }
 };
 
 // ранг пользователя
 const getRangUser = (filmsCount) => {
-  const { novice, fan } = RangLevels;
+  const { NOVICE, FAN } = RangLevels;
   if (!filmsCount) {
     return false;
   }
-  if (filmsCount >= novice.min && filmsCount <= novice.max) {
-    return Rang.novice;
-  } else if (filmsCount >= fan.min && filmsCount <= fan.max) {
-    return Rang.fan;
+  if (filmsCount >= NOVICE.min && filmsCount <= NOVICE.max) {
+    return Rang.NOVICE;
+  } else if (filmsCount >= FAN.min && filmsCount <= FAN.max) {
+    return Rang.FAN;
   } else {
-    return Rang.movieBuff;
+    return Rang.MOVIE_BUFF;
   }
 };
 

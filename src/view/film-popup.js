@@ -11,22 +11,23 @@ const getCheckboxCheckedIsActive = (flag) => {
     : '';
 };
 
-const createFilmPopupTemplate = (film, commentsAll) => {
+const createFilmPopupTemplate = (film, commentsAll, error) => {
 
+  const {isLoadCommentsError} = error;
   const commentsList = commentsAll;
+  // console.log(commentsList);
 
   const {
-    title, alternative_title, total_rating, release, runtime,
-    genre, description, poster, age_rating, director, writers,
+    title, alternativeTitle, totalRating, release, runtime,
+    genre, description, poster, ageRating, director, writers,
     actors, comments, currentCommentEmoji, currentCommentText,
   } = film;
 
-  const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
-
-  // console.log(filmComments);
+  // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
+  const filmComments = commentsList;
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
-  const countryRelease = release.release_country;
+  const countryRelease = release.releaseCountry;
 
   const hours = getTimeDuration(runtime).hours();
   const minutes = getTimeDuration(runtime).minutes();
@@ -43,20 +44,20 @@ const createFilmPopupTemplate = (film, commentsAll) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
+          <img class="film-details__poster-img" src="${poster}" alt="">
 
-          <p class="film-details__age">${age_rating}+</p>
+          <p class="film-details__age">${ageRating}+</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">${alternative_title}</h3>
+              <h3 class="film-details__title">${alternativeTitle}</h3>
               <p class="film-details__title-original">${title}</p>
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">${total_rating}</p>
+              <p class="film-details__total-rating">${totalRating}</p>
             </div>
           </div>
 
@@ -112,7 +113,9 @@ const createFilmPopupTemplate = (film, commentsAll) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+        <h3 class="film-details__comments-title">
+          ${isLoadCommentsError ? 'Comments not loaded. Please, reload page' : `Comments <span class="film-details__comments-count">${comments.length}</span>`}
+        </h3>
 
         <ul class="film-details__comments-list">
           ${filmComments.map(({id, author, comment, date, emotion}) => `<li class="film-details__comment" data-id="${id}">
@@ -153,12 +156,13 @@ const createFilmPopupTemplate = (film, commentsAll) => {
 };
 
 export default class FilmPopup extends SmartView {
-  constructor(film, comments) {
+  constructor(film, comments, error) {
     super();
     // this._film = film;
 
     this._data = FilmPopup.parseDataToState(film);
     this._comments = comments;
+    this._error = error;
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
 
@@ -180,7 +184,7 @@ export default class FilmPopup extends SmartView {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._data, this._comments);
+    return createFilmPopupTemplate(this._data, this._comments, this._error);
   }
 
   restoreHandlers() {

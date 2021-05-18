@@ -1,68 +1,40 @@
-import {FILM_COUNT_ALL_MOVIES} from './util/const.js';
-import {render} from './util/render.js';
-// import {getSortFilms, sortFilmsByRating, sortFilmsByCommetns} from './util/film.js';
-// import ProfileView from './view/profile.js';
-// import SiteMenuView from './view/site-menu.js';
-// import FilterView from './view/filter.js';
-
-import FilmsStatisticsView from './view/films-statistics.js';
-import {generateFilm} from './mock/film.js';
-// import {generateFilter} from './mock/filter.js';
+// import {render} from './util/render.js';
+import Api from './model/api.js';
+// import FilmsStatisticsView from './view/films-statistics.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
-import MovieListPresenter from './presenter/MovieList.js';
-import FilterPresenter from './presenter/Filter.js';
-import {getComments} from './mock/comment.js';
-// import {MenuItem} from './util/const.js';
-
-
-// films list
-const films = new Array(FILM_COUNT_ALL_MOVIES).fill().map(generateFilm);
-const comments = getComments();
-// const filmsTopRated = getSortFilms(films, sortFilmsByRating);
-// const filmsMostCommented = getSortFilms(films, sortFilmsByCommetns);
-
-const filmsModel = new FilmsModel();
-filmsModel.setFilms(films);
-
-const filterModel = new FilterModel();
-
-const commentsModel = new CommentsModel();
-commentsModel.setComments(comments);
+import MovieListPresenter from './presenter/movie-list.js';
+import FilterPresenter from './presenter/filter.js';
+import {UpdateType, API_AUTHORIZATION, API_END_POINT} from './util/const.js';
 
 const siteBodyElement = document.querySelector('body');
 const siteMainElement = siteBodyElement.querySelector('.main');
 const siteHeaderElement = siteBodyElement.querySelector('.header');
+const siteFooterElement = document.querySelector('.footer').querySelector('.footer__statistics');
 
-// const renderHeader = () => {
-//   // user profile
-//
-//   const profileComponent = new ProfileView();
-//   render(siteHeaderElement, profileComponent);
-// };
+const api = new Api(API_END_POINT, API_AUTHORIZATION);
+const filmsModel = new FilmsModel();
+const filterModel = new FilterModel();
+const commentsModel = new CommentsModel();
+commentsModel.setComments();
+
+api.getFilms()
+  .then((films) => filmsModel.setFilms(UpdateType.INIT, films))
+  .catch(() => filmsModel.setFilms(UpdateType.INIT, []));
 
 const renderNavigation = () => {
-  // main navigation
-  // const mainNavigationComponent = new SiteMenuView();
-  // render(siteMainElement, mainNavigationComponent);
-
-
-  // const filterPresenter = new FilterPresenter(mainNavigationComponent, filterModel, filmsModel);
   const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmsModel);
-
   filterPresenter.init();
-
 };
 
-// renderHeader();
-renderNavigation();
-
-const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, filmsModel, filterModel, commentsModel);
-// movieListPresenter.init(films, filmsTopRated, filmsMostCommented);
+const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, siteFooterElement, filmsModel, filterModel, commentsModel, api);
 movieListPresenter.init();
 
-const siteFooterElement = document.querySelector('.footer');
-const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-const filmsStatisticsComponent = new FilmsStatisticsView(films);
-render(siteFooterStatisticsElement, filmsStatisticsComponent);
+
+// const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
+
+//
+renderNavigation();
+// const filmsStatisticsComponent = new FilmsStatisticsView(filmsModel);
+// render(siteFooterStatisticsElement, filmsStatisticsComponent);

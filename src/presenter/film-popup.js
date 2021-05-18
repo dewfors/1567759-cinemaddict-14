@@ -2,9 +2,10 @@ import AbstractPresenter from './abstract-presenter.js';
 import FilmPopupView from '../view/film-popup.js';
 import {KeyEscapeFormat, UserAction, UpdateType} from '../util/const.js';
 import {render, remove} from '../util/render.js';
+// import FilmsStatisticsView from "../view/films-statistics";
 
 export default class FilmPopupPresenter extends AbstractPresenter {
-  constructor(popupContainer, commentsModel, handleFilmChange, callback) {
+  constructor(popupContainer, commentsModel, handleFilmChange, callback, api) {
     super();
     this._commentsModel = commentsModel;
     this._popupContainer = popupContainer;
@@ -15,6 +16,8 @@ export default class FilmPopupPresenter extends AbstractPresenter {
 
     this._clearPopup = callback;
 
+    this._api = api;
+    this._comments = null;
 
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
     this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
@@ -32,8 +35,31 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   init(film) {
     this._film = film;
 
+    if (!this._comments) {
+      this._api.getComments(this._film.id)
+        .then((comments) => {
+          // console.log(comments);
+          this._commentsModel.setComments(comments);
+          this._comments = this._commentsModel.getComments();
+          this._renderPopup();
+
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          this._commentsModel.setComments([]);
+          this._comments = this._commentsModel.getComments();
+          this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
+        });
+    } else {
+      this._renderPopup();
+    }
+
+  }
+
+  _renderPopup(error = {}) {
     const prevfilmPopupComponent = this._filmPopupComponent;
-    this._filmPopupComponent = new FilmPopupView(this._film, this._commentsModel.getComments());
+
+    this._filmPopupComponent = new FilmPopupView(this._film, this._comments, error);
 
     if (prevfilmPopupComponent !== null) {
       this._scrollTop = prevfilmPopupComponent.getElement().scrollTop;
@@ -50,7 +76,6 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._filmPopupComponent.setControlButtonsClick(this._handleControlButtons);
     this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
     this._filmPopupComponent.setDeleteCommentHandler(this._handleDeleteComment);
-
   }
 
   _handleEscKeyDown(evt) {
