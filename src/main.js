@@ -1,6 +1,6 @@
-import {render} from './util/render.js';
+// import {render} from './util/render.js';
 import Api from './model/api.js';
-import FilmsStatisticsView from './view/films-statistics.js';
+// import FilmsStatisticsView from './view/films-statistics.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
