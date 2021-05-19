@@ -124,6 +124,30 @@ const RangLevels = {
   },
 };
 
+const ChartSettings = {
+  TYPE: 'horizontalBar',
+  DATASETS_BACKGROUND_COLOR: '#ffe800',
+  DATASETS_HOVER_BACKGROUND_COLOR: '#ffe800',
+  DATASETS_ANCHOR: 'start',
+  DATALABELS_FONT_SIZE: 20,
+  DATALABELS_COLOR: '#ffffff',
+  DATALABELS_ANCHOR: 'start',
+  DATALABELS_ALIGN: 'start',
+  DATALABELS_OFFSET: 40,
+  SCALES_Y_TICKS_FONT_COLOR: '#ffffff',
+  SCALES_Y_TICKS_PADDING: 100,
+  SCALES_Y_TICKS_FONT_SIZE: 20,
+  SCALES_Y_GRIDLINES_DISPLAY: false,
+  SCALES_Y_GRIDLINES_DRAW_BORDER: false,
+  SCALES_Y_BAR_THICKNESS: 24,
+  SCALES_X_TICKS_DISPLAY: false,
+  SCALES_X_TICKS_BEGIN_AT_ZERO: true,
+  SCALES_X_GRIDLINES_DISPLAY: false,
+  SCALES_X_GRIDLINES_DRAW_BORDER: false,
+  LEGEND_DISPLAY: false,
+  TOOLTIPS_ENABLED: false,
+}
+
 const API_END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
 const API_AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
 
@@ -136,5 +160,5 @@ export {
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
   MenuItem, DatePeriod, DateRanges, Rang, RangLevels,
-  API_AUTHORIZATION, API_END_POINT, MINUTES_IN_HOUR
+  API_AUTHORIZATION, API_END_POINT, MINUTES_IN_HOUR, ChartSettings
 };
