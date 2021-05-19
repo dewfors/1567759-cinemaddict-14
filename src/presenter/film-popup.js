@@ -35,24 +35,24 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   init(film) {
     this._film = film;
 
-    if (!this._comments) {
-      this._api.getComments(this._film.id)
-        .then((comments) => {
-          // console.log(comments);
-          this._commentsModel.setComments(comments);
-          this._comments = this._commentsModel.getComments();
-          this._renderPopup();
+    // if (!this._comments) {
+    this._api.getComments(this._film.id)
+      .then((comments) => {
+        // console.log(comments);
+        this._commentsModel.setComments(comments);
+        this._comments = this._commentsModel.getComments();
+        this._renderPopup();
 
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          this._commentsModel.setComments([]);
-          this._comments = this._commentsModel.getComments();
-          this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
-        });
-    } else {
-      this._renderPopup();
-    }
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        this._commentsModel.setComments([]);
+        this._comments = this._commentsModel.getComments();
+        this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
+      });
+    // } else {
+    //   this._renderPopup();
+    // }
 
   }
 
@@ -99,19 +99,27 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   }
 
   _handleAddComment(data, newComment) {
-    this._changeData(
-      UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
-      Object.assign(
-        {},
-        this._film,
-        {
-          comments: data.comments,
-        },
-      ),
-    );
 
-    this._commentsModel.addComment(UpdateType.MINOR, newComment, data);
+    const commentText = newComment.comment;
+    const commentEmotion = newComment.emotion;
+
+    this._commentsModel.addComment(UpdateType.PATCH, commentText, commentEmotion, data);
+
+    // this._api.addComment(data);
+
+    // this._changeData(
+    //   UserAction.UPDATE_FILM,
+    //   UpdateType.PATCH,
+    //   Object.assign(
+    //     {},
+    //     this._film,
+    //     {
+    //       comments: data.comments,
+    //     },
+    //   ),
+    // );
+    //
+
   }
 
   _handleDeleteComment(commentId, film) {
@@ -129,6 +137,16 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     );
 
     this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
+  }
+
+  shakeCommentElement(idCommentToDelete = null) {
+    const commentElementClassName = idCommentToDelete
+      ? `.film-details__comment[data-id='${idCommentToDelete}']`
+      : '.film-details__new-comment';
+
+    const commentElement = this._filmPopupComponent.getElement().querySelector(commentElementClassName);
+    commentElement.style.backgroundColor = 'red';
+
   }
 
 }

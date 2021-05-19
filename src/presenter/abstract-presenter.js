@@ -1,6 +1,6 @@
 import {ButtonType, UpdateType, UserAction} from '../util/const.js';
 
-export default class AbstractPresenter {
+export default class AbstractPresenter{
   constructor() {
     this._changeData = null;
   }

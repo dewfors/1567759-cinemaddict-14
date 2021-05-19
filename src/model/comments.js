@@ -1,9 +1,11 @@
 import Observer from '../util/observer.js';
+// import {UpdateType} from "../util/const";
 
 export default class Comments extends Observer {
-  constructor() {
+  constructor(api) {
     super();
     this._comments = [];
+    this._api = api;
   }
 
   setComments(comments = []) {
@@ -14,9 +16,27 @@ export default class Comments extends Observer {
     return this._comments;
   }
 
-  addComment(updateType, newComment, film) {
-    this._comments = [newComment, ...this._comments];
-    this._notify(updateType, film, newComment);
+  addComment(updateType, commentText, commentEmotion, film) {
+
+    const id = film.id;
+
+    const data = {
+      comment: {
+        comment: commentText,
+        emotion: commentEmotion,
+      },
+      // id: Number(film.id),
+      id: id,
+    };
+    this._api.addCommentServer(data)
+      .then((updateData) => {
+        this._notify(updateType, updateData);
+      })
+      .catch(() => this._notify(updateType, film, {isErrorToAddComment: true}));
+
+
+    // this._comments = [newComment, ...this._comments];
+    // this._notify(updateType, film, newComment);
   }
 
   deleteComment(updateType, deletedCommentId, film) {

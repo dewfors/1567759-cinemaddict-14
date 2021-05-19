@@ -114,8 +114,15 @@ export default class MovieList {
 
   }
 
-  _handleModelEvent(updateType, data, statisticsFlag) {
-    if (statisticsFlag) {
+  _handleModelEvent(
+    updateType,
+    data,
+    {
+      isStatisticsActive = false,
+      isErrorToAddComment = false,
+      idCommentToDelete = false,
+    } = {}) {
+    if (isStatisticsActive) {
       if (this._statisticsPresenter) {
         return;
       }
@@ -149,6 +156,11 @@ export default class MovieList {
         break;
 
     }
+
+    if (isErrorToAddComment) {
+      this._popupPresenter.shakeCommentElement(idCommentToDelete);
+    }
+
     this._initPopup();
   }
 
@@ -445,9 +457,9 @@ export default class MovieList {
   }
 
   // обработчик изменения модели комментариев
-  _handleCommentsModelEvent(updateType, updatedFilm) {
+  _handleCommentsModelEvent(updateType, updatedFilm, payload) {
     this._initPopup();
-    this._handleModelEvent(UpdateType.PATCH, updatedFilm);
+    this._handleModelEvent(UpdateType.PATCH, updatedFilm, payload);
   }
 
 }

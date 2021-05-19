@@ -1,7 +1,8 @@
 // import {render} from './util/render.js';
+import FilmsModel from './model/films.js';
 import Api from './model/api.js';
 // import FilmsStatisticsView from './view/films-statistics.js';
-import FilmsModel from './model/films.js';
+// import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/movie-list.js';
@@ -16,7 +17,7 @@ const siteFooterElement = document.querySelector('.footer').querySelector('.foot
 const api = new Api(API_END_POINT, API_AUTHORIZATION);
 const filmsModel = new FilmsModel();
 const filterModel = new FilterModel();
-const commentsModel = new CommentsModel();
+const commentsModel = new CommentsModel(api);
 commentsModel.setComments();
 
 api.getFilms()
