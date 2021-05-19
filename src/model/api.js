@@ -51,7 +51,7 @@ export default class Api {
       .then(({movie}) => FilmsModel.adaptToClient(movie));
   }
 
-  _deleteCommentServer(id) {
+  deleteCommentServer(id) {
     return this._load({
       url: `comments/${id}`,
       method: Method.DELETE,

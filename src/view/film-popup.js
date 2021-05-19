@@ -114,7 +114,7 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">
-          ${isLoadCommentsError ? 'Comments not loaded. Please, reload page' : `Comments <span class="film-details__comments-count">${comments.length}</span>`}
+          ${isLoadCommentsError ? 'Comments not loaded. Please, reload page' : `Comments <span class="film-details__comments-count">${commentsList.length}</span>`}
         </h3>
 
         <ul class="film-details__comments-list">

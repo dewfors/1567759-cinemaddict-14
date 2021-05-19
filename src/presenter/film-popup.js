@@ -118,23 +118,23 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     //     },
     //   ),
     // );
-    //
+
 
   }
 
   _handleDeleteComment(commentId, film) {
 
-    this._changeData(
-      UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
-      Object.assign(
-        {},
-        this._film,
-        {
-          comments: film.comments,
-        },
-      ),
-    );
+    // this._changeData(
+    //   UserAction.UPDATE_FILM,
+    //   UpdateType.PATCH,
+    //   Object.assign(
+    //     {},
+    //     this._film,
+    //     {
+    //       comments: film.comments,
+    //     },
+    //   ),
+    // );
 
     this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
   }
