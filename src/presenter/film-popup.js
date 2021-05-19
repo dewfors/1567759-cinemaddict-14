@@ -98,7 +98,14 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._removePopup();
   }
 
+  _setStateCommentSave() {
+    this._filmPopupComponent.updateState({
+      isCommentSave: true,
+    });
+  }
+
   _handleAddComment(data, newComment) {
+    this._setStateCommentSave();
 
     const commentText = newComment.comment;
     const commentEmotion = newComment.emotion;
@@ -122,7 +129,15 @@ export default class FilmPopupPresenter extends AbstractPresenter {
 
   }
 
+  _setStateCommentDelete(commentId) {
+    this._filmPopupComponent.updateState({
+      isCommentDelete: true,
+      idCommentDelete: commentId,
+    });
+  }
+
   _handleDeleteComment(commentId, film) {
+    this._setStateCommentDelete(commentId);
 
     // this._changeData(
     //   UserAction.UPDATE_FILM,
@@ -140,12 +155,23 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   }
 
   shakeCommentElement(idCommentToDelete = null) {
+
+    const resetState = () => {
+      this._filmPopupComponent.updateState({
+        isCommentSave: false,
+        isCommentDelete: false,
+        idCommentDelete: null,
+      });
+    };
+
     const commentElementClassName = idCommentToDelete
       ? `.film-details__comment[data-id='${idCommentToDelete}']`
       : '.film-details__new-comment';
 
     const commentElement = this._filmPopupComponent.getElement().querySelector(commentElementClassName);
-    commentElement.style.backgroundColor = 'red';
+    // commentElement.style.backgroundColor = 'red';
+
+    this._filmPopupComponent.shake(commentElement, resetState);
 
   }
 

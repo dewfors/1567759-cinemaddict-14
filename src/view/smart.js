@@ -44,4 +44,14 @@ export default class Smart extends Abstract {
   restoreHandlers() {
     throw new Error('Abstract method not implemented: resetHandlers');
   }
+
+  updateState(update) {
+    if (!update) {
+      return;
+    }
+    this._state = {...this._state, ...update};
+    this.updateElement();
+  }
+
+
 }

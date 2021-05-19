@@ -11,7 +11,7 @@ const getCheckboxCheckedIsActive = (flag) => {
     : '';
 };
 
-const createFilmPopupTemplate = (film, commentsAll, error) => {
+const createFilmPopupTemplate = (film, commentsAll, error, state) => {
 
   const {isLoadCommentsError} = error;
   const commentsList = commentsAll;
@@ -20,8 +20,10 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
   const {
     title, alternativeTitle, totalRating, release, runtime,
     genre, description, poster, ageRating, director, writers,
-    actors, comments, currentCommentEmoji, currentCommentText,
+    actors, currentCommentEmoji, currentCommentText,
   } = film;
+
+  const {isCommentSave, isCommentDelete, idCommentDelete} = state;
 
   // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
   const filmComments = commentsList;
@@ -127,7 +129,7 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
                 <span class="film-details__comment-day">${formatDate(date, DataFormat.FORMAT_DATE_TIME)}</span>
-                <button class="film-details__comment-delete">Delete</button>
+                <button ${isCommentDelete ? 'disabled' : ''} class="film-details__comment-delete">${isCommentDelete && idCommentDelete === id ? 'Deleting...' : 'Delete'}</button>
               </p>
             </div>
           </li>`).join('')}
@@ -163,6 +165,7 @@ export default class FilmPopup extends SmartView {
     this._data = FilmPopup.parseDataToState(film);
     this._comments = comments;
     this._error = error;
+    this._state = {};
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
 
@@ -184,7 +187,7 @@ export default class FilmPopup extends SmartView {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._data, this._comments, this._error);
+    return createFilmPopupTemplate(this._data, this._comments, this._error, this._state);
   }
 
   restoreHandlers() {
