@@ -41,6 +41,8 @@ export default class Comments extends Observer {
 
   deleteComment(updateType, deletedCommentId, film) {
 
+
+
     this._api.deleteCommentServer(deletedCommentId)
       .then((response) => {
         if (response.ok) {

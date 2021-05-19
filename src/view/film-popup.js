@@ -23,7 +23,22 @@ const createFilmPopupTemplate = (film, commentsAll, error, state) => {
     actors, currentCommentEmoji, currentCommentText,
   } = film;
 
-  const {isCommentSave, isCommentDelete, idCommentDelete} = state;
+  let currentEmoji = currentCommentEmoji ? currentCommentEmoji : '';
+  let currentText = currentCommentText ? currentCommentText : '';
+
+  const {isCommentSave, isCommentDelete, idCommentDelete, commentText, commentEmotion} = state;
+
+  if (!currentEmoji && commentEmotion) {
+    currentEmoji = commentEmotion;
+  }
+
+  if (!currentText && commentText) {
+    currentText = commentText;
+  }
+
+  console.log(currentEmoji);
+
+  console.log(state);
 
   // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
   const filmComments = commentsList;
@@ -129,7 +144,7 @@ const createFilmPopupTemplate = (film, commentsAll, error, state) => {
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
                 <span class="film-details__comment-day">${formatDate(date, DataFormat.FORMAT_DATE_TIME)}</span>
-                <button ${isCommentDelete ? 'disabled' : ''} class="film-details__comment-delete">${isCommentDelete && idCommentDelete === id ? 'Deleting...' : 'Delete'}</button>
+                <button ${isCommentSave || isCommentDelete ? 'disabled' : ''} class="film-details__comment-delete">${isCommentDelete && idCommentDelete === id ? 'Deleting...' : 'Delete'}</button>
               </p>
             </div>
           </li>`).join('')}
@@ -137,11 +152,11 @@ const createFilmPopupTemplate = (film, commentsAll, error, state) => {
 
         <div class="film-details__new-comment">
           <div class="film-details__add-emoji-label">
-            ${currentCommentEmoji ? `<img src="images/emoji/${currentCommentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ''}
+            ${currentEmoji ? `<img src="images/emoji/${currentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ''}
           </div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${!currentCommentText ? '' : he.encode(currentCommentText)}</textarea>
+            <textarea ${isCommentSave ? 'disabled' : ''} class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${!currentText ? '' : he.encode(currentText)}</textarea>
           </label>
 
           <div class="film-details__emoji-list">

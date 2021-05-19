@@ -11,6 +11,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._popupContainer = popupContainer;
     this._filmPopupComponent = null;
     this._scrollTop = 0;
+    this._state = {};
     this._changeData = handleFilmChange;
     this._handleControlButtons = this._handleControlButtons.bind(this);
 
@@ -54,6 +55,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     //   this._renderPopup();
     // }
 
+
   }
 
   _renderPopup(error = {}) {
@@ -76,6 +78,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._filmPopupComponent.setControlButtonsClick(this._handleControlButtons);
     this._filmPopupComponent.setAddCommentHandler(this._handleAddComment);
     this._filmPopupComponent.setDeleteCommentHandler(this._handleDeleteComment);
+    this._restoreState();
   }
 
   _handleEscKeyDown(evt) {
@@ -98,17 +101,41 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._removePopup();
   }
 
-  _setStateCommentSave() {
+  _restoreState() {
+    this._filmPopupComponent.updateState({
+      // isCommentSave: false,
+      commentText: this._state.commentText,
+      commentEmotion: this._state.commentEmotion,
+    });
+  }
+
+  resetStateCommentSave() {
+    this._state.commentText = '';
+    this._state.commentEmotion = '';
+
+    this._filmPopupComponent.updateState({
+      isCommentSave: false,
+      commentText: '',
+      commentEmotion: '',
+    });
+  }
+
+  _setStateCommentSave(commentEmotion, commentText) {
+    this._state.commentText = commentText;
+    this._state.commentEmotion = commentEmotion;
+
     this._filmPopupComponent.updateState({
       isCommentSave: true,
     });
   }
 
   _handleAddComment(data, newComment) {
-    this._setStateCommentSave();
+
 
     const commentText = newComment.comment;
     const commentEmotion = newComment.emotion;
+    this._setStateCommentSave(commentEmotion, commentText);
+
 
     this._commentsModel.addComment(UpdateType.PATCH, commentText, commentEmotion, data);
 

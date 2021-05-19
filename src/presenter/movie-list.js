@@ -159,6 +159,10 @@ export default class MovieList {
 
     if (isErrorToAddComment) {
       this._popupPresenter.shakeCommentElement(idCommentToDelete);
+    } else {
+      if (this._popupPresenter) {
+        this._popupPresenter.resetStateCommentSave();
+      }
     }
 
     this._initPopup();
