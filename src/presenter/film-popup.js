@@ -1,6 +1,6 @@
 import AbstractPresenter from './abstract-presenter.js';
 import FilmPopupView from '../view/film-popup.js';
-import {KeyEscapeFormat, UserAction, UpdateType} from '../util/const.js';
+import {KeyEscapeFormat, UpdateType} from '../util/const.js';
 import {render, remove} from '../util/render.js';
 // import FilmsStatisticsView from "../view/films-statistics";
 

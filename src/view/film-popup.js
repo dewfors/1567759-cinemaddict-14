@@ -36,10 +36,6 @@ const createFilmPopupTemplate = (film, commentsAll, error, state) => {
     currentText = commentText;
   }
 
-  console.log(currentEmoji);
-
-  console.log(state);
-
   // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
   const filmComments = commentsList;
 

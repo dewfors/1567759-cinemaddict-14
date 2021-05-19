@@ -33,27 +33,21 @@ export default class Comments extends Observer {
         this._notify(updateType, updateData);
       })
       .catch(() => this._notify(updateType, film, {isErrorToAddComment: true}));
-
-
-    // this._comments = [newComment, ...this._comments];
-    // this._notify(updateType, film, newComment);
   }
 
   deleteComment(updateType, deletedCommentId, film) {
-
-
-
     this._api.deleteCommentServer(deletedCommentId)
       .then((response) => {
         if (response.ok) {
+          this._api.updateFilm(film)
+            .then((film) => {
+              this._notify(updateType, film);
+            });
           this._notify(updateType, film, {isErrorToAddComment: false});
         } else {
           this._notify(updateType, film, {isErrorToAddComment: true, idCommentToDelete: deletedCommentId});
         }
       })
       .catch(() => this._notify(updateType, film, {isErrorToAddComment: true, idCommentToDelete: deletedCommentId}));
-
-    //this._comments = [...this._comments].filter((comment) => comment !== deletedCommentId);
-    //this._notify(updateType, film, deletedCommentId);
   }
 }
