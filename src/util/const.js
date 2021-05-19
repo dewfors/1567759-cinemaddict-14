@@ -146,7 +146,7 @@ const ChartSettings = {
   SCALES_X_GRIDLINES_DRAW_BORDER: false,
   LEGEND_DISPLAY: false,
   TOOLTIPS_ENABLED: false,
-}
+};
 
 const API_END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
 const API_AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
