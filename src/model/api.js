@@ -25,7 +25,7 @@ export default class Api {
   }
 
   getComments(id) {
-    return this._load({url:  `comments1/${id}`})
+    return this._load({url:  `comments/${id}`})
       .then(Api.toJSON);
   }
 

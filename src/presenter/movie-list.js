@@ -18,6 +18,8 @@ import ProfileView from '../view/profile.js';
 import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
 import FilmsStatisticsView from '../view/films-statistics.js';
+import {getNewPopupState} from '../util/popup.js';
+import {UserAction} from "../util/const";
 
 export default class MovieList {
   constructor(mainContainer, headerContainer, footerContainer, filmsModel, filterModel, commentsModel, api) {
@@ -34,6 +36,7 @@ export default class MovieList {
     this._filmPresenterTopRated = {};
     this._filmPresenterMostCommented = {};
     this._popupPresenter = null;
+    this._popupState = null;
     this._statisticsPresenter = null;
     this._currentSortType = SortType.DEFAULT;
 
@@ -105,12 +108,41 @@ export default class MovieList {
       .forEach((presenter) => presenter.resetView());
   }
 
-  _handleViewAction(actionType, updateType, update) {
+  _handleViewAction(actionType, updateType, update, state) {
     // this._filmsModel.updateFilm(updateType, update);
 
-    this._api.updateFilm(update).then((response) => {
-      this._filmsModel.updateFilm(updateType, response);
-    });
+
+    switch (actionType) {
+      case UserAction.UPDATE_FILM:
+        this._api.updateFilm(update).then((response) => {
+          this._filmsModel.updateFilm(updateType, response);
+        });
+        break;
+
+      case UserAction.DELETE_COMMENT:
+        this._api.deleteCommentServer(state.idCommentDelete)
+          .then((response) => {
+            if (response.ok) {
+              this._api.updateFilm(update).then((response) => {
+                this._filmsModel.updateFilm(updateType, response);
+              }).then(() => {
+                update = {
+                  isCommentDelete: false,
+                };
+                this._updateState(update);
+              });
+            }
+          })
+          .catch(() => {
+            update = {
+              isCommentDelete: false,
+            };
+            this._updateState(update);
+            this._initPopup();
+          });
+        break;
+
+    }
 
   }
 
@@ -428,6 +460,7 @@ export default class MovieList {
     }
 
     this._popupPresenter = null;
+    this._popupState = null;
     // this._filmsSectionComponent.setFilmCardClickHandler(this._handleFilmsList);
     // this._commentsModel.removeObserver(this._handleCommentsModelEvent);
   }
@@ -445,33 +478,68 @@ export default class MovieList {
 
   _renderPopup(container, film, callback) {
 
+    this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
+
     this._api.getComments(film.id)
       .then((comments) => {
-        this._popupPresenter = new PopupPresenter(container, this._handleViewAction, comments, callback);
-        this._popupPresenter.init(film);
+        this._popupState = getNewPopupState();
+        this._popupPresenter.init(film, comments, this._popupState);
       })
       .catch(() => {
-        this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
-        this._popupPresenter.init(film);
-        // const errorMessage = error.message;
-        // this._commentsModel.setComments([]);
-        // this._comments = this._commentsModel.getComments();
-        // this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
+        this._popupState = getNewPopupState();
+        this._updateState({isLoadCommentsError: true});
+        // this._popupPresenter.init(film, this._popupState);
+
+        this._popupPresenter.init(film, [], this._popupState);
       });
 
 
-    // this._popupPresenter.init(film);
-    // this._filmsSectionComponent.removeFilmCardClickHandler();
-    // this._commentsModel.addObserver(this._handleCommentsModelEvent);
+    // this._api.getComments(film.id)
+    //   .then((comments) => {
+    //     this._popupPresenter = new PopupPresenter(container, this._handleViewAction, comments, callback);
+    //     // this._popupState = getNewPopupState();
+    //     // this._popupPresenter.init(film, this._popupState);
+    //     // this._popupPresenter.init(film, this._popupState);
+    //   })
+    //   .catch(() => {
+    //     this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
+    //     // this._popupState = getNewPopupState();
+    //     // this._updateState({isLoadCommentsError: true});
+    //     // this._popupPresenter.init(film, this._popupState);
+    //   });
+
   }
 
   _initPopup() {
     if (this._popupPresenter !== null) {
-
       const filmId = this._popupPresenter.getFilm().id;
       const film = this._filmsModel.getFilms().find((filmItem) => filmId === filmItem.id);
 
-      this._popupPresenter.init(film);
+
+      this._api.getComments(film.id)
+        .then((comments) => {
+          // this._popupPresenter = new PopupPresenter(container, this._handleViewAction, comments, callback);
+          this._popupState = getNewPopupState();
+          // this._popupPresenter.init(film, this._popupState);
+          this._popupPresenter.init(film, comments, this._popupState);
+        })
+        .catch(() => {
+          // this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
+          this._popupState = getNewPopupState();
+          // this._updateState({isLoadCommentsError: true});
+          // this._popupPresenter.init(film, this._popupState);
+
+          this._popupPresenter.init(film, [], this._popupState);
+        });
+
+
+
+
+
+
+
+      // this._popupPresenter.init(film, this._popupState);
+
     }
   }
 
@@ -480,5 +548,13 @@ export default class MovieList {
     // this._initPopup();
     // this._handleModelEvent(UpdateType.PATCH, updatedFilm, payload);
   }
+
+  _updateState(update) {
+    if (!update) {
+      return;
+    }
+    this._popupState = {...this._popupState, ...update};
+  }
+
 
 }

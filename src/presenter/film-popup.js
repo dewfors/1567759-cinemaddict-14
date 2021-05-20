@@ -1,6 +1,6 @@
 import AbstractPresenter from './abstract-presenter.js';
 import FilmPopupView from '../view/film-popup.js';
-import {KeyEscapeFormat, UpdateType} from '../util/const.js';
+import {KeyEscapeFormat, UserAction, UpdateType} from '../util/const.js';
 import {render, remove} from '../util/render.js';
 // import FilmsStatisticsView from "../view/films-statistics";
 
@@ -33,37 +33,18 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     return this._film;
   }
 
-  init(film) {
+  init(film, comments, state) {
     this._film = film;
+    this._state = state;
+    this._comments = comments;
 
-    // if (!this._comments) {
-    // this._api.getComments(this._film.id)
-    //   .then((comments) => {
-    //     // console.log(comments);
-    //     this._commentsModel.setComments(comments);
-    //     this._comments = this._commentsModel.getComments();
-    //     this._renderPopup();
-    //
-    //   })
-    //   .catch((error) => {
-    //     const errorMessage = error.message;
-    //     this._commentsModel.setComments([]);
-    //     this._comments = this._commentsModel.getComments();
-    //     this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
-    //   });
-    // } else {
-    //   this._renderPopup();
-    // }
-
-    this._renderPopup();
-
-
+    this._renderPopup(this._state);
   }
 
-  _renderPopup(error = {}) {
+  _renderPopup(state) {
     const prevfilmPopupComponent = this._filmPopupComponent;
 
-    this._filmPopupComponent = new FilmPopupView(this._film, this._comments, error);
+    this._filmPopupComponent = new FilmPopupView(this._film, this._comments, state);
 
     if (prevfilmPopupComponent !== null) {
       this._scrollTop = prevfilmPopupComponent.getElement().scrollTop;
@@ -168,19 +149,24 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   _handleDeleteComment(commentId, film) {
     this._setStateCommentDelete(commentId);
 
-    // this._changeData(
-    //   UserAction.UPDATE_FILM,
-    //   UpdateType.PATCH,
-    //   Object.assign(
-    //     {},
-    //     this._film,
-    //     {
-    //       comments: film.comments,
-    //     },
-    //   ),
-    // );
+    this._changeData(
+      UserAction.DELETE_COMMENT,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        this._film,
+        {
+          comments: film.comments,
+        },
+      ),
+      Object.assign(
+        {},
+        this._filmPopupComponent._state,
+      ),
 
-    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
+    );
+
+    //this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
   }
 
   shakeCommentElement(idCommentToDelete = null) {

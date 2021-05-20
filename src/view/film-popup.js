@@ -11,9 +11,10 @@ const getCheckboxCheckedIsActive = (flag) => {
     : '';
 };
 
-const createFilmPopupTemplate = (film, commentsAll, error, state) => {
+const createFilmPopupTemplate = (film, commentsAll, state) => {
 
-  const {isLoadCommentsError} = error;
+  // const {isLoadCommentsError} = error;
+  const {isLoadCommentsError} = state;
   const commentsList = commentsAll;
   // console.log(commentsList);
 
@@ -169,14 +170,13 @@ const createFilmPopupTemplate = (film, commentsAll, error, state) => {
 };
 
 export default class FilmPopup extends SmartView {
-  constructor(film, comments, error) {
+  constructor(film, comments, state) {
     super();
     // this._film = film;
 
     this._data = FilmPopup.parseDataToState(film);
     this._comments = comments;
-    this._error = error;
-    this._state = {};
+    this._state = state;
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
 
@@ -198,7 +198,7 @@ export default class FilmPopup extends SmartView {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._data, this._comments, this._error, this._state);
+    return createFilmPopupTemplate(this._data, this._comments, this._state);
   }
 
   restoreHandlers() {
