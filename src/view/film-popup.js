@@ -1,6 +1,6 @@
 import he from 'he';
 import SmartView from './smart.js';
-import {addNewComment} from '../mock/comment.js';
+import {addNewComment} from '../util/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
 import {DataFormat, emojiList, KeyCodes, UserAction} from '../util/const.js';
 import {deleteCommentButtonClassName, commentContainerClassName} from '../util/const.js';
@@ -13,10 +13,8 @@ const getCheckboxCheckedIsActive = (flag) => {
 
 const createFilmPopupTemplate = (film, commentsAll, state) => {
 
-  // const {isLoadCommentsError} = error;
   const {isLoadCommentsError} = state;
   const commentsList = commentsAll;
-  // console.log(commentsList);
 
   const {
     title, alternativeTitle, totalRating, release, runtime,
@@ -37,7 +35,6 @@ const createFilmPopupTemplate = (film, commentsAll, state) => {
     currentText = commentText;
   }
 
-  // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
   const filmComments = commentsList;
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
@@ -187,12 +184,6 @@ export default class FilmPopup extends SmartView {
 
     this._setInnerHandlers();
   }
-
-  // reset(film) {
-  //   this.updateData(
-  //     FilmPopup.parseDataToState(film),
-  //   );
-  // }
 
   getTemplate() {
     return createFilmPopupTemplate(this._data, this._comments, this._state);
