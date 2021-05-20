@@ -1,8 +1,5 @@
-// import {render} from './util/render.js';
 import FilmsModel from './model/films.js';
 import Api from './model/api.js';
-// import FilmsStatisticsView from './view/films-statistics.js';
-// import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/movie-list.js';
@@ -31,11 +28,4 @@ const renderNavigation = () => {
 
 const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, siteFooterElement, filmsModel, filterModel, commentsModel, api);
 movieListPresenter.init();
-
-
-// const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-
-//
 renderNavigation();
-// const filmsStatisticsComponent = new FilmsStatisticsView(filmsModel);
-// render(siteFooterStatisticsElement, filmsStatisticsComponent);

@@ -19,7 +19,7 @@ import LoadingView from '../view/loading.js';
 import {FilterType} from '../util/const.js';
 import FilmsStatisticsView from '../view/films-statistics.js';
 import {getNewPopupState} from '../util/popup.js';
-import {UserAction} from "../util/const";
+import {UserAction} from '../util/const.js';
 
 export default class MovieList {
   constructor(mainContainer, headerContainer, footerContainer, filmsModel, filterModel, commentsModel, api) {
@@ -63,8 +63,6 @@ export default class MovieList {
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._resetPopupPresenter = this._resetPopupPresenter.bind(this);
-    this._handleCommentsModelEvent = this._handleCommentsModelEvent.bind(this);
-
   }
 
   init() {
@@ -90,7 +88,6 @@ export default class MovieList {
       case SortType.DATE:
         return filtredFilms.sort(sortFilmsByDate);
     }
-
     return filtredFilms;
   }
 
@@ -109,8 +106,6 @@ export default class MovieList {
   }
 
   _handleViewAction(actionType, updateType, update, state) {
-    // this._filmsModel.updateFilm(updateType, update);
-
 
     switch (actionType) {
       case UserAction.UPDATE_FILM:
@@ -118,7 +113,6 @@ export default class MovieList {
           this._filmsModel.updateFilm(updateType, response);
         });
         break;
-
       case UserAction.DELETE_COMMENT:
         this._api.deleteCommentServer(state.idCommentDelete)
           .then((response) => {
@@ -142,18 +136,7 @@ export default class MovieList {
           });
         break;
       case UserAction.ADD_COMMENT:
-        // const id = update.id;
-        //
-        // const data = {
-        //   comment: {
-        //     comment: commentText,
-        //     emotion: commentEmotion,
-        //   },
-        //   // id: Number(film.id),
-        //   id: id,
-        // };
         this._api.addCommentServer({comment: {comment: state.commentText, emotion: state.commentEmotion}, id: update.id})
-        // this._api.addCommentServer(data)
           .then(() => {
             this._api.updateFilm(update).then((response) => {
               this._filmsModel.updateFilm(updateType, response);
@@ -163,10 +146,7 @@ export default class MovieList {
             this._popupPresenter.shakeCommentElement();
           });
         break;
-
-
     }
-
   }
 
   _handleModelEvent(
@@ -189,18 +169,15 @@ export default class MovieList {
 
     switch (updateType) {
       case UpdateType.PATCH:
-        // - обновить часть списка (например, когда поменялось описание)
         this._filmPresenter[data.id].init(data);
         this._clearFilmMostCommented();
         this._renderFilmsMostCommented();
         break;
       case UpdateType.MINOR:
-        // - обновить список (например, когда задача ушла в архив)
         this._clearFilmsBoard();
         this._renderFilmsBoard(data);
         break;
       case UpdateType.MAJOR:
-        // - обновить всю доску (например, при переключении фильтра)
         this._clearFilmsBoard({resetRenderedFilmCount: true, resetSortType: true});
         this._renderFilmsBoard(data);
         break;
@@ -209,7 +186,6 @@ export default class MovieList {
         remove(this._loadingComponent);
         this._renderFilmsBoard();
         break;
-
     }
 
     if (isErrorToAddComment) {
@@ -282,20 +258,16 @@ export default class MovieList {
   }
 
   _handleSortTypeChange(sortType) {
-    // - Если нужная сортировка уже установлена, то ничего не делаем
     if (this._currentSortType === sortType) {
       return;
     }
 
     this._currentSortType = sortType;
-
     this._clearFilmsBoard({resetRenderedFilmCount: true});
     this._renderFilmsBoard();
-
   }
 
   _renderProfile() {
-    // user profile
     const films = this._filmsModel.getFilms().slice();
     const viewedFilms = filter[FilterType.HISTORY](films);
 
@@ -310,7 +282,6 @@ export default class MovieList {
 
     this._sortComponent = new SortView(this._currentSortType);
     render(this._filmsContainer, this._sortComponent);
-
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
@@ -377,7 +348,6 @@ export default class MovieList {
     if (this._popupPresenter !== null) {
       this._initPopup(update);
     }
-
   }
 
   _renderFilmsContainer() {
@@ -398,7 +368,6 @@ export default class MovieList {
     this._renderFilmsAllMovies(films);
     this._renderFilmsTopRated();
     this._renderFilmsMostCommented();
-
   }
 
   _renderLoading() {
@@ -427,7 +396,6 @@ export default class MovieList {
       .values(this._filmPresenterMostCommented)
       .forEach((presenter) => presenter.destroy());
     this._filmPresenterMostCommented = {};
-
   }
 
   _clearFilmsBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
@@ -452,17 +420,11 @@ export default class MovieList {
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
     }
-
   }
 
 
-  // обработчик кликов по карточкам фильмов для открытия попапа
   _handleFilmsList(evt) {
     const target = evt.target;
-
-    // console.log(target.closest('.film-card').dataset.filmId);
-
-    // клики по постеру заголовку или сомментариям
     const isCorrectClick = target.classList.contains('film-card__title')
       || target.classList.contains('film-card__poster')
       || target.classList.contains('film-card__comments');
@@ -474,18 +436,14 @@ export default class MovieList {
     const filmId = target.closest('.film-card').dataset.filmId;
     const film = this._getFilms().find((filmItem) => filmId === filmItem.id);
     this._renderPopup(this._filmsContainer, film, this._resetPopupPresenter);
-
   }
 
   _resetPopupPresenter() {
     if (!this._popupPresenter) {
       return;
     }
-
     this._popupPresenter = null;
     this._popupState = null;
-    // this._filmsSectionComponent.setFilmCardClickHandler(this._handleFilmsList);
-    // this._commentsModel.removeObserver(this._handleCommentsModelEvent);
   }
 
   _renderStatistics() {
@@ -498,9 +456,7 @@ export default class MovieList {
     render(this._footerContainer, this._footerStatisticsComponent);
   }
 
-
   _renderPopup(container, film, callback) {
-
     this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
 
     this._api.getComments(film.id)
@@ -511,26 +467,8 @@ export default class MovieList {
       .catch(() => {
         this._popupState = getNewPopupState();
         this._updateState({isLoadCommentsError: true});
-        // this._popupPresenter.init(film, this._popupState);
-
         this._popupPresenter.init(film, [], this._popupState);
       });
-
-
-    // this._api.getComments(film.id)
-    //   .then((comments) => {
-    //     this._popupPresenter = new PopupPresenter(container, this._handleViewAction, comments, callback);
-    //     // this._popupState = getNewPopupState();
-    //     // this._popupPresenter.init(film, this._popupState);
-    //     // this._popupPresenter.init(film, this._popupState);
-    //   })
-    //   .catch(() => {
-    //     this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
-    //     // this._popupState = getNewPopupState();
-    //     // this._updateState({isLoadCommentsError: true});
-    //     // this._popupPresenter.init(film, this._popupState);
-    //   });
-
   }
 
   _initPopup() {
@@ -538,38 +476,16 @@ export default class MovieList {
       const filmId = this._popupPresenter.getFilm().id;
       const film = this._filmsModel.getFilms().find((filmItem) => filmId === filmItem.id);
 
-
       this._api.getComments(film.id)
         .then((comments) => {
-          // this._popupPresenter = new PopupPresenter(container, this._handleViewAction, comments, callback);
           this._popupState = getNewPopupState();
-          // this._popupPresenter.init(film, this._popupState);
           this._popupPresenter.init(film, comments, this._popupState);
         })
         .catch(() => {
-          // this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
           this._popupState = getNewPopupState();
-          // this._updateState({isLoadCommentsError: true});
-          // this._popupPresenter.init(film, this._popupState);
-
           this._popupPresenter.init(film, [], this._popupState);
         });
-
-
-
-
-
-
-
-      // this._popupPresenter.init(film, this._popupState);
-
     }
-  }
-
-  // обработчик изменения модели комментариев
-  _handleCommentsModelEvent(updateType, updatedFilm, payload) {
-    // this._initPopup();
-    // this._handleModelEvent(UpdateType.PATCH, updatedFilm, payload);
   }
 
   _updateState(update) {
@@ -578,6 +494,4 @@ export default class MovieList {
     }
     this._popupState = {...this._popupState, ...update};
   }
-
-
 }

@@ -26,7 +26,6 @@ const createFilmTemplate = (film) => {
   const watchedClassName = getClassNameIsActive(film.isFilmInHistory);
   const favoriteClassName = getClassNameIsActive(film.isFilmInFavorites);
 
-
   return `<article class="film-card" data-film-id = "${id}">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${totalRating}</p>
@@ -68,5 +67,4 @@ export default class FilmCard extends AbstractView {
       .querySelector('.film-card__controls')
       .addEventListener('click', this._controlButtonsClickHandler);
   }
-
 }

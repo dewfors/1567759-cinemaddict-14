@@ -7,9 +7,6 @@ const getNewPopupState = () => {
     isFilmInHistory: false,
     isFilmInFavorites: false,
     isLoadCommentsError: false,
-
-
-
   };
 };
 

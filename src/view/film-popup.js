@@ -172,14 +172,12 @@ const createFilmPopupTemplate = (film, commentsAll, state) => {
 export default class FilmPopup extends SmartView {
   constructor(film, comments, state) {
     super();
-    // this._film = film;
 
     this._data = FilmPopup.parseDataToState(film);
     this._comments = comments;
     this._state = state;
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
-
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
 
     this._handlerCommentEmojiChange = this._handlerCommentEmojiChange.bind(this);
@@ -188,14 +186,13 @@ export default class FilmPopup extends SmartView {
     this._handlerCommentDelete = this._handlerCommentDelete.bind(this);
 
     this._setInnerHandlers();
-
   }
 
-  reset(film) {
-    this.updateData(
-      FilmPopup.parseDataToState(film),
-    );
-  }
+  // reset(film) {
+  //   this.updateData(
+  //     FilmPopup.parseDataToState(film),
+  //   );
+  // }
 
   getTemplate() {
     return createFilmPopupTemplate(this._data, this._comments, this._state);
@@ -252,29 +249,22 @@ export default class FilmPopup extends SmartView {
       newComment.emotion = this._data.currentCommentEmoji;
 
       this._data = FilmPopup.parseStateToData(this._data, UserAction.ADD_COMMENT, newComment);
-      // this.updateElement();
       this._callback.addComment(this._data, newComment);
     }
   }
 
   _handlerCommentDelete(evt) {
     evt.preventDefault();
-    // console.log("-------------------");
-    // console.log(evt);
 
     const isDeleteCommentButton = evt.target.classList.contains(deleteCommentButtonClassName);
     if (!isDeleteCommentButton) {
       return;
     }
 
-    // console.log(this._data.comments);
-
     const commentIdToDelete = evt.target.closest(`.${commentContainerClassName}`).dataset.id;
-    // console.log(commentIdToDelete);
 
     this._data = FilmPopup.parseStateToData(this._data, UserAction.DELETE_COMMENT, commentIdToDelete);
     this.updateElement();
-
     this._callback.deleteComment(commentIdToDelete, this._data);
   }
 
@@ -321,5 +311,4 @@ export default class FilmPopup extends SmartView {
 
     return filmData;
   }
-
 }

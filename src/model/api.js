@@ -42,7 +42,7 @@ export default class Api {
 
   addCommentServer(data) {
     return this._load({
-      url: `comments1/${data.id}`,
+      url: `comments/${data.id}`,
       method: Method.POST,
       body: JSON.stringify(data.comment),
       headers: new Headers({'Content-Type': 'application/json'}),
