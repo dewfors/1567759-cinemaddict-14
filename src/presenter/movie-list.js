@@ -429,7 +429,7 @@ export default class MovieList {
 
     this._popupPresenter = null;
     // this._filmsSectionComponent.setFilmCardClickHandler(this._handleFilmsList);
-    this._commentsModel.removeObserver(this._handleCommentsModelEvent);
+    // this._commentsModel.removeObserver(this._handleCommentsModelEvent);
   }
 
   _renderStatistics() {
@@ -444,10 +444,25 @@ export default class MovieList {
 
 
   _renderPopup(container, film, callback) {
-    this._popupPresenter = new PopupPresenter(container, this._commentsModel, this._handleViewAction, callback, this._api);
-    this._popupPresenter.init(film);
+
+    this._api.getComments(film.id)
+      .then((comments) => {
+        this._popupPresenter = new PopupPresenter(container, this._handleViewAction, comments, callback);
+        this._popupPresenter.init(film);
+      })
+      .catch(() => {
+        this._popupPresenter = new PopupPresenter(container, this._handleViewAction, [], callback);
+        this._popupPresenter.init(film);
+        // const errorMessage = error.message;
+        // this._commentsModel.setComments([]);
+        // this._comments = this._commentsModel.getComments();
+        // this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
+      });
+
+
+    // this._popupPresenter.init(film);
     // this._filmsSectionComponent.removeFilmCardClickHandler();
-    this._commentsModel.addObserver(this._handleCommentsModelEvent);
+    // this._commentsModel.addObserver(this._handleCommentsModelEvent);
   }
 
   _initPopup() {
@@ -462,8 +477,8 @@ export default class MovieList {
 
   // обработчик изменения модели комментариев
   _handleCommentsModelEvent(updateType, updatedFilm, payload) {
-    this._initPopup();
-    this._handleModelEvent(UpdateType.PATCH, updatedFilm, payload);
+    // this._initPopup();
+    // this._handleModelEvent(UpdateType.PATCH, updatedFilm, payload);
   }
 
 }

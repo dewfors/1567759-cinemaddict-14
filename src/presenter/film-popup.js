@@ -5,9 +5,9 @@ import {render, remove} from '../util/render.js';
 // import FilmsStatisticsView from "../view/films-statistics";
 
 export default class FilmPopupPresenter extends AbstractPresenter {
-  constructor(popupContainer, commentsModel, handleFilmChange, callback, api) {
+  constructor(popupContainer, handleFilmChange, comments, handlePopupClose) {
     super();
-    this._commentsModel = commentsModel;
+    // this._commentsModel = commentsModel;
     this._popupContainer = popupContainer;
     this._filmPopupComponent = null;
     this._scrollTop = 0;
@@ -15,10 +15,10 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._changeData = handleFilmChange;
     this._handleControlButtons = this._handleControlButtons.bind(this);
 
-    this._clearPopup = callback;
+    this._clearPopup = handlePopupClose;
 
-    this._api = api;
-    this._comments = null;
+    // this._api = api;
+    this._comments = comments;
 
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
     this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
@@ -37,23 +37,25 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._film = film;
 
     // if (!this._comments) {
-    this._api.getComments(this._film.id)
-      .then((comments) => {
-        // console.log(comments);
-        this._commentsModel.setComments(comments);
-        this._comments = this._commentsModel.getComments();
-        this._renderPopup();
-
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        this._commentsModel.setComments([]);
-        this._comments = this._commentsModel.getComments();
-        this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
-      });
+    // this._api.getComments(this._film.id)
+    //   .then((comments) => {
+    //     // console.log(comments);
+    //     this._commentsModel.setComments(comments);
+    //     this._comments = this._commentsModel.getComments();
+    //     this._renderPopup();
+    //
+    //   })
+    //   .catch((error) => {
+    //     const errorMessage = error.message;
+    //     this._commentsModel.setComments([]);
+    //     this._comments = this._commentsModel.getComments();
+    //     this._renderPopup({isLoadCommentsError: true, errorMessage: errorMessage});
+    //   });
     // } else {
     //   this._renderPopup();
     // }
+
+    this._renderPopup();
 
 
   }
