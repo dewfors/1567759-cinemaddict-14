@@ -20,7 +20,7 @@ export default class Filter extends Observer {
       this._state.activeFilter = linkType;
       this._state.isStatisticsActive = false;
     }
-    this._notify(updateType, this._state, this._state.isStatisticsActive);
+    this._notify(updateType, this._state,{isStatisticsActive: this._state.isStatisticsActive} );
   }
 
   getState() {

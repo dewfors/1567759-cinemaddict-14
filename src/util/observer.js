@@ -1,4 +1,5 @@
-export default class Observer {
+
+export default class Observer{
   constructor() {
     this._observers = [];
   }

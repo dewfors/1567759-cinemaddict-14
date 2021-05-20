@@ -1,6 +1,6 @@
 import he from 'he';
 import SmartView from './smart.js';
-import {addNewComment} from '../mock/comment.js';
+import {addNewComment} from '../util/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
 import {DataFormat, emojiList, KeyCodes, UserAction} from '../util/const.js';
 import {deleteCommentButtonClassName, commentContainerClassName} from '../util/const.js';
@@ -11,19 +11,30 @@ const getCheckboxCheckedIsActive = (flag) => {
     : '';
 };
 
-const createFilmPopupTemplate = (film, commentsAll, error) => {
+const createFilmPopupTemplate = (film, commentsAll, state) => {
 
-  const {isLoadCommentsError} = error;
+  const {isLoadCommentsError} = state;
   const commentsList = commentsAll;
-  // console.log(commentsList);
 
   const {
     title, alternativeTitle, totalRating, release, runtime,
     genre, description, poster, ageRating, director, writers,
-    actors, comments, currentCommentEmoji, currentCommentText,
+    actors, currentCommentEmoji, currentCommentText,
   } = film;
 
-  // const filmComments = commentsList.filter((comment) => comments.indexOf(comment.id) >= 0);
+  let currentEmoji = currentCommentEmoji ? currentCommentEmoji : '';
+  let currentText = currentCommentText ? currentCommentText : '';
+
+  const {isCommentSave, isCommentDelete, idCommentDelete, commentText, commentEmotion} = state;
+
+  if (!currentEmoji && commentEmotion) {
+    currentEmoji = commentEmotion;
+  }
+
+  if (!currentText && commentText) {
+    currentText = commentText;
+  }
+
   const filmComments = commentsList;
 
   const dateRelease = formatDate(release.date, DataFormat.FORMAT_DATE_LONG);
@@ -114,7 +125,7 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">
-          ${isLoadCommentsError ? 'Comments not loaded. Please, reload page' : `Comments <span class="film-details__comments-count">${comments.length}</span>`}
+          ${isLoadCommentsError ? 'Comments not loaded. Please, reload page' : `Comments <span class="film-details__comments-count">${commentsList.length}</span>`}
         </h3>
 
         <ul class="film-details__comments-list">
@@ -127,7 +138,7 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
                 <span class="film-details__comment-day">${formatDate(date, DataFormat.FORMAT_DATE_TIME)}</span>
-                <button class="film-details__comment-delete">Delete</button>
+                <button ${isCommentSave || isCommentDelete ? 'disabled' : ''} class="film-details__comment-delete">${isCommentDelete && idCommentDelete === id ? 'Deleting...' : 'Delete'}</button>
               </p>
             </div>
           </li>`).join('')}
@@ -135,11 +146,11 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
 
         <div class="film-details__new-comment">
           <div class="film-details__add-emoji-label">
-            ${currentCommentEmoji ? `<img src="images/emoji/${currentCommentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ''}
+            ${currentEmoji ? `<img src="images/emoji/${currentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ''}
           </div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${!currentCommentText ? '' : he.encode(currentCommentText)}</textarea>
+            <textarea ${isCommentSave ? 'disabled' : ''} class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${!currentText ? '' : he.encode(currentText)}</textarea>
           </label>
 
           <div class="film-details__emoji-list">
@@ -156,16 +167,14 @@ const createFilmPopupTemplate = (film, commentsAll, error) => {
 };
 
 export default class FilmPopup extends SmartView {
-  constructor(film, comments, error) {
+  constructor(film, comments, state) {
     super();
-    // this._film = film;
 
     this._data = FilmPopup.parseDataToState(film);
     this._comments = comments;
-    this._error = error;
+    this._state = state;
 
     this._controlButtonsClickHandler = this._controlButtonsClickHandler.bind(this);
-
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
 
     this._handlerCommentEmojiChange = this._handlerCommentEmojiChange.bind(this);
@@ -174,17 +183,10 @@ export default class FilmPopup extends SmartView {
     this._handlerCommentDelete = this._handlerCommentDelete.bind(this);
 
     this._setInnerHandlers();
-
-  }
-
-  reset(film) {
-    this.updateData(
-      FilmPopup.parseDataToState(film),
-    );
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._data, this._comments, this._error);
+    return createFilmPopupTemplate(this._data, this._comments, this._state);
   }
 
   restoreHandlers() {
@@ -238,29 +240,22 @@ export default class FilmPopup extends SmartView {
       newComment.emotion = this._data.currentCommentEmoji;
 
       this._data = FilmPopup.parseStateToData(this._data, UserAction.ADD_COMMENT, newComment);
-      this.updateElement();
       this._callback.addComment(this._data, newComment);
     }
   }
 
   _handlerCommentDelete(evt) {
     evt.preventDefault();
-    // console.log("-------------------");
-    // console.log(evt);
 
     const isDeleteCommentButton = evt.target.classList.contains(deleteCommentButtonClassName);
     if (!isDeleteCommentButton) {
       return;
     }
 
-    // console.log(this._data.comments);
-
     const commentIdToDelete = evt.target.closest(`.${commentContainerClassName}`).dataset.id;
-    // console.log(commentIdToDelete);
 
     this._data = FilmPopup.parseStateToData(this._data, UserAction.DELETE_COMMENT, commentIdToDelete);
     this.updateElement();
-
     this._callback.deleteComment(commentIdToDelete, this._data);
   }
 
@@ -307,5 +302,4 @@ export default class FilmPopup extends SmartView {
 
     return filmData;
   }
-
 }

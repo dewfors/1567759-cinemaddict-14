@@ -1,6 +1,7 @@
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {getSortedGenres} from './common.js';
+import {ChartSettings} from './const.js';
 
 export const calcChart = (statisticsCtx, state) => {
   const BAR_HEIGHT = 50;
@@ -20,57 +21,57 @@ export const calcChart = (statisticsCtx, state) => {
 
   return new Chart(statisticsCtx, {
     plugins: [ChartDataLabels],
-    type: 'horizontalBar',
+    type: ChartSettings.TYPE,
     data: {
       labels: genreNames,
       datasets: [{
         data: genreCounts,
-        backgroundColor: '#ffe800',
-        hoverBackgroundColor: '#ffe800',
-        anchor: 'start',
+        backgroundColor: ChartSettings.DATASETS_BACKGROUND_COLOR,
+        hoverBackgroundColor: ChartSettings.DATASETS_HOVER_BACKGROUND_COLOR,
+        anchor: ChartSettings.DATASETS_ANCHOR,
       }],
     },
     options: {
       plugins: {
         datalabels: {
           font: {
-            size: 20,
+            size: ChartSettings.DATALABELS_FONT_SIZE,
           },
-          color: '#ffffff',
-          anchor: 'start',
-          align: 'start',
-          offset: 40,
+          color: ChartSettings.DATALABELS_COLOR,
+          anchor: ChartSettings.DATALABELS_ANCHOR,
+          align: ChartSettings.DATALABELS_ALIGN,
+          offset: ChartSettings.DATALABELS_OFFSET,
         },
       },
       scales: {
         yAxes: [{
           ticks: {
-            fontColor: '#ffffff',
-            padding: 100,
-            fontSize: 20,
+            fontColor: ChartSettings.SCALES_Y_TICKS_FONT_COLOR,
+            padding: ChartSettings.SCALES_Y_TICKS_PADDING,
+            fontSize: ChartSettings.SCALES_Y_TICKS_FONT_SIZE,
           },
           gridLines: {
-            display: false,
-            drawBorder: false,
+            display: ChartSettings.SCALES_Y_GRIDLINES_DISPLAY,
+            drawBorder: ChartSettings.SCALES_Y_GRIDLINES_DRAW_BORDER,
           },
-          barThickness: 24,
+          barThickness: ChartSettings.SCALES_Y_BAR_THICKNESS,
         }],
-        xAxes: [{
+        Axes: [{
           ticks: {
-            display: false,
-            beginAtZero: true,
+            display: ChartSettings.SCALES_X_TICKS_DISPLAY,
+            beginAtZero: ChartSettings.SCALES_X_TICKS_BEGIN_AT_ZERO,
           },
           gridLines: {
-            display: false,
-            drawBorder: false,
+            display: ChartSettings.SCALES_X_GRIDLINES_DISPLAY,
+            drawBorder: ChartSettings.SCALES_X_GRIDLINES_DRAW_BORDER,
           },
         }],
       },
       legend: {
-        display: false,
+        display: ChartSettings.LEGEND_DISPLAY,
       },
       tooltips: {
-        enabled: false,
+        enabled: ChartSettings.TOOLTIPS_ENABLED,
       },
     },
   });

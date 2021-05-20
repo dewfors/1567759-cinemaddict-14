@@ -13,15 +13,4 @@ export default class Comments extends Observer {
   getComments() {
     return this._comments;
   }
-
-  addComment(updateType, newComment, film) {
-    this._comments = [newComment, ...this._comments];
-    this._notify(updateType, film, newComment);
-  }
-
-  deleteComment(updateType, deletedCommentId, film) {
-    this._comments = [...this._comments].filter((comment) => comment !== deletedCommentId);
-
-    this._notify(updateType, film, deletedCommentId);
-  }
 }

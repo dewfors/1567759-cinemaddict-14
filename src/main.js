@@ -1,7 +1,5 @@
-// import {render} from './util/render.js';
-import Api from './model/api.js';
-// import FilmsStatisticsView from './view/films-statistics.js';
 import FilmsModel from './model/films.js';
+import Api from './model/api.js';
 import FilterModel from './model/filter.js';
 import CommentsModel from './model/comments.js';
 import MovieListPresenter from './presenter/movie-list.js';
@@ -16,7 +14,7 @@ const siteFooterElement = document.querySelector('.footer').querySelector('.foot
 const api = new Api(API_END_POINT, API_AUTHORIZATION);
 const filmsModel = new FilmsModel();
 const filterModel = new FilterModel();
-const commentsModel = new CommentsModel();
+const commentsModel = new CommentsModel(api);
 commentsModel.setComments();
 
 api.getFilms()
@@ -30,11 +28,4 @@ const renderNavigation = () => {
 
 const movieListPresenter = new MovieListPresenter(siteMainElement, siteHeaderElement, siteFooterElement, filmsModel, filterModel, commentsModel, api);
 movieListPresenter.init();
-
-
-// const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__statistics');
-
-//
 renderNavigation();
-// const filmsStatisticsComponent = new FilmsStatisticsView(filmsModel);
-// render(siteFooterStatisticsElement, filmsStatisticsComponent);

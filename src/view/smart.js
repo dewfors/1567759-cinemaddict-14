@@ -12,8 +12,6 @@ export default class Smart extends Abstract {
       return;
     }
 
-    // console.log(update);
-
     this._data =  Object.assign(
       {},
       this._data,
@@ -27,7 +25,6 @@ export default class Smart extends Abstract {
   }
 
   updateElement() {
-    // console.log(this._data);
     const prevElement = this.getElement();
     const parent = prevElement.parentElement;
     this._scroll = prevElement.scrollTop;
@@ -43,5 +40,13 @@ export default class Smart extends Abstract {
 
   restoreHandlers() {
     throw new Error('Abstract method not implemented: resetHandlers');
+  }
+
+  updateState(update) {
+    if (!update) {
+      return;
+    }
+    this._state = {...this._state, ...update};
+    this.updateElement();
   }
 }
