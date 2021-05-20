@@ -158,8 +158,12 @@ export default class MovieList {
             this._api.updateFilm(update).then((response) => {
               this._filmsModel.updateFilm(updateType, response);
             });
+          })
+          .catch(() => {
+            this._popupPresenter.shakeCommentElement();
           });
         break;
+
 
     }
 
