@@ -104,11 +104,13 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   }
 
   _setStateCommentSave(commentEmotion, commentText) {
-    this._state.commentText = commentText;
-    this._state.commentEmotion = commentEmotion;
+    // this._state.commentText = commentText;
+    // this._state.commentEmotion = commentEmotion;
 
     this._filmPopupComponent.updateState({
       isCommentSave: true,
+      commentText: commentText,
+      commentEmotion: commentEmotion,
     });
   }
 
@@ -120,21 +122,25 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._setStateCommentSave(commentEmotion, commentText);
 
 
-    this._commentsModel.addComment(UpdateType.PATCH, commentText, commentEmotion, data);
+    // this._commentsModel.addComment(UpdateType.PATCH, commentText, commentEmotion, data);
 
-    // this._api.addComment(data);
 
-    // this._changeData(
-    //   UserAction.UPDATE_FILM,
-    //   UpdateType.PATCH,
-    //   Object.assign(
-    //     {},
-    //     this._film,
-    //     {
-    //       comments: data.comments,
-    //     },
-    //   ),
-    // );
+    this._changeData(
+      UserAction.ADD_COMMENT,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        this._film,
+        {
+          comments: data.comments,
+        },
+      ),
+      Object.assign(
+        {},
+        this._filmPopupComponent._state,
+      ),
+
+    );
 
 
   }

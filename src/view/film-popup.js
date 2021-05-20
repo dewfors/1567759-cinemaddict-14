@@ -252,7 +252,7 @@ export default class FilmPopup extends SmartView {
       newComment.emotion = this._data.currentCommentEmoji;
 
       this._data = FilmPopup.parseStateToData(this._data, UserAction.ADD_COMMENT, newComment);
-      this.updateElement();
+      // this.updateElement();
       this._callback.addComment(this._data, newComment);
     }
   }

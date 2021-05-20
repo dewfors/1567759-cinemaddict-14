@@ -141,6 +141,25 @@ export default class MovieList {
             this._initPopup();
           });
         break;
+      case UserAction.ADD_COMMENT:
+        // const id = update.id;
+        //
+        // const data = {
+        //   comment: {
+        //     comment: commentText,
+        //     emotion: commentEmotion,
+        //   },
+        //   // id: Number(film.id),
+        //   id: id,
+        // };
+        this._api.addCommentServer({comment: {comment: state.commentText, emotion: state.commentEmotion}, id: update.id})
+        // this._api.addCommentServer(data)
+          .then(() => {
+            this._api.updateFilm(update).then((response) => {
+              this._filmsModel.updateFilm(updateType, response);
+            });
+          });
+        break;
 
     }
 
