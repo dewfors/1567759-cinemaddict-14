@@ -55,7 +55,7 @@ export const calcChart = (statisticsCtx, state) => {
           },
           barThickness: ChartSettings.SCALES_Y_BAR_THICKNESS,
         }],
-        Axes: [{
+        xAxes: [{
           ticks: {
             display: ChartSettings.SCALES_X_TICKS_DISPLAY,
             beginAtZero: ChartSettings.SCALES_X_TICKS_BEGIN_AT_ZERO,
