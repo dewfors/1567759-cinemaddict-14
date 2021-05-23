@@ -163,7 +163,10 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     const commentElementClassName = idCommentToDelete
       ? `.film-details__comment[data-id='${idCommentToDelete}']`
       : '.film-details__new-comment';
-    const commentElement = this._filmPopupComponent.getElement().querySelector(commentElementClassName);
-    this._filmPopupComponent.shake(commentElement, resetState);
+    this._filmPopupComponent.shakeElement(commentElementClassName, resetState);
+  }
+
+  getCurrentComments () {
+    return this._comments;
   }
 }
