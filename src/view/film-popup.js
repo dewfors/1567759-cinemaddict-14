@@ -281,7 +281,6 @@ export default class FilmPopup extends SmartView {
       filmData,
       {
         currentCommentEmoji: 'currentEmoji' in filmData,
-        // currentCommentEmoji: false,
         currentCommentText: '',
       },
     );

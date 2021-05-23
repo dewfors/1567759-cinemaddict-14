@@ -1,13 +1,6 @@
-const FILM_COUNT_ALL_MOVIES = 21;
 const FILM_COUNT_PER_STEP = 5;
 const FILM_COUNT_TOP_RATED = 2;
 const FILM_COUNT_MOST_COMMENTED = 2;
-
-const COMMENT_MIN_COUNT = 0;
-const COMMENT_MAX_COUNT = 5;
-
-const DAYS_MIN_GAP = 170;
-const DAYS_MAX_GAP = 70;
 
 const MINUTES_IN_HOUR = 60;
 
@@ -39,11 +32,6 @@ const sortClassNameActive = 'sort__button--active';
 const BODY_HIDE_OVERFLOW_CLASS_NAME = 'hide-overflow';
 const deleteCommentButtonClassName = 'film-details__comment-delete';
 const commentContainerClassName = 'film-details__comment';
-
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  POPUP: 'POPUP',
-};
 
 const SortType = {
   DEFAULT: 'default',
@@ -87,11 +75,6 @@ const ButtonType = {
   FAVORITE: 'favorite',
 };
 
-const MenuItem = {
-  FILMS: 'FILMS',
-  STATISTICS: 'STATISTICS',
-};
-
 const DatePeriod = {
   ALL: 'all-time',
   TODAY: 'today',
@@ -100,18 +83,11 @@ const DatePeriod = {
   YEAR: 'year',
 };
 
-const DateRanges = {
-  YEARS: -2,
-  MONTHS: 12,
-  DAYS: 31,
-};
-
 const Rang = {
   NOVICE: 'Novice',
   FAN: 'Fan',
   MOVIE_BUFF: 'Movie Buff',
 };
-
 
 const RangLevels = {
   NOVICE: {
@@ -152,13 +128,12 @@ const API_END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
 const API_AUTHORIZATION = 'Basic l3W285S60S6PWC0ah7hPjj9CEB7';
 
 export {
-  FILM_COUNT_ALL_MOVIES, FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
-  FILM_COUNT_MOST_COMMENTED, COMMENT_MIN_COUNT, COMMENT_MAX_COUNT,
-  DAYS_MIN_GAP, DAYS_MAX_GAP, SHORT_DESCRIPTION_MAX_LENGTH,
+  FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
+  FILM_COUNT_MOST_COMMENTED, SHORT_DESCRIPTION_MAX_LENGTH,
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
-  KeyEscapeFormat, Mode, sortClassNameActive, KeyCodes, SortType,
+  KeyEscapeFormat, sortClassNameActive, KeyCodes, SortType,
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
-  MenuItem, DatePeriod, DateRanges, Rang, RangLevels,
+  DatePeriod, Rang, RangLevels,
   API_AUTHORIZATION, API_END_POINT, MINUTES_IN_HOUR, ChartSettings
 };

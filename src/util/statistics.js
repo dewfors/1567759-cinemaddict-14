@@ -3,10 +3,10 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {getSortedGenres} from './common.js';
 import {ChartSettings} from './const.js';
 
+const BAR_HEIGHT = 50;
+
 export const calcChart = (statisticsCtx, state) => {
-  const BAR_HEIGHT = 50;
   const {filmsPeriod} = state;
-  // console.log(filmsPeriod);
   const sortGenres = getSortedGenres(filmsPeriod);
 
   const genreNames = [];
@@ -16,7 +16,6 @@ export const calcChart = (statisticsCtx, state) => {
     genreCounts.push(count);
   });
 
-  // Обязательно рассчитайте высоту canvas, она зависит от количества элементов диаграммы
   statisticsCtx.height = BAR_HEIGHT * sortGenres.length;
 
   return new Chart(statisticsCtx, {
@@ -56,7 +55,7 @@ export const calcChart = (statisticsCtx, state) => {
           },
           barThickness: ChartSettings.SCALES_Y_BAR_THICKNESS,
         }],
-        Axes: [{
+        xAxes: [{
           ticks: {
             display: ChartSettings.SCALES_X_TICKS_DISPLAY,
             beginAtZero: ChartSettings.SCALES_X_TICKS_BEGIN_AT_ZERO,

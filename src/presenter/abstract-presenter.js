@@ -1,4 +1,5 @@
 import {ButtonType, UpdateType, UserAction} from '../util/const.js';
+import dayjs from 'dayjs';
 
 export default class AbstractPresenter{
   constructor() {
@@ -34,6 +35,7 @@ export default class AbstractPresenter{
             {},
             this._film,
             {
+              dateViewed: dayjs().endOf('day'),
               isFilmInHistory: !this._film.isFilmInHistory,
             },
           ),

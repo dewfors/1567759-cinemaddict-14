@@ -39,14 +39,7 @@ export default class Filter {
   }
 
   _handleFilterTypeChange(filterType) {
-
     this._filterModel.setState(UpdateType.MAJOR, filterType);
-
-    // if (this._filterModel.getFilter() === filterType) {
-    //   return;
-    // }
-    //
-    // this._filterModel.setFilter(UpdateType.MAJOR, filterType);
   }
 
   _getFilters() {

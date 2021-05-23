@@ -343,7 +343,7 @@ export default class MovieList {
       this._renderFilmsContainer();
       this._renderNoFilms();
     }
-    this._renderFooterStatistics(this._getFilms());
+    this._renderFooterStatistics(films);
 
     if (this._popupPresenter !== null) {
       this._initPopup(update);
@@ -435,7 +435,8 @@ export default class MovieList {
 
     const filmId = target.closest('.film-card').dataset.filmId;
     const film = this._getFilms().find((filmItem) => filmId === filmItem.id);
-    this._renderPopup(this._filmsContainer, film, this._resetPopupPresenter);
+    const siteBodyElement = document.querySelector('body');
+    this._renderPopup(siteBodyElement, film, this._resetPopupPresenter);
   }
 
   _resetPopupPresenter() {
