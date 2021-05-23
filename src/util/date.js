@@ -9,12 +9,10 @@ dayjs.extend(isSameOrBefore);
 
 
 const isDateInRange = (currentDate, dateFrom) => {
-  // dayjs.extend(isBefore);
   return dayjs(dateFrom).isSameOrBefore(currentDate);
 };
 
 const getRandomDate = () => {
-  // dayjs.extend(isSameOrBefore);
   const randomDate = dayjs().add(getRandomInteger(DateRanges.YEARS), 'year')
     .add(getRandomInteger(DateRanges.MONTHS), 'month')
     .add(getRandomInteger(DateRanges.DAYS), 'day')

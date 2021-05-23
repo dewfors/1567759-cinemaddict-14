@@ -15,7 +15,6 @@ const getStatistics = (films) => {
   }
 
   const totalDuration = films.reduce((duration, filmItem) => duration + filmItem.runtime, 0);
-  // console.log(totalDuration);
   const topGenre = getSortedGenres(films)[0][0];
   return {
     viewedFilmsCount,
@@ -121,8 +120,6 @@ export default class Statistics extends SmartView {
 
   _periodClickHandler(evt) {
     const target = evt.target;
-    // const isPeriod = (target) => target.classList.contains('statistic__filters-input');
-    // if (!isPeriod(target)) {
     if (!target.classList.contains('statistic__filters-input')) {
       return;
     }
@@ -134,22 +131,10 @@ export default class Statistics extends SmartView {
   }
 
   _getFilmsByPeriod(period, films) {
-    // const filmsByPeriod = [];
     if (period === DatePeriod.ALL) {
       return films.slice();
     }
     const dateFrom = getDatePeriod(period);
-
-    // films.forEach((film) => {
-    //   const filmViewedDate = film.dateViewed;
-    //   if (isDateInRange(filmViewedDate, dateFrom)) {
-    //     filmsByPeriod.push(film);
-    //   }
-    // });
-    // console.log(filmsByPeriod);
-
-    // return filmsByPeriod;
-
     return films.filter((film) => isDateInRange(film.dateViewed, dateFrom));
   }
 

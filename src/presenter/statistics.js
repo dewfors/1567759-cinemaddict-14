@@ -13,7 +13,6 @@ export default class Stats {
   init() {
     const prevStatsComponent = this._statisticsComponent;
     const filmsHistory = filter[FilterType.HISTORY](this._films);
-    // console.log(filter[FilterType.HISTORY](this._films));
     this._statisticsComponent = new StatisticsView(filmsHistory);
 
     if (prevStatsComponent === null) {

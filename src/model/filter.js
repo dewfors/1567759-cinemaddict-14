@@ -33,7 +33,6 @@ export default class Filter extends Observer {
   }
 
   getFilter() {
-    // return this._activeFilter;
     return this._state.activeFilter;
   }
 }
