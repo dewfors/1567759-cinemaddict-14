@@ -129,7 +129,7 @@ export default class MovieList {
           })
           .catch(() => {
             update = {
-              isCommentDelete: false,
+              isCommentDelete: true,
             };
             this._updateState(update);
             this._initPopup();
@@ -476,6 +476,12 @@ export default class MovieList {
     if (this._popupPresenter !== null) {
       const filmId = this._popupPresenter.getFilm().id;
       const film = this._filmsModel.getFilms().find((filmItem) => filmId === filmItem.id);
+
+      if (this._popupState.isCommentDelete) {
+        const currentComments = this._popupPresenter.getCurrentComments();
+        this._popupPresenter.init(film, currentComments, this._popupState);
+        return;
+      }
 
       this._api.getComments(film.id)
         .then((comments) => {

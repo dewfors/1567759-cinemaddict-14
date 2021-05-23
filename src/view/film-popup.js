@@ -1,6 +1,5 @@
 import he from 'he';
 import SmartView from './smart.js';
-import {addNewComment} from '../util/comment.js';
 import {formatDate, getTimeDuration} from '../util/common.js';
 import {DataFormat, emojiList, KeyCodes, UserAction} from '../util/const.js';
 import {deleteCommentButtonClassName, commentContainerClassName} from '../util/const.js';
@@ -235,9 +234,12 @@ export default class FilmPopup extends SmartView {
       if (!this._data.currentCommentEmoji || !this._data.currentCommentText) {
         return;
       }
-      const newComment = addNewComment();
-      newComment.comment = this._data.currentCommentText;
-      newComment.emotion = this._data.currentCommentEmoji;
+
+      const newComment = {
+        id: '',
+        comment: this._data.currentCommentText,
+        emotion: this._data.currentCommentEmoji,
+      };
 
       this._data = FilmPopup.parseStateToData(this._data, UserAction.ADD_COMMENT, newComment);
       this._callback.addComment(this._data, newComment);
@@ -273,6 +275,11 @@ export default class FilmPopup extends SmartView {
 
   setDeleteCommentHandler(callback) {
     this._callback.deleteComment = callback;
+  }
+
+  shakeElement(commentElementClassName, resetState) {
+    const commentElement = this.getElement().querySelector(commentElementClassName);
+    this.shake(commentElement, resetState);
   }
 
   static parseDataToState(filmData) {
