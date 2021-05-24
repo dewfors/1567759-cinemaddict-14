@@ -1,6 +1,6 @@
 import AbstractPresenter from './abstract-presenter.js';
 import FilmPopupView from '../view/film-popup.js';
-import {KeyEscapeFormat, UserAction, UpdateType} from '../util/const.js';
+import {KeyCodes, UserAction, UpdateType, BODY_HIDE_OVERFLOW_CLASS_NAME} from '../util/const.js';
 import {render, remove} from '../util/render.js';
 
 export default class FilmPopupPresenter extends AbstractPresenter {
@@ -35,6 +35,35 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._renderPopup(this._state);
   }
 
+  resetStateCommentSave() {
+    this._state.commentText = '';
+    this._state.commentEmotion = '';
+
+    this._filmPopupComponent.updateState({
+      isCommentSave: false,
+      commentText: '',
+      commentEmotion: '',
+    });
+  }
+
+  shakeCommentElement(idCommentToDelete = null) {
+    const resetState = () => {
+      this._filmPopupComponent.updateState({
+        isCommentSave: false,
+        isCommentDelete: false,
+        idCommentDelete: null,
+      });
+    };
+    const commentElementClassName = idCommentToDelete
+      ? `.film-details__comment[data-id='${idCommentToDelete}']`
+      : '.film-details__new-comment';
+    this._filmPopupComponent.shakeElement(commentElementClassName, resetState);
+  }
+
+  getCurrentComments () {
+    return this._comments;
+  }
+
   _renderPopup(state) {
     const prevfilmPopupComponent = this._filmPopupComponent;
     this._filmPopupComponent = new FilmPopupView(this._film, this._comments, state);
@@ -47,7 +76,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     render(this._popupContainer, this._filmPopupComponent);
     this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
 
-    document.body.classList.add('hide-overflow');
+    document.body.classList.add(BODY_HIDE_OVERFLOW_CLASS_NAME);
     document.addEventListener('keydown', this._handleEscKeyDown);
 
     this._filmPopupComponent.setCloseButtonClickHandler(this._handleClosePopupButton);
@@ -58,7 +87,7 @@ export default class FilmPopupPresenter extends AbstractPresenter {
   }
 
   _handleEscKeyDown(evt) {
-    if (evt.key === KeyEscapeFormat.ESCAPE || evt.key === KeyEscapeFormat.ESC) {
+    if (evt.key === KeyCodes.ESCAPE || evt.key === KeyCodes.ESC) {
       evt.preventDefault();
       this._removePopup();
     }
@@ -80,17 +109,6 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     this._filmPopupComponent.updateState({
       commentText: this._state.commentText,
       commentEmotion: this._state.commentEmotion,
-    });
-  }
-
-  resetStateCommentSave() {
-    this._state.commentText = '';
-    this._state.commentEmotion = '';
-
-    this._filmPopupComponent.updateState({
-      isCommentSave: false,
-      commentText: '',
-      commentEmotion: '',
     });
   }
 
@@ -152,21 +170,4 @@ export default class FilmPopupPresenter extends AbstractPresenter {
     );
   }
 
-  shakeCommentElement(idCommentToDelete = null) {
-    const resetState = () => {
-      this._filmPopupComponent.updateState({
-        isCommentSave: false,
-        isCommentDelete: false,
-        idCommentDelete: null,
-      });
-    };
-    const commentElementClassName = idCommentToDelete
-      ? `.film-details__comment[data-id='${idCommentToDelete}']`
-      : '.film-details__new-comment';
-    this._filmPopupComponent.shakeElement(commentElementClassName, resetState);
-  }
-
-  getCurrentComments () {
-    return this._comments;
-  }
 }

@@ -26,7 +26,7 @@ const createFilterTemplate = (filterItems, currentFilterType, filterState) => {
 };
 
 export default class Filter extends AbstractView {
-  constructor(filters, currentFilterType, state) {
+  constructor(filters, state) {
     super();
     this._filters = filters;
     this._currentFilter = state.activeFilter;
@@ -41,6 +41,10 @@ export default class Filter extends AbstractView {
 
   _filterTypeChangeHandler(evt) {
     evt.preventDefault();
+
+    if (!evt.target.dataset.filter){
+      return;
+    }
 
     const isLinkActive = (link) => {
       link.classList.contains(LINK_ACTIVE_CLASS_NAME);

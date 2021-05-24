@@ -1,7 +1,7 @@
 import {DatePeriod} from './const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
-import {Rang, RangLevels} from './const.js';
+import {Rank, RankLevels} from './const.js';
 
 
 dayjs.extend(duration);
@@ -46,17 +46,17 @@ const getDatePeriod = (period) => {
 };
 
 const getRangUser = (filmsCount) => {
-  const { NOVICE, FAN } = RangLevels;
+  const { NOVICE, FAN } = RankLevels;
   if (!filmsCount) {
     return false;
   }
   if (filmsCount >= NOVICE.min && filmsCount <= NOVICE.max) {
-    return Rang.NOVICE;
+    return Rank.NOVICE;
   } else if (filmsCount >= FAN.min && filmsCount <= FAN.max) {
-    return Rang.FAN;
-  } else {
-    return Rang.MOVIE_BUFF;
+    return Rank.FAN;
   }
+
+  return Rank.MOVIE_BUFF;
 };
 
 export {

@@ -166,16 +166,33 @@ export default class MovieList {
       return;
     }
 
+    const currentFilter = this._filterModel.getFilter();
+
 
     switch (updateType) {
       case UpdateType.PATCH:
-        this._filmPresenter[data.id].init(data);
+        if (this._filmPresenter[data.id]) {
+          this._filmPresenter[data.id].init(data);
+        }
+        if (this._filmPresenterTopRated[data.id]) {
+          this._filmPresenterTopRated[data.id].init(data);
+        }
+        if (this._filmPresenterMostCommented[data.id]) {
+          this._filmPresenterMostCommented[data.id].init(data);
+        }
+
         this._clearFilmMostCommented();
         this._renderFilmsMostCommented();
         break;
       case UpdateType.MINOR:
-        this._clearFilmsBoard();
-        this._renderFilmsBoard(data);
+
+        if (currentFilter === FilterType.ALL) {
+          this._filmPresenter[data.id].init(data);
+        } else {
+          this._clearFilmsBoard();
+          this._renderFilmsBoard(data);
+        }
+
         break;
       case UpdateType.MAJOR:
         this._clearFilmsBoard({resetRenderedFilmCount: true, resetSortType: true});
@@ -225,7 +242,7 @@ export default class MovieList {
     let renderedPresenter = this._getRenderedPresenter(film.id, typeFilmList);
 
     if (!renderedPresenter) {
-      renderedPresenter = new Movie(filmListContainer, this._filmsModel, this._commentsModel, this._handleViewAction, this._handleModeChange);
+      renderedPresenter = new Movie(filmListContainer, this._handleViewAction, this._handleModeChange);
       renderedPresenter.init(film);
       this._setRenderedPresenter(film.id, typeFilmList, renderedPresenter);
     } else {
@@ -292,7 +309,8 @@ export default class MovieList {
 
   _renderFilmsAllMovies(films) {
     const filmCount = films.length;
-    const disaplayFilms = films.slice(0, Math.min(filmCount, this._renderedFilmCount));
+
+    const disaplayFilms = this._renderedFilmCount !==0 ? films.slice(0, Math.min(filmCount, this._renderedFilmCount)) : films.slice(0, filmCount);
 
     this._renderFilmsListPerStep(disaplayFilms);
 
@@ -411,11 +429,7 @@ export default class MovieList {
     remove(this._filmsComponent);
     remove(this._footerStatisticsComponent);
 
-    if (resetRenderedFilmCount) {
-      this._renderedFilmCount = FILM_COUNT_PER_STEP;
-    } else {
-      this._renderedFilmCount = Math.min(filmsCount, this._renderedFilmCount);
-    }
+    this._renderedFilmCount = resetRenderedFilmCount ? FILM_COUNT_PER_STEP : Math.min(filmsCount, this._renderedFilmCount);
 
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
@@ -434,7 +448,8 @@ export default class MovieList {
     }
 
     const filmId = target.closest('.film-card').dataset.filmId;
-    const film = this._getFilms().find((filmItem) => filmId === filmItem.id);
+    // const film = this._getFilms().find((filmItem) => filmId === filmItem.id);
+    const film = this._filmsModel.getFilms().find((filmItem) => filmId === filmItem.id);
     const siteBodyElement = document.querySelector('body');
     this._renderPopup(siteBodyElement, film, this._resetPopupPresenter);
   }
