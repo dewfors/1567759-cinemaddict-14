@@ -54,9 +54,9 @@ const getRangUser = (filmsCount) => {
     return Rank.NOVICE;
   } else if (filmsCount >= FAN.min && filmsCount <= FAN.max) {
     return Rank.FAN;
-  } else {
-    return Rank.MOVIE_BUFF;
   }
+
+  return Rank.MOVIE_BUFF;
 };
 
 export {
