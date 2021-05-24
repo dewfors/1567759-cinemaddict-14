@@ -225,7 +225,7 @@ export default class MovieList {
     let renderedPresenter = this._getRenderedPresenter(film.id, typeFilmList);
 
     if (!renderedPresenter) {
-      renderedPresenter = new Movie(filmListContainer, this._filmsModel, this._commentsModel, this._handleViewAction, this._handleModeChange);
+      renderedPresenter = new Movie(filmListContainer, this._handleViewAction, this._handleModeChange);
       renderedPresenter.init(film);
       this._setRenderedPresenter(film.id, typeFilmList, renderedPresenter);
     } else {
@@ -292,7 +292,8 @@ export default class MovieList {
 
   _renderFilmsAllMovies(films) {
     const filmCount = films.length;
-    const disaplayFilms = films.slice(0, Math.min(filmCount, this._renderedFilmCount));
+
+    const disaplayFilms = this._renderedFilmCount !==0 ? films.slice(0, Math.min(filmCount, this._renderedFilmCount)) : films.slice(0, filmCount);
 
     this._renderFilmsListPerStep(disaplayFilms);
 

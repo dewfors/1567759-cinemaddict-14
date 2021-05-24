@@ -5,7 +5,7 @@ import {render, replace, remove} from '../util/render.js';
 
 
 export default class Movie extends AbstractPresenter {
-  constructor(movieListContainer, filmsModel, commentsModel, changeData) {
+  constructor(movieListContainer, changeData) {
     super();
     this._movieListContainer = movieListContainer;
     this._changeData = changeData;

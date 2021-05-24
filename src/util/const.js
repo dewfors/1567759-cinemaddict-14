@@ -19,12 +19,9 @@ const DataFormat = {
   FORMAT_DATE_TIME: 'YYYY/MM/DD HH:mm',
 };
 
-const KeyEscapeFormat = {
+const KeyCodes = {
   ESCAPE: 'Escape',
   ESC: 'Esc',
-};
-
-const KeyCodes = {
   ENTER: 13,
 };
 
@@ -83,13 +80,13 @@ const DatePeriod = {
   YEAR: 'year',
 };
 
-const Rang = {
+const Rank = {
   NOVICE: 'Novice',
   FAN: 'Fan',
   MOVIE_BUFF: 'Movie Buff',
 };
 
-const RangLevels = {
+const RankLevels = {
   NOVICE: {
     min: 1,
     max: 10,
@@ -131,9 +128,9 @@ export {
   FILM_COUNT_PER_STEP, FILM_COUNT_TOP_RATED,
   FILM_COUNT_MOST_COMMENTED, SHORT_DESCRIPTION_MAX_LENGTH,
   PositionsToInsertElement, DataFormat, BODY_HIDE_OVERFLOW_CLASS_NAME,
-  KeyEscapeFormat, sortClassNameActive, KeyCodes, SortType,
+  sortClassNameActive, KeyCodes, SortType,
   TypeFilmList, emojiList, UserAction, UpdateType, FilterType,
   deleteCommentButtonClassName, commentContainerClassName, ButtonType,
-  DatePeriod, Rang, RangLevels,
+  DatePeriod, Rank, RankLevels,
   API_AUTHORIZATION, API_END_POINT, MINUTES_IN_HOUR, ChartSettings
 };
