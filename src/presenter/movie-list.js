@@ -171,23 +171,14 @@ export default class MovieList {
 
     switch (updateType) {
       case UpdateType.PATCH:
-        if (this._filmPresenter[data.id]) {
-          this._filmPresenter[data.id].init(data);
-        }
-        if (this._filmPresenterTopRated[data.id]) {
-          this._filmPresenterTopRated[data.id].init(data);
-        }
-        if (this._filmPresenterMostCommented[data.id]) {
-          this._filmPresenterMostCommented[data.id].init(data);
-        }
-
+        this._updateFilmCard(data);
         this._clearFilmMostCommented();
         this._renderFilmsMostCommented();
         break;
       case UpdateType.MINOR:
 
         if (currentFilter === FilterType.ALL) {
-          this._filmPresenter[data.id].init(data);
+          this._updateFilmCard(data);
         } else {
           this._clearFilmsBoard();
           this._renderFilmsBoard(data);
@@ -216,25 +207,38 @@ export default class MovieList {
     this._initPopup();
   }
 
+  _updateFilmCard(film){
+    Object.values(TypeFilmList).forEach((typeFilmList) => {
+      const renderedPresenter = this._getRenderedPresenter(film.id, typeFilmList);
+      if (renderedPresenter) {
+        renderedPresenter.init(film);
+      }
+    });
+  }
+
   _getRenderedPresenter(filmId, type) {
     switch (type) {
+      case TypeFilmList.ALL_MOVIES:
+        return this._filmPresenter[filmId];
       case TypeFilmList.TOP_RATED:
         return this._filmPresenterTopRated[filmId];
       case TypeFilmList.MOST_COMMENTED:
         return this._filmPresenterMostCommented[filmId];
       default:
-        return this._filmPresenter[filmId];
+        return null;
     }
   }
 
   _setRenderedPresenter(filmId, type, presenter) {
     switch (type) {
+      case TypeFilmList.ALL_MOVIES:
+        return this._filmPresenter[filmId] = presenter;
       case TypeFilmList.TOP_RATED:
         return this._filmPresenterTopRated[filmId] = presenter;
       case TypeFilmList.MOST_COMMENTED:
         return this._filmPresenterMostCommented[filmId] = presenter;
       default:
-        return this._filmPresenter[filmId] = presenter;
+        return null;
     }
   }
 
