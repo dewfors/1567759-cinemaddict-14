@@ -433,13 +433,21 @@ export default class MovieList {
     remove(this._filmsComponent);
     remove(this._footerStatisticsComponent);
 
-    this._renderedFilmCount = resetRenderedFilmCount ? FILM_COUNT_PER_STEP : Math.min(filmsCount, this._renderedFilmCount);
+    let currentDisplayedFilmsCount = 0;
+    const filmsRemainingPerStep = this._renderedFilmCount%FILM_COUNT_PER_STEP;
+
+    if (filmsRemainingPerStep > 0) {
+      currentDisplayedFilmsCount = (this._renderedFilmCount - filmsRemainingPerStep) + FILM_COUNT_PER_STEP;
+    } else {
+      currentDisplayedFilmsCount = this._renderedFilmCount;
+    }
+
+    this._renderedFilmCount = resetRenderedFilmCount ? FILM_COUNT_PER_STEP : Math.min(filmsCount, currentDisplayedFilmsCount);
 
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
     }
   }
-
 
   _handleFilmsList(evt) {
     const target = evt.target;
@@ -452,7 +460,6 @@ export default class MovieList {
     }
 
     const filmId = target.closest('.film-card').dataset.filmId;
-    // const film = this._getFilms().find((filmItem) => filmId === filmItem.id);
     const film = this._filmsModel.getFilms().find((filmItem) => filmId === filmItem.id);
     const siteBodyElement = document.querySelector('body');
     this._renderPopup(siteBodyElement, film, this._resetPopupPresenter);
